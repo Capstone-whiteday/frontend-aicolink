@@ -1,58 +1,41 @@
-// import React from "react";
-// import { NavLink } from "react-router-dom";
-// import styled from "styled-components";
-// import SidebarItem from "./SidebarItem";
-// import profile from "../assets/profile.png";
+import './Sidebar.css';
 
-// const Side = styled.div`
-//   display: flex;
-//   border-right: 1px solid #e0e0e0;
-//   flex-direction: column;
-//   align-items: center;
-//   justify-content: center;
-//   width: 20%;
-// `
-// const Profile = styled.img`
-//   width: 150px;
-//   height: 150px;
-//   border-radius: 100%;
-// `
-// const Menu = styled.div`
-//   margin-top: 30px;
-//   width: 200px;
-//   display: flex;
-//   flex-direction: column;
-// `
+const Sidebar = () => {
+  return (
+    <aside className="sidebar">
+      <div className="profile-section">
+        <img
+          className="profile-image"
+        //   src="https://i.pravatar.cc/100" // 예시 이미지
+            src="/logo_aclnk.svg" // 예시 이미지
+          alt="프로필"
+        />
+        <div className="profile-info">
+          <strong>김세종</strong>
+          <p>kimsejongg@gmail.com</p>
+        </div>
+      </div>
 
-// function Sidebar() {
-//   const menus = [
-//     { name: "내가 쓴 리뷰", path: "/" },
-//     { name: "나만의 맛집 리스트", path: "/mylist" },
-//     { name: "즐겨찾기 한 맛집 리스트", path: "/likedlist" },
-//     { name: "설정", path: "/setting"}
-//   ];
-//   return (
-//     <Side>
-//       <Profile src={profile}></Profile>
-//       <Menu>
-//         {menus.map((menu, index) => {
-//           return (
-//             <NavLink
-//               exact
-//               style={{color: "gray", textDecoration: "none"}}
-//               to={menu.path}
-//               key={index}
-//               activeStyle={{color: "black"}}
-//             >
-//               <SidebarItem
-//                 menu={menu}
-//               />
-//             </NavLink>
-//           );
-//         })}
-//       </Menu>
-//     </Side>
-//   );
-// }
+      <p className="section-title">내가 관리하는 가게</p>
+      <div className="store-buttons">
+        <button className="store-btn active">voltup 제주동부점</button>
+        <button className="store-btn">TeslaCh 서귀포점</button>
+        <button className="store-btn">ChargePlus 연신내점</button>
+      </div>
 
-// export default Sidebar;
+      <button className="info-btn">→ 내 정보 변경하기</button>
+      <button className="logout-btn">← Log out</button>
+
+      <div className="weather-widget">
+        <div className="weather-icon">☀️</div>
+        <div className="weather-info">
+          <p className="weather-location">제주특별시 서문로 18 - 2</p>
+          <p className="weather-temp">21° / 9°</p>
+        </div>
+        <button className="weather-btn">기상청 바로가기</button>
+      </div>
+    </aside>
+  );
+};
+
+export default Sidebar;
