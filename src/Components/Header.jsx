@@ -1,18 +1,22 @@
-const Header =()=>{
-    return(
-        <>
-            <header>
-                <div>
-                    <button>LOGO</button>
-                    <button>AICOLINK</button>
-                    <button>월말정산</button>
-                    <button>내 충전소</button>
-                    <button>도움말</button>
-                    <button>서비스 소개</button>
-                </div>
-            </header>
-        </>
+import './Header.css';
+
+const Header = () => {
+    return (
+      <header className="header">
+        <div className="logo">AICOLINK</div>
+        <nav className="nav">
+          <a href="#">월말정산</a>
+          <a href="#">내 충전소</a>
+          <a href="#">도움말</a>
+          <a href="#">서비스 소개</a>
+          <div className="icons">
+            <button className="icon-button">🔔</button>
+            <button className="icon-button">⚙️</button>
+          </div>
+        </nav>
+      </header>
     );
-}
+  };
+  
 
 export default Header;
