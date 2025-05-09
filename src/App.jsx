@@ -4,6 +4,7 @@ import logo_aclnk from '/logo_aclnk.svg'
 import Header from "./Components/Header";
 import ChartTitle from "./Components/ChartTitle";
 import Sidebar from './Components/Sidebar';
+import Dashboard from './Components/Dashboard';
 function App() {
   // const [count, setCount] = useState(0)
 
@@ -17,7 +18,7 @@ function App() {
       </div>
       <div style={{ display: 'flex' }}>
         <Sidebar />
-        {/* 여기에 메인 대시보드 콘텐츠 넣기 */}
+        <Dashboard />
     </div>
     </>
   )
