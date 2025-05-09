@@ -1,6 +1,7 @@
 .sidebar {
     width: 240px;
-    background: #eaf7ec; /* 연녹색 배경 */
+    /* background: #eaf7ec; *//*연녹색 배경 */
+    background: linear-gradient( #ECFFE7 0%, #F2FFFE 100%);
     padding: 24px;
     box-sizing: border-box;
     display: flex;
