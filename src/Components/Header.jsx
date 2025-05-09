@@ -4,7 +4,9 @@ const Header = () => {
   return (
     <header className="header">
       <div className="logo-container">
-        <img src="/logo_aclnk.svg" alt="AICOLINK Logo" className="logo-icon" />
+        <button className="logo-button">
+          <img src="/logo_aclnk.svg" alt="AICOLINK Logo" className="logo-icon" />
+        </button>
         <span className="logo-text">AICOLINK</span>
       </div>
       <nav className="nav">
