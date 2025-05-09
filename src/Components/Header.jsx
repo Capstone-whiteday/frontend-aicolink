@@ -2,6 +2,7 @@ const Header =()=>{
     return(
         <header>
             <div>
+                <button>LOGO</button>
                 <button>AICOLINK</button>
                 <button>월말정산</button>
                 <button>내 충전소</button>
