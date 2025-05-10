@@ -10,7 +10,12 @@ function App() {
     <Router>
       <Routes>
         {/* 로그인 페이지 */}
-        <Route path="/login" element={<Login />} />
+        <Route path="/login" element={
+          <>
+            <Header />
+            <Login />
+          </>
+        } />
         
         {/* 메인 페이지 */}
         <Route path="/" element={
