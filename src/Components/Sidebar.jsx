@@ -1,12 +1,26 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Sidebar.css';
 
-const Sidebar = () => {
+const Sidebar = ({ isLoggedIn = false }) => {
   const [activeStore, setActiveStore] = useState('voltup 제주동부점'); // 초기 활성화된 버튼 설정
-
+  const navigate = useNavigate();
   const handleButtonClick = (storeName) => {
     setActiveStore(storeName); // 클릭된 버튼을 활성화
   };
+
+  if (!isLoggedIn) {
+    return (
+      <aside className="sidebar">
+        <div className="profile-section">
+          <p>로그인이 필요합니다.</p>
+          <button className="login-btn" onClick={() => navigate('/login')}>
+            로그인
+          </button>
+        </div>
+      </aside>
+    );
+  }
 
   return (
     <aside className="sidebar">
@@ -46,15 +60,6 @@ const Sidebar = () => {
 
       <button className="info-btn">→ 내 정보 변경하기</button>
       <button className="logout-btn">← Log out</button>
-
-      <div className="weather-widget">
-        <div className="weather-icon">☀️</div>
-        <div className="weather-info">
-          <p className="weather-location">제주특별시 서문로 18 - 2</p>
-          <p className="weather-temp">21° / 9°</p>
-        </div>
-        <button className="weather-btn">기상청 바로가기</button>
-      </div>
     </aside>
   );
 };
