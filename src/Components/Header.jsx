@@ -14,9 +14,14 @@ const Header = () => {
         <a href="#">내 충전소</a>
         <a href="#">도움말</a>
         <a href="#">서비스 소개</a>
+      
         <div className="icons">
-          <button className="icon-button">🔔</button>
-          <button className="icon-button">⚙️</button>
+          <button className="icon-button">
+            <img src="/logo_settings.svg" alt="setting icon" className="setting-icon" />
+          </button>
+          <button className="icon-button">
+            <img src="/logo_alarm.svg" alt="alarm icon" className="alarm-icon" />
+          </button>
         </div>
       </nav>
     </header>
