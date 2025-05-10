@@ -1,23 +1,27 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './Login.css';
+import './SignUp.css';
 
-const Login = ({ setIsLoggedIn }) => {
+const SignUp = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setIsLoggedIn(true);
-    alert('로그인 성공!');
-    navigate('/'); // 메인 페이지로 이동
+    if (password !== confirmPassword) {
+      alert('비밀번호가 일치하지 않습니다.');
+      return;
+    }
+    alert('회원가입 성공!');
+    navigate('/login'); // 회원가입 후 로그인 페이지로 이동
   };
 
   return (
-    <div className="login-container">
-      <form className="login-form" onSubmit={handleSubmit}>
-        <h1>로그인</h1>
+    <div className="signup-container">
+      <form className="signup-form" onSubmit={handleSubmit}>
+        <h1>회원가입</h1>
         <label htmlFor="email">이메일</label>
         <input
           type="email"
@@ -36,11 +40,19 @@ const Login = ({ setIsLoggedIn }) => {
           placeholder="비밀번호를 입력하세요"
           required
         />
-        <button type="submit">로그인</button>
-        <button type="button" onClick={() => navigate('/signup')}>회원가입</button>
+        <label htmlFor="confirmPassword">비밀번호 확인</label>
+        <input
+          type="password"
+          id="confirmPassword"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+          placeholder="비밀번호를 다시 입력하세요"
+          required
+        />
+        <button type="submit">회원가입</button>
       </form>
     </div>
   );
 };
 
-export default Login;
+export default SignUp;

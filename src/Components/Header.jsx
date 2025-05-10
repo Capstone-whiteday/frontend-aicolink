@@ -1,9 +1,12 @@
+import { useNavigate } from 'react-router-dom';
 import './Header.css';
 
 const Header = () => {
+  const navigate = useNavigate();
+
   return (
     <header className="header">
-      <div className="logo-container">
+      <div className="logo-container" onClick={() => navigate('/')}>
         <button className="logo-button">
           <img src="/logo_aclnk.svg" alt="AICOLINK Logo" className="logo-icon" />
         </button>
@@ -14,7 +17,6 @@ const Header = () => {
         <a href="#">내 충전소</a>
         <a href="#">도움말</a>
         <a href="#">서비스 소개</a>
-      
         <div className="icons">
           <button className="icon-button">
             <img src="/logo_settings.svg" alt="setting icon" className="setting-icon" />

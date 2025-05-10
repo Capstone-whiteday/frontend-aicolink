@@ -1,29 +1,34 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 import Header from "./Components/Header";
 import ChartTitle from "./Components/ChartTitle";
 import Sidebar from './Components/Sidebar';
 import Dashboard from './Components/Dashboard';
 import Login from './Components/Login';
-
+import SignUp from './Components/SignUp'; // 경로 확인
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 상태 관리
+
   return (
+
     <Router>
-      <Routes>
-        {/* 로그인 페이지 */}
-        <Route path="/login" element={
-          <>
             <Header />
-            <Login />
-          </>
-        } />
+      <Routes>
         
+        {/* 로그인 페이지 */}
+        <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
+        <Route path="/signup" element={<SignUp />} />
         {/* 메인 페이지 */}
         <Route path="/" element={
           <>
-            <Header />
+      
             <ChartTitle />
             <div style={{ display: 'flex' }}>
-              <Sidebar />
+              {isLoggedIn ? (
+                <Sidebar />
+              ) : (
+                <Sidebar isLoggedIn={false} />
+              )}
               <Dashboard />
             </div>
           </>
@@ -34,31 +39,3 @@ function App() {
 }
 
 export default App;
-
-// import { useState } from 'react'
-// import logo_aclnk from '/logo_aclnk.svg'
-// // import './App.css'
-// import Header from "./Components/Header";
-// import ChartTitle from "./Components/ChartTitle";
-// import Sidebar from './Components/Sidebar';
-// import Dashboard from './Components/Dashboard';
-// function App() {
-//   // const [count, setCount] = useState(0)
-
-//   return (
-//     <>
-//       <div>
-//         <Header/>
-//       </div>
-//       <div>
-//         <ChartTitle/>
-//       </div>
-//       <div style={{ display: 'flex' }}>
-//         <Sidebar />
-//         <Dashboard />
-//     </div>
-//     </>
-//   )
-// }
-
-// export default App
