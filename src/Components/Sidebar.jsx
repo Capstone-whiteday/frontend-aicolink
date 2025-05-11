@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import './Sidebar.css';
 
-const Sidebar = ({ isLoggedIn, setIsLoggedIn }) => {
+const Sidebar = ({ isLoggedIn, setIsLoggedIn, currentUser }) => { // **currentUser prop 추가**
   const navigate = useNavigate();
 
   const handleLoginClick = () => {
@@ -35,8 +35,8 @@ const Sidebar = ({ isLoggedIn, setIsLoggedIn }) => {
           alt="프로필"
         />
         <div className="profile-info">
-          <strong>김세종</strong>
-          <p>kimsejongg@gmail.com</p>
+        <strong>{currentUser?.name || '사용자 이름'}</strong> {/* **currentUser.name 표시** */}
+        <p>{currentUser?.email || '사용자 이메일'}</p> {/* **currentUser.email 표시** */}
         </div>
       </div>
 
