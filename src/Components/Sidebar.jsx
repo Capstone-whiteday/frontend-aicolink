@@ -1,32 +1,28 @@
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Sidebar.css';
 
-const Sidebar = ({ isLoggedIn = true }) => {
-  const [isExpanding, setIsExpanding] = useState(false); // 확장 애니메이션 상태
+const Sidebar = ({ isLoggedIn, setIsLoggedIn }) => {
   const navigate = useNavigate();
 
   const handleLoginClick = () => {
-    setIsExpanding(true); // 확장 애니메이션 시작
-    setTimeout(() => {
-      navigate('/login'); // 애니메이션 후 로그인 페이지로 이동
-    }, 1000); // 애니메이션 지속 시간 (1000ms)
+    navigate('/login'); // 로그인 페이지로 이동
+  };
+
+  const handleLogoutClick = () => {
+    setIsLoggedIn(false); // 로그인 상태 변경
+    navigate('/'); // 메인 페이지로 이동
   };
 
   if (!isLoggedIn) {
     return (
-      <>
-        {/* 화면 전체를 덮는 오버레이 */}
-        {isExpanding && <div className="overlay"></div>}
-        <aside className={`sidebar ${isExpanding ? 'expanding' : ''}`}>
-          <div className="profile-section">
-            <p>로그인이 필요합니다.</p>
-            <button className="login-btn" onClick={handleLoginClick}>
-              로그인
-            </button>
-          </div>
-        </aside>
-      </>
+      <aside className="sidebar">
+        <div className="profile-section">
+          <p>로그인이 필요합니다.</p>
+          <button className="login-btn" onClick={handleLoginClick}>
+            로그인
+          </button>
+        </div>
+      </aside>
     );
   }
 
@@ -52,7 +48,7 @@ const Sidebar = ({ isLoggedIn = true }) => {
       </div>
 
       <button className="info-btn">→ 내 정보 변경하기</button>
-      <button className="logout-btn">← Log out</button>
+      <button className="logout-btn" onClick={handleLogoutClick}>← Log out</button>
     </aside>
   );
 };

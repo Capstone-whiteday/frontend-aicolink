@@ -21,7 +21,7 @@ function App() {
           <>
             <ChartTitle />
             <div style={{ display: 'flex' }}>
-              <Sidebar isLoggedIn={isLoggedIn} />
+              <Sidebar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
               <Dashboard />
             </div>
           </>
