@@ -14,7 +14,7 @@ const Header = () => {
       </div>
       <nav className="nav">
         <a href="#">월말정산</a>
-        <a href="#">내 충전소</a>
+        <a href="#" onClick={() => navigate('/MyPage')}>내 충전소</a>
         <a href="#">도움말</a>
         <a href="#">서비스 소개</a>
         <div className="icons">
