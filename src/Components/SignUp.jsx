@@ -23,54 +23,40 @@ const SignUp = ({ onSignUp }) => { // **onSignUp prop 추가**
     }
 
     
-    try {
-        const result = onSignUp({ name, email, password });
-        console.log('회원가입 결과:', result);
-        if (result.success) {
-          alert(result.message);
-          navigate('/login');
-        } else {
-          alert(result.message);
-        }
-    } catch (error) {
-        console.error('회원가입 요청 중 오류 발생:', error);
-        alert('회원가입 요청 중 오류가 발생했습니다.');
-    }
-    
-
-    // // **Mock 회원가입 처리**
-    // console.log('회원가입 데이터:', { name, email, password });//for debugging
-    // const result = onSignUp({ name, email, password });
-    // console.log('회원가입 결과:', result);//for debugging
-    // if (result.success) {
-    //   alert(result.message);
-    //   navigate('/login'); // 회원가입 성공 시 로그인 페이지로 이동
-    // } else {
+    // try {
+    //     const result = onSignUp({ name, email, password });
+    //     console.log('회원가입 결과:', result);
+    //     if (result.success) {
+    //       alert(result.message);
+    //       navigate('/login');
+    //     } else {
+    //       alert(result.message);
+    //     }
+    // } catch (error) {
     //     console.error('회원가입 요청 중 오류 발생:', error);
     //     alert('회원가입 요청 중 오류가 발생했습니다.');
-    //     // alert(result.message); // 실패 메시지 표시
     // }
+    
 
+    try {
+      const response = await fetch('https://your-backend-api.com/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, password }),
+      });
 
-    // try {
-    //   const response = await fetch('https://your-backend-api.com/signup', {
-    //     method: 'POST',
-    //     headers: { 'Content-Type': 'application/json' },
-    //     body: JSON.stringify({ name, email, password }),
-    //   });
+      const data = await response.json();
 
-    //   const data = await response.json();
-
-    //   if (response.ok) {
-    //     alert('회원가입 성공!');
-    //     navigate('/login');
-    //   } else {
-    //     alert(`회원가입 실패: ${data.message}`);
-    //   }
-    // } catch (error) {
-    //   console.error('회원가입 요청 중 오류 발생:', error);
-    //   alert('회원가입 요청 중 오류가 발생했습니다.');
-    // }
+      if (response.ok) {
+        alert('회원가입 성공!');
+        navigate('/login');
+      } else {
+        alert(`회원가입 실패: ${data.message}`);
+      }
+    } catch (error) {
+      console.error('회원가입 요청 중 오류 발생:', error);
+      alert('회원가입 요청 중 오류가 발생했습니다.');
+    }
   };
 
   return (
