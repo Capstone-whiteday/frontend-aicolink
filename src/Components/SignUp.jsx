@@ -11,18 +11,17 @@ const SignUp = ({ onSignUp }) => { // **onSignUp prop 추가**
 
   const handleSubmit = async (e) => {
     e.preventDefault();// 폼 제출 시 기본 동작 방지
-
+    
     if (password.length < 8) {
       alert('비밀번호는 최소 8자 이상이어야 합니다.');
       return;
     }
-
+    
     if (password !== confirmPassword) {
       alert('비밀번호가 일치하지 않습니다.');
       return;
     }
 
-    
     // try {
     //     const result = onSignUp({ name, email, password });
     //     console.log('회원가입 결과:', result);
@@ -37,14 +36,14 @@ const SignUp = ({ onSignUp }) => { // **onSignUp prop 추가**
     //     alert('회원가입 요청 중 오류가 발생했습니다.');
     // }
     
-
+    
     try {
       const response = await fetch('https://your-backend-api.com/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, email, password }),
       });
-
+      
       const data = await response.json();
 
       if (response.ok) {
