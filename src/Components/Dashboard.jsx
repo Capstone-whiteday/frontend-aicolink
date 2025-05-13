@@ -1,4 +1,16 @@
 import './Dashboard.css';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+
+
+const data = [
+  { name: '00:00', battery: 400 },
+  { name: '06:00', battery: 300 },
+  { name: '12:00', battery: 200 },
+  { name: '18:00', battery: 278 },
+  { name: '24:00', battery: 189 },
+];
+
+
 
 const Dashboard = () => {
   return (
@@ -21,7 +33,18 @@ const Dashboard = () => {
           </div>
           <button className="export-btn">📄 Export PDF</button>
         </div>
-        <div className="graph-placeholder">[Graph Area]</div>
+        <div className="graph-placeholder">
+          <ResponsiveContainer width="100%" height={300}>
+            <LineChart data={data}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="name" />
+              <YAxis />
+              <Tooltip />
+              <Legend />
+              <Line type="monotone" dataKey="battery" stroke="#8884d8" activeDot={{ r: 8 }} />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
       </div>
 
       {/* 결과 요약 바 */}
