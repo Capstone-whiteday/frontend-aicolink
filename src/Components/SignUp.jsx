@@ -2,16 +2,24 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './SignUp.css';
 
+/**
+ * 사용자 회원가입 컴포넌트
+ * @param {Function} onSignUp - 회원가입 처리 함수 (App.jsx에서 props로 전달)
+ */
 const SignUp = ({ onSignUp }) => {
+  // 입력 상태 관리
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+
   const navigate = useNavigate();
 
+  // 회원가입 버튼 클릭 시 실행되는 함수
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault(); // 폼 기본 동작 방지 (새로고침)
 
+    // 1. 입력값 유효성 검사
     if (password.length < 8) {
       alert('비밀번호는 최소 8자 이상이어야 합니다.');
       return;
@@ -22,13 +30,15 @@ const SignUp = ({ onSignUp }) => {
       return;
     }
 
+    // 2. 서버에 회원가입 요청 보내기 (props로 전달된 onSignUp 사용)
     try {
       const result = await onSignUp({ name, email, password });
+
       if (result.success) {
-        alert(result.message);
-        navigate('/login');
+        alert(result.message);     // ex: '회원가입 성공!'
+        navigate('/login');       // 로그인 페이지로 이동
       } else {
-        alert(result.message);
+        alert(result.message);     // ex: '이미 사용 중인 이메일입니다.'
       }
     } catch (error) {
       console.error('회원가입 오류:', error);
@@ -40,20 +50,46 @@ const SignUp = ({ onSignUp }) => {
     <div className="signup-container">
       <form className="signup-form" onSubmit={handleSubmit}>
         <h1>회원가입</h1>
+
         <label htmlFor="name">이름</label>
-        <input type="text" id="name" value={name} onChange={(e) => setName(e.target.value)} required />
+        <input
+          type="text"
+          id="name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          required
+        />
 
         <label htmlFor="email">이메일</label>
-        <input type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+        <input
+          type="email"
+          id="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
 
         <label htmlFor="password">비밀번호</label>
-        <input type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+        <input
+          type="password"
+          id="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
+        {/* 입력된 비밀번호가 짧으면 힌트 표시 */}
         {password.length > 0 && password.length < 8 && (
           <p className="password-hint">비밀번호는 8자 이상이어야 합니다.</p>
         )}
 
         <label htmlFor="confirmPassword">비밀번호 확인</label>
-        <input type="password" id="confirmPassword" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required />
+        <input
+          type="password"
+          id="confirmPassword"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+          required
+        />
 
         <button type="submit">회원가입</button>
       </form>

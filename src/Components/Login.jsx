@@ -11,7 +11,7 @@ const Login = ({ setIsLoggedIn, setCurrentUser }) => {
     e.preventDefault();
 
     try {
-      const response = await fetch('https://your-backend-api.com/login', {
+      const response = await fetch('https://your-backend-api.com/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
