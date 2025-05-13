@@ -2,6 +2,8 @@
 .dashboard {
   padding: 20px;
   font-family: Arial, sans-serif;
+  max-width: 1200px; /* 가로 길이를 늘림 */
+  margin: 0 auto; /* 가운데 정렬 */
 }
 
 /* 제목 영역 스타일 */
@@ -19,7 +21,13 @@
 
 .date-label {
   font-size: 16px;
-  color: #888;
+  color: #007bff;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.date-label:hover {
+  color: #0056b3;
 }
 
 /* 그래프 카드 스타일 */
@@ -29,6 +37,9 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 20px;
   margin-bottom: 20px;
+  width: 100%; /* 가로 길이를 100%로 설정 */
+  max-width: 1100px; /* 최대 가로 길이를 늘림 */
+  margin: 0 auto; /* 가운데 정렬 */
 }
 
 .graph-header {
@@ -78,6 +89,7 @@
 /* 그래프 영역 스타일 */
 .graph-placeholder {
   height: 500px; /* 그래프 높이를 500px로 설정 */
+  width: 100%; /* 가로 길이를 100%로 설정 */
 }
 
 /* 결과 요약 바 스타일 */
@@ -88,6 +100,9 @@
   text-align: center;
   font-size: 18px;
   margin-top: 20px;
+  width: 100%; /* 가로 길이를 100%로 설정 */
+  max-width: 1100px; /* 최대 가로 길이를 늘림 */
+  margin: 0 auto; /* 가운데 정렬 */
 }
 
 .charge {
