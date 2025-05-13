@@ -1,8 +1,8 @@
 import './Dashboard.css';
+import { useState } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
-
-const data = [
+const batteryData = [
   { name: '00:00', battery: 400 },
   { name: '06:00', battery: 300 },
   { name: '12:00', battery: 200 },
@@ -10,9 +10,39 @@ const data = [
   { name: '24:00', battery: 189 },
 ];
 
+const consumptionData = [
+  { name: '00:00', consumption: 240 },
+  { name: '06:00', consumption: 139 },
+  { name: '12:00', consumption: 980 },
+  { name: '18:00', consumption: 390 },
+  { name: '24:00', consumption: 480 },
+];
 
+const touData = [
+  { name: '00:00', tou: 120 },
+  { name: '06:00', tou: 150 },
+  { name: '12:00', tou: 300 },
+  { name: '18:00', tou: 200 },
+  { name: '24:00', tou: 100 },
+];
 
 const Dashboard = () => {
+  const [selectedData, setSelectedData] = useState('battery'); // 초기값: 배터리 데이터
+
+  const getData = () => {
+    if (selectedData === 'battery') return batteryData;
+    if (selectedData === 'consumption') return consumptionData;
+    if (selectedData === 'tou') return touData;
+    if (selectedData === 'all') {
+      return batteryData.map((item, index) => ({
+        name: item.name,
+        battery: item.battery,
+        consumption: consumptionData[index]?.consumption,
+        tou: touData[index]?.tou,
+      }));
+    }
+  };
+
   return (
     <main className="dashboard">
       {/* 제목 영역 */}
@@ -26,22 +56,38 @@ const Dashboard = () => {
         <div className="graph-header">
           <p>일일예측</p>
           <div className="graph-tabs">
-            <button className="active">Battery Power</button>
-            <button>Consumption</button>
-            <button>TOU</button>
-            <button>All Together</button>
+            <button className={selectedData === 'battery' ? 'active' : ''} onClick={() => setSelectedData('battery')}>
+              Battery Power
+            </button>
+            <button className={selectedData === 'consumption' ? 'active' : ''} onClick={() => setSelectedData('consumption')}>
+              Consumption
+            </button>
+            <button className={selectedData === 'tou' ? 'active' : ''} onClick={() => setSelectedData('tou')}>
+              TOU
+            </button>
+            <button className={selectedData === 'all' ? 'active' : ''} onClick={() => setSelectedData('all')}>
+              All Together
+            </button>
           </div>
           <button className="export-btn">📄 Export PDF</button>
         </div>
         <div className="graph-placeholder">
-          <ResponsiveContainer width="100%" height={300}>
-            <LineChart data={data}>
+          <ResponsiveContainer width="100%" height={500}>
+            <LineChart data={getData()}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="name" />
               <YAxis />
               <Tooltip />
               <Legend />
-              <Line type="monotone" dataKey="battery" stroke="#8884d8" activeDot={{ r: 8 }} />
+              {selectedData === 'battery' || selectedData === 'all' ? (
+                <Line type="monotone" dataKey="battery" stroke="#8884d8" activeDot={{ r: 8 }} />
+              ) : null}
+              {selectedData === 'consumption' || selectedData === 'all' ? (
+                <Line type="monotone" dataKey="consumption" stroke="#82ca9d" />
+              ) : null}
+              {selectedData === 'tou' || selectedData === 'all' ? (
+                <Line type="monotone" dataKey="tou" stroke="#ffc658" />
+              ) : null}
             </LineChart>
           </ResponsiveContainer>
         </div>
@@ -50,31 +96,6 @@ const Dashboard = () => {
       {/* 결과 요약 바 */}
       <div className="charge-bar">
         <p><strong>AICOLINK</strong>가 예상하는 <span className="charge">CHARGE</span> or <span className="discharge">DISCHARGE</span></p>
-      </div>
-
-      {/* 통계 카드 영역 */}
-      <div className="summary-cards">
-        <div className="card">
-          <h2>오늘 예상 전력구매량은</h2>
-          <p className="value">₩ 132,000 이네요</p>
-          <p className="note">* 환경 발표 기준 예상치</p>
-        </div>
-
-        <div className="card">
-          <h2>현재 TOU 요금은</h2>
-          <p className="time">16:15</p>
-          <p className="value">₩ 1650으로 책정됐어요!</p>
-        </div>
-
-        <div className="card">
-          <h2>이번달에 AICOLINK와</h2>
-          <p className="value">₩ 334,930<br />절약했어요!</p>
-        </div>
-
-        <div className="card">
-          <h2>오늘은 AICOLINK와</h2>
-          <p className="value">₩ 24,930<br />절약할 수 있을거예요</p>
-        </div>
       </div>
     </main>
   );

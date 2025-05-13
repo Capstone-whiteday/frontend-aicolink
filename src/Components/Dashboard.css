@@ -1,135 +1,101 @@
+/* 전체 대시보드 스타일 */
 .dashboard {
-    flex: 1;
-    padding: 32px;
-    box-sizing: border-box;
-    background: #fafafa;
-  }
-  
-  /* 상단 제목 */
-  .dashboard-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    margin-bottom: 24px;
-  }
-  
-  .station-name {
-    font-size: 28px;
-    font-weight: bold;
-    color: #013B1B;
-  }
-  
-  .date-label {
-    font-size: 16px;
-    color: #333;
-  }
-  
-  /* 그래프 카드 */
-  .graph-section {
-    background: white;
-    border-radius: 12px;
-    padding: 24px;
-    margin-bottom: 24px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-  }
-  
-  .graph-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 16px;
-  }
-  
-  .graph-tabs button {
-    margin-right: 8px;
-    padding: 8px 12px;
-    border: 1px solid #ccc;
-    background: white;
-    border-radius: 6px;
-    cursor: pointer;
-  }
-  
-  .graph-tabs .active {
-    background: #013B1B;
-    color: white;
-    border: none;
-  }
-  
-  .export-btn {
-    padding: 8px 12px;
-    background: #eee;
-    border-radius: 6px;
-    border: none;
-    cursor: pointer;
-  }
-  
-  /* 그래프 영역 placeholder */
-  .graph-placeholder {
-    height: 200px;
-    background: #f4f4f4;
-    border-radius: 8px;
-    text-align: center;
-    line-height: 200px;
-    color: #aaa;
-  }
-  
-  /* charge / discharge 텍스트 바 */
-  .charge-bar {
-    background: white;
-    border-radius: 8px;
-    padding: 16px;
-    margin-bottom: 24px;
-    text-align: center;
-    font-size: 16px;
-  }
-  
-  .charge {
-    color: #2266dd;
-    font-weight: bold;
-  }
-  
-  .discharge {
-    color: #00aa88;
-    font-weight: bold;
-  }
-  
-  /* 통계 카드 영역 */
-  .summary-cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 20px;
-  }
-  
-  .card {
-    background: white;
-    border-radius: 16px;
-    padding: 24px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
-    text-align: center;
-  }
-  
-  .card h2 {
-    font-size: 16px;
-    margin-bottom: 12px;
-    color: #444;
-  }
-  
-  .card .value {
-    font-size: 20px;
-    font-weight: bold;
-    color: #111;
-    line-height: 1.5;
-  }
-  
-  .card .note {
-    font-size: 12px;
-    color: #777;
-    margin-top: 10px;
-  }
-  
-  .card .time {
-    font-size: 16px;
-    margin-bottom: 4px;
-    color: #999;
-  }
-  
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+/* 제목 영역 스타일 */
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.station-name {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.date-label {
+  font-size: 16px;
+  color: #888;
+}
+
+/* 그래프 카드 스타일 */
+.graph-section {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.graph-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.graph-tabs {
+  display: flex;
+  gap: 10px;
+}
+
+.graph-tabs button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  background-color: #f0f0f0;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.graph-tabs button.active {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.graph-tabs button:hover {
+  background-color: #e0e0e0;
+}
+
+.export-btn {
+  background-color: #28a745;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.export-btn:hover {
+  background-color: #218838;
+}
+
+/* 그래프 영역 스타일 */
+.graph-placeholder {
+  height: 500px; /* 그래프 높이를 500px로 설정 */
+}
+
+/* 결과 요약 바 스타일 */
+.charge-bar {
+  background-color: #f8f9fa;
+  padding: 15px;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 18px;
+  margin-top: 20px;
+}
+
+.charge {
+  color: #28a745;
+  font-weight: bold;
+}
+
+.discharge {
+  color: #dc3545;
+  font-weight: bold;
+}
