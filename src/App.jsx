@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Header from "./Components/Header";
 import ChartTitle from "./Components/ChartTitle";
 import Sidebar from './Components/Sidebar';
@@ -12,10 +12,30 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);       // 로그인 상태
   const [currentUser, setCurrentUser] = useState(null);      // 현재 로그인한 사용자 정보
 
-  // ⚠️ 더 이상 사용하지 않지만, mock용 주석처리된 코드에서 사용할 수 있음ㄱ
-  // const [users, setUsers] = useState([]);
+  // 앱 시작 시 토큰으로 로그인 상태 복원
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      // 토큰 유효성 검사 및 사용자 정보 복원
+      fetch('https://your-backend-api.com/me', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+        .then(res => res.ok ? res.json() : Promise.reject())
+        .then(data => {
+          setIsLoggedIn(true);
+          setCurrentUser(data.user);
+        })
+        .catch(() => {
+          localStorage.removeItem('token'); // 실패 시 토큰 삭제
+          setIsLoggedIn(false);
+          setCurrentUser(null);
+        });
+    }
+  }, []);
 
-  // 회원가입 처리 함수
+  // 회원가입 함수 (onSignUp으로 전달됨)
   const handleSignUp = async ({ name, email, password }) => {
     try {
       const response = await fetch('https://your-backend-api.com/signup', {
@@ -24,21 +44,18 @@ function App() {
         body: JSON.stringify({ name, email, password }),
       });
       const data = await response.json();
-      return data; // { success: true/false, message: '...' }
+      return data;
     } catch (error) {
       console.error('회원가입 오류:', error);
       return { success: false, message: '서버 오류로 회원가입에 실패했습니다.' };
     }
+  };
 
-    // ✅ MOCK 방식 (주석처리)
-    /*
-    const existingUser = users.find((user) => user.email === email);
-    if (existingUser) {
-      return { success: false, message: '이미 사용 중인 이메일입니다.' };
-    }
-    setUsers((prevUsers) => [...prevUsers, { name, email, password }]);
-    return { success: true, message: '회원가입 성공!' };
-    */
+  // 로그아웃 함수 (Sidebar 등에 전달 가능)
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    setIsLoggedIn(false);
+    setCurrentUser(null);
   };
 
   return (
@@ -51,7 +68,6 @@ function App() {
             <Login
               setIsLoggedIn={setIsLoggedIn}
               setCurrentUser={setCurrentUser}
-              // users={users} // ✅ mock 사용 시에만
             />
           }
         />
@@ -64,8 +80,8 @@ function App() {
               <div style={{ display: 'flex' }}>
                 <Sidebar
                   isLoggedIn={isLoggedIn}
-                  setIsLoggedIn={setIsLoggedIn}
                   currentUser={currentUser}
+                  onLogout={handleLogout} // 로그아웃 전달
                 />
                 <Dashboard />
               </div>
@@ -79,6 +95,7 @@ function App() {
 }
 
 export default App;
+
 
 
 

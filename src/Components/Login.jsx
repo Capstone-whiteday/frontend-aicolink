@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Login.css';
 
-const Login = ({ setIsLoggedIn, setCurrentUser /* , users */ }) => {
+const Login = ({ setIsLoggedIn, setCurrentUser }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
@@ -10,7 +10,6 @@ const Login = ({ setIsLoggedIn, setCurrentUser /* , users */ }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // ✅ 백엔드 연동 방식
     try {
       const response = await fetch('https://your-backend-api.com/login', {
         method: 'POST',
@@ -21,30 +20,19 @@ const Login = ({ setIsLoggedIn, setCurrentUser /* , users */ }) => {
       const data = await response.json();
 
       if (response.ok) {
+        // ✅ 로그인 성공: 토큰 저장 + 상태 갱신
+        localStorage.setItem('token', data.token); // JWT 저장
         setIsLoggedIn(true);
-        setCurrentUser(data.user); // 로그인된 사용자 정보
+        setCurrentUser(data.user); // 사용자 정보 저장
         alert('로그인 성공!');
         navigate('/');
       } else {
         alert(`로그인 실패: ${data.message || '이메일 또는 비밀번호가 잘못되었습니다.'}`);
       }
     } catch (error) {
-      console.error('로그인 중 오류 발생:', error);
+      console.error('로그인 오류:', error);
       alert('로그인 요청 중 오류가 발생했습니다.');
     }
-
-    // ✅ MOCK 방식 (주석처리)
-    /*
-    const user = users.find((user) => user.email === email && user.password === password);
-    if (!user) {
-      alert('이메일 또는 비밀번호가 잘못되었습니다.');
-      return;
-    }
-    setIsLoggedIn(true);
-    setCurrentUser(user);
-    alert('로그인 성공!');
-    navigate('/');
-    */
   };
 
   return (

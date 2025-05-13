@@ -12,17 +12,16 @@ const SignUp = ({ onSignUp }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // 기본 유효성 검사
     if (password.length < 8) {
       alert('비밀번호는 최소 8자 이상이어야 합니다.');
       return;
     }
+
     if (password !== confirmPassword) {
       alert('비밀번호가 일치하지 않습니다.');
       return;
     }
 
-    // ✅ 백엔드 연동 방식
     try {
       const result = await onSignUp({ name, email, password });
       if (result.success) {
@@ -32,20 +31,9 @@ const SignUp = ({ onSignUp }) => {
         alert(result.message);
       }
     } catch (error) {
-      console.error('회원가입 요청 중 오류 발생:', error);
+      console.error('회원가입 오류:', error);
       alert('회원가입 요청 중 오류가 발생했습니다.');
     }
-
-    // ✅ MOCK 방식 (주석처리)
-    /*
-    const result = onSignUp({ name, email, password });
-    if (result.success) {
-      alert(result.message);
-      navigate('/login');
-    } else {
-      alert(result.message);
-    }
-    */
   };
 
   return (
@@ -74,6 +62,7 @@ const SignUp = ({ onSignUp }) => {
 };
 
 export default SignUp;
+
 
 
 
