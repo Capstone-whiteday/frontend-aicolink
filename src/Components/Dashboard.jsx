@@ -86,6 +86,34 @@ const touData = [
   { name: '24:00', tou: 0 },
 ];
 
+const chargeDischargeData = [
+  { name: '00:00', status: 'charge' },
+  { name: '01:00', status: 'charge' },
+  { name: '02:00', status: 'charge' },
+  { name: '03:00', status: 'discharge' },
+  { name: '04:00', status: 'discharge' },
+  { name: '05:00', status: 'charge' },
+  { name: '06:00', status: 'charge' },
+  { name: '07:00', status: 'discharge' },
+  { name: '08:00', status: 'discharge' },
+  { name: '09:00', status: 'charge' },
+  { name: '10:00', status: 'charge' },
+  { name: '11:00', status: 'discharge' },
+  { name: '12:00', status: 'discharge' },
+  { name: '13:00', status: 'charge' },
+  { name: '14:00', status: 'charge' },
+  { name: '15:00', status: 'discharge' },
+  { name: '16:00', status: 'discharge' },
+  { name: '17:00', status: 'charge' },
+  { name: '18:00', status: 'charge' },
+  { name: '19:00', status: 'discharge' },
+  { name: '20:00', status: 'discharge' },
+  { name: '21:00', status: 'charge' },
+  { name: '22:00', status: 'charge' },
+  { name: '23:00', status: 'discharge' },
+  { name: '24:00', status: 'discharge' },
+];
+
 const Dashboard = () => {
   const [selectedData, setSelectedData] = useState('battery'); // 초기값: 배터리 데이터
 
@@ -132,7 +160,7 @@ const Dashboard = () => {
           <button className="export-btn">📄 Export PDF</button>
         </div>
         <div className="graph-placeholder">
-          <ResponsiveContainer width="100%" height={500}>
+          <ResponsiveContainer width="100%" height={450}>
             <LineChart data={getData()}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis 
@@ -161,8 +189,22 @@ const Dashboard = () => {
 
       {/* 결과 요약 바 */}
       <div className="charge-bar">
-        <p><strong>AICOLINK</strong>가 예상하는 <span className="charge">CHARGE</span> or <span className="discharge">DISCHARGE</span></p>
-      </div>
+  <div className="charge-discharge-chart">
+    {chargeDischargeData.map((item, index) => (
+      <div
+        key={index}
+        className="charge-discharge-bar"
+        style={{
+          backgroundColor: item.status === 'charge' ? '#365BAC' : '#99FFE4',
+          width: `${100 / chargeDischargeData.length}%`, // 각 막대의 너비를 균등하게 설정
+        }}
+      ></div>
+    ))}
+  </div>
+  <p>
+    <strong>AICOLINK</strong>가 예상하는 <span className="charge">CHARGE</span> or <span className="discharge">DISCHARGE</span>
+  </p>
+</div>
     </main>
   );
 };

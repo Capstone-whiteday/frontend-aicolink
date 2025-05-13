@@ -35,9 +35,9 @@
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  margin-bottom: 20px;
-  width: 100%; /* 가로 길이를 100%로 설정 */
+  padding: 15px;
+  margin-bottom: 15px;
+  width: 98%; /* 가로 길이를 100%로 설정 */
   max-width: 1100px; /* 최대 가로 길이를 늘림 */
   margin: 0 auto; /* 가운데 정렬 */
 }
@@ -51,7 +51,7 @@
 
 .graph-tabs {
   display: flex;
-  gap: 10px;
+  gap: 11px;
 }
 
 .graph-tabs button {
@@ -88,11 +88,11 @@
 
 /* 그래프 영역 스타일 */
 .graph-placeholder {
-  height: 500px; /* 그래프 높이를 500px로 설정 */
+  height: 450px; /* 그래프 높이를 450px로 설정 */
   width: 100%; /* 가로 길이를 100%로 설정 */
 }
 
-/* 결과 요약 바 스타일 */
+/* 결과 요약 바 */
 .charge-bar {
   background-color: #f8f9fa;
   padding: 15px;
@@ -100,17 +100,38 @@
   text-align: center;
   font-size: 18px;
   margin-top: 20px;
-  width: 100%; /* 가로 길이를 100%로 설정 */
-  max-width: 1100px; /* 최대 가로 길이를 늘림 */
+  width: 100%;
+  max-width: 1100px; /* 그래프와 동일한 max-width */
+  margin: 0 auto;
+  position: relative;
+}
+
+/* 막대 차트 컨테이너 */
+.charge-discharge-chart {
+  display: flex;
+  height: 35px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  overflow: hidden;
+  width: 99%; /* 수정: 그래프와 동일한 너비로 설정 */
+  max-width: 1000px; /* 그래프와 동일한 max-width */
   margin: 0 auto; /* 가운데 정렬 */
 }
 
+/* 각 막대 */
+.charge-discharge-bar {
+  height: 100%;
+  transition: background-color 0.3s ease;
+}
+
+/* 충전 상태 텍스트 */
 .charge {
-  color: #28a745;
+  color: #365BAC;
   font-weight: bold;
 }
 
+/* 방전 상태 텍스트 */
 .discharge {
-  color: #dc3545;
+  color: #99FFE4;
   font-weight: bold;
 }
