@@ -4,16 +4,54 @@ import Sidebar_mp from './Sidebar_mp';
 import Header from './Header';
 import ChartTitle from './ChartTitle';
 
-// 충전소 정보 하나를 보여주는 컴포넌트
-const StationCard = ({ station, onRemove }) => (
-  <div className="station-item">
-    <strong>{station.name}</strong> ({station.regionName})<br />
-    위치: {station.location}<br />
-    설명: {station.description}<br />
-    상태: {station.status}<br />
-    <button onClick={() => onRemove(station.stationId)}>삭제</button>
-  </div>
-);
+// 충전소 정보 하나를 보여주는 컴포넌트 (수정 기능 포함)
+const StationCard = ({ station, onRemove, onEdit }) => {
+  const [editMode, setEditMode] = useState(false);
+  const [editData, setEditData] = useState({
+    name: station.name,
+    location: station.location,
+    description: station.description,
+    regionName: station.regionName,
+    status: station.status,
+  });
+
+  const handleChange = (e) => {
+    setEditData({ ...editData, [e.target.name]: e.target.value });
+  };
+
+  const handleSave = () => {
+    onEdit(station.stationId, editData);
+    setEditMode(false);
+  };
+
+  return (
+    <div className="station-item">
+      {editMode ? (
+        <>
+          <input name="name" value={editData.name} onChange={handleChange} />
+          <input name="regionName" value={editData.regionName} onChange={handleChange} />
+          <input name="location" value={editData.location} onChange={handleChange} />
+          <input name="description" value={editData.description} onChange={handleChange} />
+          <select name="status" value={editData.status} onChange={handleChange}>
+            <option value="ON">ON</option>
+            <option value="OFF">OFF</option>
+          </select>
+          <button onClick={handleSave}>저장</button>
+          <button onClick={() => setEditMode(false)}>취소</button>
+        </>
+      ) : (
+        <>
+          <strong>{station.name}</strong> ({station.regionName})<br />
+          위치: {station.location}<br />
+          설명: {station.description}<br />
+          상태: {station.status}<br />
+          <button onClick={() => setEditMode(true)}>정보수정</button>
+          <button onClick={() => onRemove(station.stationId)}>삭제</button>
+        </>
+      )}
+    </div>
+  );
+};
 
 const MyPage = ({ isLoggedIn, currentUser, setCurrentUser }) => {
   const navigate = useNavigate();
@@ -62,6 +100,18 @@ const MyPage = ({ isLoggedIn, currentUser, setCurrentUser }) => {
     setCurrentUser({
       ...currentUser,
       stations: currentUser.stations.filter(s => s.stationId !== stationId)
+    });
+  };
+
+  // 충전소 정보 수정 함수
+  const handleEditStation = (stationId, newData) => {
+    setCurrentUser({
+      ...currentUser,
+      stations: currentUser.stations.map(s =>
+        s.stationId === stationId
+          ? { ...s, ...newData, updatedAt: new Date().toISOString() }
+          : s
+      )
     });
   };
 
@@ -126,6 +176,7 @@ const MyPage = ({ isLoggedIn, currentUser, setCurrentUser }) => {
                     key={station.stationId}
                     station={station}
                     onRemove={handleRemoveStation}
+                    onEdit={handleEditStation}
                   />
                 ))
               ) : (
