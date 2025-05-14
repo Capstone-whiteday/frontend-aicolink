@@ -135,7 +135,7 @@ const Dashboard = () => {
     <main className="dashboard">
       {/* 제목 영역 */}
       <div className="dashboard-header">
-        <h1 className="station-name">VOLTP 제주동부점</h1>
+        <h1 className="station-name">VOLTUP 제주동부점</h1>
         <span className="date-label">MAR.21</span>
       </div>
 
@@ -162,7 +162,8 @@ const Dashboard = () => {
         <div className="graph-placeholder">
 <ResponsiveContainer width="100%" height={450}>
   <LineChart data={getData()}>
-    <CartesianGrid strokeDasharray="3 3" />
+    {/* <CartesianGrid strokeDasharray="3 3" /> */}
+    <CartesianGrid strokeDasharray="3 3" vertical={false} />
     <XAxis 
       dataKey="name" 
       tickFormatter={(tick) => {

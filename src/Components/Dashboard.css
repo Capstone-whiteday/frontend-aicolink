@@ -15,7 +15,7 @@
 }
 
 .station-name {
-  font-size: 24px;
+  font-size: 35px;
   font-weight: bold;
 }
 
@@ -57,24 +57,24 @@
 .graph-tabs button {
   padding: 10px 20px;
   border: none;
-  border-radius: 4px;
+  border-radius: 15px;
   background-color: #f0f0f0;
   cursor: pointer;
   transition: background-color 0.3s;
 }
 
 .graph-tabs button.active {
-  background-color: #007bff;
-  color: #fff;
+  background-color: #bee9cd;
+  color: #111111;
 }
 
 .graph-tabs button:hover {
-  background-color: #e0e0e0;
+  background-color: #bee9cd;
 }
 
 .export-btn {
-  background-color: #28a745;
-  color: #fff;
+  background-color: #fff;
+  color: #111111;
   padding: 10px 20px;
   border: none;
   border-radius: 4px;
