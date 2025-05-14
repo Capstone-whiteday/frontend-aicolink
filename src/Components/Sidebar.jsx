@@ -46,8 +46,8 @@ const Sidebar = ({ isLoggedIn, setIsLoggedIn, currentUser }) => { // **currentUs
         <button className="store-btn">TeslaCh 서귀포점</button>
         <button className="store-btn">ChargePlus 연신내점</button>
       </div>
-
-      <button className="info-btn">→ 내 정보 변경하기</button>
+{/* 
+      <button className="info-btn">→ 내 정보 변경하기</button> */}
       <button className="logout-btn" onClick={handleLogoutClick}>← Log out</button>
     </aside>
   );

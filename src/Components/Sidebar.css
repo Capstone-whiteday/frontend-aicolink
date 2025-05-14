@@ -11,6 +11,9 @@
     gap: 20px;
     min-height: 100vh;
     font-family: sans-serif;
+     height: 70vh; /* 세로 길이를 70%로 줄임 (원하는 비율로 조절) */
+  max-height: 700px; /* 필요시 최대 높이 제한 */
+  min-height: 350px; /* 필요시 최소 높이 지정 */
   }
   
   /* 프로필 */
@@ -90,21 +93,23 @@
     font-weight: bold;
   }
   
-  /* 버튼들 */
-  .info-btn,
-  .logout-btn {
-    padding: 10px;
-    font-size: 14px;
-    margin-top: 10px;
-    border: none;
-    background: white;
-    border-radius: 8px;
-    cursor: pointer;
-  }
-  
-  .logout-btn {
-    background: #f3f3f3;
-  }
+.info-btn {
+  padding: 10px;
+  font-size: 14px;
+  margin-top: 10px;
+  border: none;
+  background: white;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* 로그아웃 버튼만 아래로 더 내리기 */
+.logout-btn {
+  background: #f3f3f3;
+  position: inherit;
+
+  margin-top: 250px; /* 기존보다 더 아래로 내림 (원하는 만큼 조절) */
+}
   
   /* 날씨 */
   .weather-widget {

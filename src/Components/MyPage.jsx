@@ -8,7 +8,7 @@ import ChartTitle from './ChartTitle';
 
 // 마이페이지 컴포넌트
 const MyPage = ({ isLoggedIn }) => {
-  const navigate = useNavigate();
+const navigate = useNavigate();
 
   // 로그인 안된 경우 바로 로그인 페이지로 이동
   useEffect(() => {
@@ -24,8 +24,8 @@ const MyPage = ({ isLoggedIn }) => {
     <div className="mypage-wrapper">
       <Header />
       <ChartTitle />
-      {/* <Sidebar isLoggedIn={isLoggedIn} /> */}
-      <Sidebar_mp isLoggedIn={isLoggedIn} />
+      {/* <Sidebar isLoggedIn=ㄹ{isLoggedIn} /> */}
+      {/* <Sidebar_mp isLoggedIn={isLoggedIn} /> */}
       {/* <section className="mypage-profile">
         <img className="mypage-avatar" src="/logo_aclnk.svg" alt="프로필" />
         <div>
