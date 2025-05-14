@@ -67,11 +67,11 @@ const MyPage = ({ isLoggedIn, currentUser, setCurrentUser }) => {
   return (
     <>
       <Header /> {/* 상단 헤더 컴포넌트 */}
-      <div className="mypage-container">
+      <div className="mypage-container" style={{ display: 'flex' }}>
         <Sidebar_mp isLoggedIn={isLoggedIn} currentUser={currentUser} /> {/* 왼쪽 사이드바 */}
-        <div className="mypage-content">
+        <div className="mypage-center-content" style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <ChartTitle /> {/* 페이지 제목 또는 요약 차트 제목 */}
-          <div className="mypage-body">
+          <div className="mypage-body" style={{ width: '100%', maxWidth: 600 }}>
             
             {/* 사용자 정보 요약 */}
             <div className="mypage-info">
