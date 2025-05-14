@@ -41,11 +41,26 @@ const Sidebar = ({ isLoggedIn, setIsLoggedIn, currentUser }) => { // **currentUs
       </div>
 
       <p className="section-title">내가 관리하는 가게</p>
-      <div className="store-buttons">
+      {/* <div className="store-buttons">
         <button className="store-btn active">voltup 제주동부점</button>
         <button className="store-btn">TeslaCh 서귀포점</button>
         <button className="store-btn">ChargePlus 연신내점</button>
-      </div>
+      </div> */}
+            {/* 충전소 목록 */}
+      {isLoggedIn && currentUser && currentUser.stations && (
+        <div className="store-buttons">
+          {currentUser.stations.map(station => (
+            <button
+              className="store-btn"
+              key={station.stationId}
+              // 필요하다면 아래처럼 클릭 시 해당 충전소로 이동 등 추가
+              // onClick={() => navigate(`/station/${station.stationId}`)}
+            >
+              {station.name}
+            </button>
+          ))}
+        </div>
+      )}
 {/* 
       <button className="info-btn">→ 내 정보 변경하기</button> */}
       <button className="logout-btn" onClick={handleLogoutClick}>← Log out</button>
