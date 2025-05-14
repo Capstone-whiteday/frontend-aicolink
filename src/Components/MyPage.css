@@ -131,3 +131,114 @@
 .store-btn:hover {
   background-color: #ddeee1;
 }
+
+/* 충전소 버튼 활성화 */
+/* 가운데 영역 */
+.mypage-center-content {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+  margin: 32px 0;
+  padding: 32px 24px 40px 24px;
+  width: 100%;
+  max-width: 600px;
+  min-height: 600px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* 사용자 정보 요약 */
+.mypage-info {
+  width: 100%;
+  margin-bottom: 32px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #e0e0e0;
+}
+.mypage-info h2 {
+  margin-bottom: 12px;
+  font-size: 1.4rem;
+  color: #365BAC;
+}
+
+/* 충전소 추가 폼 */
+.add-station-form {
+  width: 100%;
+  background: #f8f9fa;
+  border-radius: 10px;
+  padding: 18px 16px 14px 16px;
+  margin-bottom: 28px;
+  box-shadow: 0 1px 6px rgba(54,91,172,0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.add-station-form h3 {
+  margin-bottom: 8px;
+  color: #365BAC;
+  font-size: 1.1rem;
+}
+.add-station-form input,
+.add-station-form select {
+  padding: 8px;
+  border: 1px solid #d0d0d0;
+  border-radius: 6px;
+  font-size: 15px;
+}
+.add-station-form button {
+  margin-top: 8px;
+  padding: 9px;
+  background: #365BAC;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.add-station-form button:hover {
+  background: #27447a;
+}
+
+/* 충전소 카드 */
+.station-list {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.station-item {
+  background: #f4f8ff;
+  border-radius: 10px;
+  padding: 16px 14px;
+  box-shadow: 0 1px 6px rgba(54,91,172,0.04);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 15px;
+  position: relative;
+}
+.station-item button {
+  margin-right: 8px;
+  margin-top: 8px;
+  padding: 6px 14px;
+  border: none;
+  border-radius: 6px;
+  background: #e0e7ff;
+  color: #365BAC;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.station-item button:hover {
+  background: #c7d2fe;
+  color: #27447a;
+}
+.station-item input,
+.station-item select {
+  margin-bottom: 6px;
+  padding: 6px;
+  border: 1px solid #b0b0b0;
+  border-radius: 5px;
+  font-size: 14px;
+}
