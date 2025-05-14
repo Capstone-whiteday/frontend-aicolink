@@ -1,0 +1,44 @@
+<svg width="768" height="768" viewBox="0 0 768 768" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- 배경 -->
+  <rect width="768" height="768" fill="#F5F4E8"/>
+
+  <!-- 태양 -->
+  <circle cx="660" cy="120" r="40" fill="#FBD437"/>
+  <g stroke="#111" stroke-width="4">
+    <line x1="660" y1="60" x2="660" y2="20" />
+    <line x1="660" y1="180" x2="660" y2="220" />
+    <line x1="620" y1="120" x2="580" y2="120" />
+    <line x1="700" y1="120" x2="740" y2="120" />
+    <line x1="690" y1="90" x2="720" y2="60" />
+    <line x1="630" y1="90" x2="600" y2="60" />
+    <line x1="690" y1="150" x2="720" y2="180" />
+    <line x1="630" y1="150" x2="600" y2="180" />
+  </g>
+
+  <!-- 언덕과 나무 -->
+  <ellipse cx="384" cy="600" rx="500" ry="200" fill="#D6EFC7" />
+  <ellipse cx="160" cy="500" rx="40" ry="100" fill="#A2D399" />
+  <rect x="152" y="500" width="16" height="100" fill="#5C8B5A" />
+
+  <ellipse cx="640" cy="480" rx="30" ry="80" fill="#A2D399" />
+  <rect x="632" y="480" width="16" height="100" fill="#5C8B5A" />
+
+  <!-- 충전기 본체 -->
+  <rect x="180" y="380" width="100" height="200" rx="10" fill="#47A891" stroke="#1F4F4F" stroke-width="4" />
+  <rect x="200" y="400" width="60" height="40" fill="#E7FBE7" stroke="#1F4F4F" stroke-width="2" />
+  <line x1="230" y1="480" x2="230" y2="550" stroke="#1F4F4F" stroke-width="6" />
+  <circle cx="230" cy="550" r="10" fill="#47A891" stroke="#1F4F4F" stroke-width="2" />
+
+  <!-- 충전 케이블 -->
+  <path d="M230 550 C 300 600, 400 600, 460 550" stroke="#1F4F4F" stroke-width="6" fill="none"/>
+
+  <!-- 자동차 -->
+  <rect x="360" y="460" width="280" height="100" rx="20" fill="#4CAF50" stroke="#1F4F4F" stroke-width="4"/>
+  <rect x="380" y="420" width="240" height="60" rx="20" fill="#66BB6A" stroke="#1F4F4F" stroke-width="4"/>
+  <circle cx="400" cy="570" r="20" fill="#333" />
+  <circle cx="600" cy="570" r="20" fill="#333" />
+
+  <!-- 잎 아이콘 -->
+  <circle cx="140" cy="340" r="30" fill="white" stroke="#1F4F4F" stroke-width="4" />
+  <path d="M130 340 C135 325, 155 330, 150 350 Q140 360, 130 340" fill="#66BB6A" stroke="#388E3C" stroke-width="2" />
+</svg>
