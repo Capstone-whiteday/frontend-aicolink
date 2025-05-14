@@ -21,7 +21,7 @@ const Login = ({ setIsLoggedIn, setCurrentUser, users }) => { // **users prop �
     setCurrentUser(user); // 로그인한 사용자 정보 설정
     navigate('/'); // 메인 페이지로 이동
   };
-
+  
   return (
     <div className="login-container">
       <form className="login-form" onSubmit={handleSubmit}>
@@ -48,6 +48,9 @@ const Login = ({ setIsLoggedIn, setCurrentUser, users }) => { // **users prop �
         <button type="button" onClick={() => navigate('/signup')}>회원가입</button>
         {/* <button type="button" onClick={() => navigate('/')}>뒤로가기</button> */}
       </form>
+      <div className="login-right">
+        <img src="/PhraseImage_3.png" alt="Phrase" />
+      </div>
     </div>
   );
 };

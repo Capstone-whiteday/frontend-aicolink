@@ -4,6 +4,9 @@
     align-items: center;
     height: 100vh;
     background: linear-gradient(90deg, #ECFFE7 0%, #F2FFFE 100%);
+    /* position:absolute; */
+    /* top: 0;
+    left: 0 */
   }
   
   .login-form {
@@ -15,6 +18,10 @@
     display: flex;
     flex-direction: column;
     gap: 16px;
+    position: absolute;
+    /* top: 50%; */
+    left: 17%;
+    /* transform: translate(-50%, -50%); */
   }
   
   .login-form h1 {
@@ -49,3 +56,25 @@
   .login-form button:hover {
     background: #006837;
   }
+
+.login-right {
+  position:absolute;
+  top: 0;
+  left: 30%;
+  width: 80vw;
+  height: 125vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  position: relative;
+  /* 기존 position, top, left, transform, width, height, border-radius 등은 모두 제거 */
+}
+
+.login-right img {
+  width: 70%;      /* 원하는 비율로 조절 (예: 70%) */
+  height: auto;
+  max-height: 80%; /* 세로 최대 크기 제한 */
+  object-fit: contain;
+  display: block;
+}
