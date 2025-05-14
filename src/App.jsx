@@ -77,11 +77,11 @@ const [users, setUsers] = useState([
         <Route path="/mypage" element={
            <>
            <ChartTitle />
-           <Sidebar_mp
+           {/* <Sidebar_mp
                isLoggedIn={isLoggedIn} 
                setIsLoggedIn={setIsLoggedIn}
                currentUser={currentUser} // **currentUser prop 추가**
-              />
+              /> */}
           <MyPage
     isLoggedIn={isLoggedIn}
     currentUser={currentUser}

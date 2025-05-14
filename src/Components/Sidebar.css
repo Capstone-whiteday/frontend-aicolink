@@ -103,14 +103,20 @@
   cursor: pointer;
 }
 
-/* 로그아웃 버튼만 아래로 더 내리기 */
 .logout-btn {
   background: #f3f3f3;
-  position: inherit;
-
-  margin-top: 250px; /* 기존보다 더 아래로 내림 (원하는 만큼 조절) */
+  /* position: inherit;  <-- 이 줄 삭제 */
+  margin-top: 30px; /* 적당한 값으로 조절 (예: 30px) */
+  padding: 10px;
+  font-size: 14px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
 }
-  
+.logout-btn:hover {
+  background: #e0e0e0;
+}
   /* 날씨 */
   .weather-widget {
     margin-top: 20px;
