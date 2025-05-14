@@ -30,33 +30,33 @@ const batteryData = [
   { name: '24:00', battery: 120 },
 ];
 
-const consumptionData = [
-  { name: '00:00', consumption: 240 },
-  { name: '01:00', consumption: 230 },
-  { name: '02:00', consumption: 220 },
-  { name: '03:00', consumption: 210 },
-  { name: '04:00', consumption: 200 },
-  { name: '05:00', consumption: 190 },
-  { name: '06:00', consumption: 180 },
-  { name: '07:00', consumption: 170 },
-  { name: '08:00', consumption: 160 },
-  { name: '09:00', consumption: 150 },
-  { name: '10:00', consumption: 140 },
-  { name: '11:00', consumption: 130 },
-  { name: '12:00', consumption: 120 },
-  { name: '13:00', consumption: 110 },
-  { name: '14:00', consumption: 100 },
-  { name: '15:00', consumption: 90 },
-  { name: '16:00', consumption: 80 },
-  { name: '17:00', consumption: 70 },
-  { name: '18:00', consumption: 60 },
-  { name: '19:00', consumption: 50 },
-  { name: '20:00', consumption: 40 },
-  { name: '21:00', consumption: 30 },
-  { name: '22:00', consumption: 20 },
-  { name: '23:00', consumption: 10 },
-  { name: '24:00', consumption: 5 },
-];
+// const consumptionData = [
+//   { name: '00:00', consumption: 240 },
+//   { name: '01:00', consumption: 230 },
+//   { name: '02:00', consumption: 220 },
+//   { name: '03:00', consumption: 210 },
+//   { name: '04:00', consumption: 200 },
+//   { name: '05:00', consumption: 190 },
+//   { name: '06:00', consumption: 180 },
+//   { name: '07:00', consumption: 170 },
+//   { name: '08:00', consumption: 160 },
+//   { name: '09:00', consumption: 150 },
+//   { name: '10:00', consumption: 140 },
+//   { name: '11:00', consumption: 130 },
+//   { name: '12:00', consumption: 120 },
+//   { name: '13:00', consumption: 110 },
+//   { name: '14:00', consumption: 100 },
+//   { name: '15:00', consumption: 90 },
+//   { name: '16:00', consumption: 80 },
+//   { name: '17:00', consumption: 70 },
+//   { name: '18:00', consumption: 60 },
+//   { name: '19:00', consumption: 50 },
+//   { name: '20:00', consumption: 40 },
+//   { name: '21:00', consumption: 30 },
+//   { name: '22:00', consumption: 20 },
+//   { name: '23:00', consumption: 10 },
+//   { name: '24:00', consumption: 5 },
+// ];
 
 const touData = [
   { name: '00:00', tou: 120 },
@@ -119,13 +119,13 @@ const Dashboard = () => {
 
   const getData = () => {
     if (selectedData === 'battery') return batteryData;
-    if (selectedData === 'consumption') return consumptionData;
+    // if (selectedData === 'consumption') return consumptionData;
     if (selectedData === 'tou') return touData;
     if (selectedData === 'all') {
       return batteryData.map((item, index) => ({
         name: item.name,
         battery: item.battery,
-        consumption: consumptionData[index]?.consumption,
+        // consumption: consumptionData[index]?.consumption,
         tou: touData[index]?.tou,
       }));
     }
@@ -147,9 +147,9 @@ const Dashboard = () => {
             <button className={selectedData === 'battery' ? 'active' : ''} onClick={() => setSelectedData('battery')}>
               Battery Power
             </button>
-            <button className={selectedData === 'consumption' ? 'active' : ''} onClick={() => setSelectedData('consumption')}>
+            {/* <button className={selectedData === 'consumption' ? 'active' : ''} onClick={() => setSelectedData('consumption')}>
               Consumption
-            </button>
+            </button> */}
             <button className={selectedData === 'tou' ? 'active' : ''} onClick={() => setSelectedData('tou')}>
               TOU
             </button>
@@ -160,30 +160,51 @@ const Dashboard = () => {
           <button className="export-btn">📄 Export PDF</button>
         </div>
         <div className="graph-placeholder">
-          <ResponsiveContainer width="100%" height={450}>
-            <LineChart data={getData()}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis 
-                dataKey="name" 
-                tickFormatter={(tick) => {
-                  // 06, 12, 18, 24시에만 표시
-                  return ['06:00', '12:00', '18:00', '24:00'].includes(tick) ? tick : '';
-                }} 
-              />
-              <YAxis />
-              <Tooltip />
-              <Legend />
-              {selectedData === 'battery' || selectedData === 'all' ? (
-                <Line type="monotone" dataKey="battery" stroke="#8884d8" activeDot={{ r: 8 }} />
-              ) : null}
-              {selectedData === 'consumption' || selectedData === 'all' ? (
-                <Line type="monotone" dataKey="consumption" stroke="#82ca9d" />
-              ) : null}
-              {selectedData === 'tou' || selectedData === 'all' ? (
-                <Line type="monotone" dataKey="tou" stroke="#ffc658" />
-              ) : null}
-              </LineChart>
-          </ResponsiveContainer>
+<ResponsiveContainer width="100%" height={450}>
+  <LineChart data={getData()}>
+    <CartesianGrid strokeDasharray="3 3" />
+    <XAxis 
+      dataKey="name" 
+      tickFormatter={(tick) => {
+        // 06, 12, 18, 24시에만 표시
+        return ['06:00', '12:00', '18:00', '24:00'].includes(tick) ? tick : '';
+      }} 
+    />
+    {/* 첫 번째 Y축: 전력량 (battery) */}
+    <YAxis 
+      yAxisId="left" 
+      label={{ value: '전력량 (kWh)', angle: -90, position: 'insideLeft' }} 
+    />
+    {/* 두 번째 Y축: TOU 값 */}
+    <YAxis 
+      yAxisId="right" 
+      orientation="right" 
+      label={{ value: 'TOU (원)', angle: -90, position: 'insideRight' }} 
+    />
+    <Tooltip />
+    <Legend />
+    {selectedData === 'battery' || selectedData === 'all' ? (
+      <Line 
+        type="monotone" 
+        dataKey="battery" 
+        stroke="#8884d8" 
+        strokeWidth={3} 
+        dot={false} 
+        yAxisId="left" // 첫 번째 Y축에 연결
+      />
+    ) : null}
+    {selectedData === 'tou' || selectedData === 'all' ? (
+      <Line 
+        type="monotone" 
+        dataKey="tou" 
+        stroke="#ffc658" 
+        strokeWidth={3} 
+        dot={false} 
+        yAxisId="right" // 두 번째 Y축에 연결
+      />
+    ) : null}
+  </LineChart>
+</ResponsiveContainer>
         </div>
       </div>
 

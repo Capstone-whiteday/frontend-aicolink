@@ -1,0 +1,48 @@
+/* 전체 사이드바 스타일 */
+.right-sidebar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 300px; /* 사이드바 너비 */
+  height: 100vh; /* 화면 전체 높이 */
+  background-color: #f8f9fa;
+  box-shadow: -2px 0 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  box-sizing: border-box;
+  overflow-y: auto; /* 내용이 많을 경우 스크롤 */
+  z-index: 1000; /* 다른 요소 위에 표시 */
+}
+
+/* 섹션 스타일 */
+.right-sidebar-section {
+  margin-bottom: 20px;
+}
+
+.right-sidebar-section h2 {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.right-sidebar-section ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.right-sidebar-section ul li {
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: #555;
+}
+
+.right-sidebar-section ul li a {
+  text-decoration: none;
+  color: #007bff;
+  transition: color 0.3s;
+}
+
+.right-sidebar-section ul li a:hover {
+  color: #0056b3;
+}
