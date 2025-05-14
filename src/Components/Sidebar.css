@@ -80,6 +80,7 @@
     background: white;
     text-align: left;
     font-size: 14px;
+    font-weight: 700;
     cursor: pointer;
     transition: background 0.2s ease;
   }
