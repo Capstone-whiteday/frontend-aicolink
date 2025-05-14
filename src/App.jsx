@@ -7,6 +7,7 @@ import Dashboard from './Components/Dashboard';
 import Login from './Components/Login';
 import SignUp from './Components/SignUp';
 import MyPage from './Components/MyPage';
+import AddStation from './Components/AddStation';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 상태 관리
@@ -48,6 +49,10 @@ function App() {
           </>
         } />
         <Route path="/mypage" element={<MyPage isLoggedIn={isLoggedIn} />} />
+        <Route path="/add-station" element={<AddStation />} />
+        {/* <Route path="/add-station" element={<AddStation />} /> */}
+        {/* <Route path="/mypage" element={<MyPage isLoggedIn={isLoggedIn} />} /> */}
+        {/* <Route path="/add-station" element={<AddStation />} /> */}
       </Routes>
     </Router>
   );
