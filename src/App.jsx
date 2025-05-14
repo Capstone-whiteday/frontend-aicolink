@@ -8,7 +8,7 @@ import Login from './Components/Login';
 import SignUp from './Components/SignUp';
 import MyPage from './Components/MyPage';
 import AddStation from './Components/AddStation';
-
+import Sidebar_mp from './Components/Sidebar_mp'; // 마이페이지용 사이드바
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 상태 관리
   const [users, setUsers] = useState([]); // 사용자 정보 관리
@@ -48,7 +48,21 @@ function App() {
             </div>
           </>
         } />
-        <Route path="/mypage" element={<MyPage isLoggedIn={isLoggedIn} />} />
+        <Route path="/mypage" element={
+           <>
+           <ChartTitle />
+           <Sidebar_mp
+               isLoggedIn={isLoggedIn} 
+               setIsLoggedIn={setIsLoggedIn}
+               currentUser={currentUser} // **currentUser prop 추가**
+              />
+          <MyPage
+           isLoggedIn={isLoggedIn} 
+           />
+            
+           </> 
+           } />
+           
         <Route path="/add-station" element={<AddStation />} />
         {/* <Route path="/add-station" element={<AddStation />} /> */}
         {/* <Route path="/mypage" element={<MyPage isLoggedIn={isLoggedIn} />} /> */}

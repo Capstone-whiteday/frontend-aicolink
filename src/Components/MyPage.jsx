@@ -1,7 +1,8 @@
 import './MyPage.css';
 import { useNavigate } from 'react-router-dom';
 import React, { useEffect } from 'react';
-import Sidebar from './Sidebar';
+// import Sidebar from './Sidebar';
+import Sidebar_mp from './Sidebar_mp'; // Sidebar_mp로 
 import Header from './Header';
 import ChartTitle from './ChartTitle';
 
@@ -23,8 +24,9 @@ const MyPage = ({ isLoggedIn }) => {
     <div className="mypage-wrapper">
       <Header />
       <ChartTitle />
-      <Sidebar isLoggedIn={isLoggedIn} />
-      <section className="mypage-profile">
+      {/* <Sidebar isLoggedIn={isLoggedIn} /> */}
+      <Sidebar_mp isLoggedIn={isLoggedIn} />
+      {/* <section className="mypage-profile">
         <img className="mypage-avatar" src="/logo_aclnk.svg" alt="프로필" />
         <div>
           <strong>김세종</strong>
@@ -52,7 +54,7 @@ const MyPage = ({ isLoggedIn }) => {
       <section className="mypage-others">
         <button className="station-select">TeslaCharge 서귀포점 → 선택</button>
         <button className="station-select">ChargePlus 연신내점 → 선택</button>
-      </section>
+      </section> */}
 
       {/* 충전소 추가하기 버튼 */}
       <section className="mypage-add-station">
