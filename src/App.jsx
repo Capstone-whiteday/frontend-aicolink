@@ -11,7 +11,29 @@ import AddStation from './Components/AddStation';
 import Sidebar_mp from './Components/Sidebar_mp'; // 마이페이지용 사이드바
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 상태 관리
-  const [users, setUsers] = useState([]); // 사용자 정보 관리
+  // const [users, setUsers] = useState([]); // 사용자 정보 관리
+  // 예시: 사용자 객체에 stations 배열 추가
+const [users, setUsers] = useState([
+  {
+    name: '홍길동',
+    email: 'test@test.com',
+    password: '1234',
+    joinedAt: '2024-05-01T10:00:00.000Z',
+    stations: [
+      {
+        stationId: 1,
+        name: 'voltup 제주동부점',
+        location: '제주특별자치도 동부돌레길 80',
+        createdAt: '2025-05-14T08:04:06.330Z',
+        updatedAt: '2025-05-14T08:04:06.330Z',
+        status: 'ON',
+        description: '제주 동부의 대표 충전소',
+        regionName: '제주'
+      }
+    ],
+    usageRate: 57 // AICOLINK 활용률 예시
+  }
+]);
   const [currentUser, setCurrentUser] = useState(null); // 로그인한 사용자 정보 관리 추가****
   const handleSignUp = ({ name, email, password }) => {
     const existingUser = users.find((user) => user.email === email);
@@ -61,8 +83,10 @@ function App() {
                currentUser={currentUser} // **currentUser prop 추가**
               />
           <MyPage
-           isLoggedIn={isLoggedIn} 
-           />
+    isLoggedIn={isLoggedIn}
+    currentUser={currentUser}
+    setCurrentUser={setCurrentUser}
+  />
             
            </> 
            } />
