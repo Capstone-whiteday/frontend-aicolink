@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Sidebar_mp from './Sidebar_mp';
 import Header from './Header';
 import ChartTitle from './ChartTitle';
-
+import './MyPage.css';
 // =========================
 // 기존: user.stations 구조 (주석 처리)
 // =========================
@@ -163,7 +163,7 @@ const MyPage = ({
 
             {/* 충전소 추가 입력 폼 */}
             <div className="add-station-form">
-              <h3>충전소 추가</h3>
+              {/* <h3>충전소 추가</h3>
               <input
                 type="text"
                 placeholder="충전소 이름"
@@ -196,7 +196,7 @@ const MyPage = ({
                 <option value="OFF">OFF</option>
               </select>
               <button onClick={handleAddStation}>추가</button>
-              navigate('/');
+              navigate('/'); */}
             </div>
 
             {/* 등록된 충전소 리스트 */}
@@ -214,6 +214,7 @@ const MyPage = ({
                 <div>등록된 충전소가 없습니다.</div>
               )}
             </div>
+            
           </div>
         </div>
       </div>

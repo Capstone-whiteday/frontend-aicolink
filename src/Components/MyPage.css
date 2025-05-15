@@ -191,46 +191,112 @@
 .add-station-form button:hover {
   background: #27447a;
 }
-
-/* 충전소 카드 */
+/* station-list를 카드형 컴포넌트로 개선 */
 .station-list {
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 24px;
 }
+
+/* 카드 컴포넌트 스타일 */
 .station-item {
-  background: #f4f8ff;
-  border-radius: 10px;
-  padding: 16px 14px;
-  box-shadow: 0 1px 6px rgba(54,91,172,0.04);
+  background: linear-gradient(135deg, #FFD1D1 0%, #22C55E 29%);
+  border-radius: 18px;
+  padding: 32px 28px 24px 28px;
+  box-shadow: 0 4px 18px rgba(34,197,94,0.08), 0 1.5px 8px rgba(255,209,209,0.10);
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  font-size: 15px;
+  align-items: flex-start;
+  font-size: 16px;
   position: relative;
+  min-width: 320px;
+  max-width: 480px;
+  margin: 0 auto;
 }
-.station-item button {
-  margin-right: 8px;
-  margin-top: 8px;
-  padding: 6px 14px;
-  border: none;
-  border-radius: 6px;
-  background: #e0e7ff;
-  color: #365BAC;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background 0.2s;
+
+/* 카드 내부 요소(팩터) 스타일 - 로그인폼 느낌 */
+.station-item label {
+  font-weight: 600;
+  margin-bottom: 4px;
+  color: #184c2c;
+  font-size: 15px;
+  display: block;
 }
-.station-item button:hover {
-  background: #c7d2fe;
-  color: #27447a;
+
+.station-item .station-factor {
+  width: 100%;
+  margin-bottom: 12px;
+  display: flex;
+  flex-direction: column;
 }
+
 .station-item input,
-.station-item select {
-  margin-bottom: 6px;
-  padding: 6px;
-  border: 1px solid #b0b0b0;
-  border-radius: 5px;
-  font-size: 14px;
+.station-item select,
+.station-item textarea {
+  padding: 9px 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 15px;
+  margin-bottom: 0;
+  background: #fff;
+  margin-top: 2px;
+  resize: none;
+}
+
+.station-item textarea {
+  min-height: 48px;
+}
+
+.station-item .station-factor:last-child {
+  margin-bottom: 0;
+}
+
+/* 정보수정/삭제 버튼 영역 */
+.station-item .station-btn-group {
+  width: 100%;
+  display: flex;
+  gap: 12px;
+  margin-top: 18px;
+  justify-content: flex-end;
+}
+
+.station-item button {
+  padding: 8px 20px;
+  border: none;
+  border-radius: 8px;
+  background: #fff;
+  color: #22C55E;
+  font-weight: bold;
+  font-size: 15px;
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgba(34,197,94,0.08);
+  transition: background 0.2s, color 0.2s;
+}
+
+.station-item button:hover {
+  background: #22C55E;
+  color: #fff;
+}
+
+/* 정보수정 버튼 별도 색상 */
+.station-item .edit-btn {
+  background: #fff;
+  color: #184c2c;
+}
+
+.station-item .edit-btn:hover {
+  background: #184c2c;
+  color: #fff;
+}
+
+/* 삭제 버튼 별도 색상 */
+.station-item .delete-btn {
+  background: #fff;
+  color: #ff4d4f;
+}
+
+.station-item .delete-btn:hover {
+  background: #ff4d4f;
+  color: #fff;
 }
