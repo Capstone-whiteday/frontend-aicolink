@@ -202,7 +202,7 @@ const MyPage = ({
             <div className="station-list">
               {myStations.length > 0 ? (
                 myStations.map(station => (
-                  <StationCard
+                  <StationCard className="detail-card"
                     key={station.stationId}
                     station={station}
                     onRemove={handleRemoveStation}

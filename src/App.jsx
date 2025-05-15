@@ -93,7 +93,7 @@ const handleSignUp = ({ name, email, password }) => {
 };
 return (
   <Router>
-    <Header />
+    <Header /> 
     <Routes>
       <Route path="/login" element={
         <Login
@@ -112,6 +112,7 @@ return (
                 isLoggedIn={isLoggedIn}
                 setIsLoggedIn={setIsLoggedIn}
                 currentUser={currentUser}
+                stations={stations} // 
               />
               <Dashboard />
             </div>
@@ -121,6 +122,8 @@ return (
         )
       } />
       <Route path="/mypage" element={
+        <>
+          <ChartTitle />
         <MyPage
           isLoggedIn={isLoggedIn}
           currentUser={currentUser}
@@ -128,6 +131,7 @@ return (
           stations={stations}
           setStations={setStations}
         />
+        </>
       } />
       <Route path="/add-station" element={<AddStation />} />
     </Routes>
