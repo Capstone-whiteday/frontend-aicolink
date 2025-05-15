@@ -47,8 +47,19 @@
   object-fit: cover;
 }
 
-.profile-info {
+.profile-name {
   display: flex;
+  position: absolute;
+  top: 15%;
+  left: 8.5%;
+  flex-direction: column;
+  justify-content: center;
+}  
+.profile-email {
+  display: flex;
+  position: absolute;
+  top: 19%;
+  left: 3%;
   flex-direction: column;
   justify-content: center;
 }  
@@ -74,7 +85,7 @@
     font-weight: bold;
     font-size: 14px;
     color: #888;
-    margin-top: 20px;
+    margin-top: 110px;
   }
   
   /* 가게 버튼들 */

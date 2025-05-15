@@ -62,8 +62,12 @@ const Sidebar = ({ isLoggedIn, setIsLoggedIn, currentUser, stations }) => { // s
           src="/profile_empty.svg"
           alt="프로필"
         />
-        <div className="profile-info">
-          <strong>{currentUser?.name || '사용자 이름'}</strong> {/* **currentUser.name 표시** */}
+        <div className="profile-name">
+          <strong>{'NAME  :  '+currentUser?.name || '사용자 이름'}</strong> {/* **currentUser.name 표시** */}
+         
+        </div>
+        <div className="profile-email">
+
           <p>{currentUser?.email || '사용자 이메일'}</p> {/* **currentUser.email 표시** */}
         </div>
       </div>
