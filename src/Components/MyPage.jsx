@@ -196,6 +196,7 @@ const MyPage = ({
                 <option value="OFF">OFF</option>
               </select>
               <button onClick={handleAddStation}>추가</button>
+              navigate('/');
             </div>
 
             {/* 등록된 충전소 리스트 */}

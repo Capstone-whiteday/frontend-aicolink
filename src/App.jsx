@@ -133,7 +133,12 @@ return (
         />
         </>
       } />
-      <Route path="/add-station" element={<AddStation />} />
+      <Route path="/add-station" element={
+        <AddStation
+          currentUser={currentUser}
+          stations={stations}
+          setStations={setStations}
+       />} />
     </Routes>
   </Router>
 );

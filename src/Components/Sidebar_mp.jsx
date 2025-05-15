@@ -33,7 +33,9 @@ const Sidebar = ({ isLoggedIn, setIsLoggedIn, currentUser, stations }) => { // s
     setIsLoggedIn(false); // 로그인 상태 변경
     navigate('/'); // 메인 페이지로 이동
   };
-
+    const handleAddStationClick = () => {
+    navigate('/add-station');
+  };
   if (!isLoggedIn) {
     return (
       <aside className="sidebar">
@@ -86,6 +88,10 @@ const Sidebar = ({ isLoggedIn, setIsLoggedIn, currentUser, stations }) => { // s
         )}
       </div>  */}
 
+        {/* 충전소 추가 버튼 */}
+      <button className="logout-btn" onClick={handleAddStationClick}>
+        + 충전소 추가
+      </button>
       {/* <button className="info-btn">→ 내 정보 변경하기</button> */}
       <button className="logout-btn" onClick={handleLogoutClick}>← Log out</button>
     </aside>
