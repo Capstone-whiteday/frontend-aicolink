@@ -10,6 +10,8 @@ import MyPage from './Components/MyPage';
 import AddStation from './Components/AddStation';
 import ServiceIntro from './Components/ServiceIntro';
 import Sidebar_mp from './Components/Sidebar_mp';
+// import WeatherWidget from './Components/WeatherWidget';
+
 // ⚠️ 충전소/날짜별 데이터 연동을 위해 목업데이터 import (필요시)
 // import { batteryData, touData } from './mymockdata';
 
@@ -136,6 +138,7 @@ function App() {
                     // selectedStationId={selectedStationId}
                     // setSelectedStationId={setSelectedStationId}
                   />
+                  {/* <WeatherWidget city="Jeju" /> */}
                   <Dashboard
                     // stations={stations}
                     // selectedStationId={selectedStationId}
