@@ -1,28 +1,27 @@
 /* 부모 컨테이너 */
 .mypage-container {
   display: flex;
-  align-items: stretch; /* 자식 높이 맞춤 */
+  align-items: flex-start; /* 자식 높이 맞춤 */
   min-height: 0; /* flexbox overflow 방지 */
 }
 
 .sidebar {
-    
-    width: 240px;
-    margin:20px;
-    /* background: #eaf7ec; *//*연녹색 배경 */
-    background: linear-gradient( #ECFFE7 0%, #F2FFFE 100%);
-    border-radius: 24px;
-    padding: 24px;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    min-height: 100vh;
-    font-family: sans-serif;
-     height: 70vh; /* 세로 길이를 70%로 줄임 (원하는 비율로 조절) */
-    max-height: 700px; /* 필요시 최대 높이 제한 */
-    min-height: 350px; /* 필요시 최소 높이 지정 */
-  }
+  width: 240px;
+  margin: 20px;
+  background: linear-gradient(#ECFFE7 0%, #F2FFFE 100%);
+  border-radius: 24px;
+  padding: 24px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  font-family: sans-serif;
+  /* 아래 3줄 제거 */
+  /* height: 70vh; */
+  max-height: 500px;
+  /* min-height: 100vh; */
+}
+
   
   /* 프로필 */
   .profile-section {
