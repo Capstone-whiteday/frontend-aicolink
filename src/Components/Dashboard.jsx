@@ -1,6 +1,7 @@
 import './Dashboard.css';
 import { useState } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { BarChart, Bar } from 'recharts';
 
 const batteryData = [
   { name: '00:00', battery: 400 },
@@ -130,7 +131,11 @@ const Dashboard = () => {
       }));
     }
   };
-
+  // status를 숫자로 변환
+const chartData = chargeDischargeData.map(d => ({
+  name: d.name,
+  value: d.status === 'charge' ? 1 : -1,
+}));
   return (
     <main className="dashboard">
       {/* 제목 영역 */}
@@ -210,7 +215,7 @@ const Dashboard = () => {
       </div>
 
       {/* 결과 요약 바 */}
-      <div className="charge-bar">
+      {/* <div className="charge-bar">
   <div className="charge-discharge-chart">
     {chargeDischargeData.map((item, index) => (
       <div
@@ -226,7 +231,32 @@ const Dashboard = () => {
   <p>
     <strong>AICOLINK</strong>가 예상하는 <span className="charge">CHARGE</span> or <span className="discharge">DISCHARGE</span>
   </p>
-</div>
+</div> */}
+
+
+<ResponsiveContainer width="100%" height={60}>
+  <BarChart data={chartData}>
+    <XAxis dataKey="name" hide />
+    <Tooltip />
+    <Bar
+      dataKey="value"
+      fill="#365BAC"
+      isAnimationActive={false}
+      radius={[8, 8, 8, 8]}
+      // 색상 동적 처리
+      shape={props => (
+        <rect
+          {...props}
+          fill={props.payload.value === 1 ? "#365BAC" : "#99FFE4"}
+          rx={8}
+        />
+      )}
+    />
+  </BarChart>
+    <p>
+    <strong>AICOLINK</strong>가 예상하는 <span className="charge">CHARGE</span> or <span className="discharge">DISCHARGE</span>
+  </p>
+</ResponsiveContainer>
     </main>
   );
 };

@@ -8,6 +8,8 @@ import Login from './Components/Login';
 import SignUp from './Components/SignUp';
 import MyPage from './Components/MyPage';
 import AddStation from './Components/AddStation';
+import ServiceIntro from './Components/ServiceIntro';
+
 import Sidebar_mp from './Components/Sidebar_mp';
 function App() {
 // =========================
@@ -139,6 +141,12 @@ return (
           stations={stations}
           setStations={setStations}
        />} />
+      <Route path="/service-intro" element={
+        <ServiceIntro
+          isLoggedIn={isLoggedIn}
+          currentUser={currentUser}
+          stations={stations}
+        />} />
     </Routes>
   </Router>
 );
