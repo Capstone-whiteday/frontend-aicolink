@@ -120,7 +120,7 @@ const StationCard = ({ station, onRemove, onEdit }) => {
         </>
       ) : (
         <>
-        <div className="station-card">
+        <div >
   <h2 className="station-title">{station.name}</h2>
 
   <div className="info-item">
@@ -267,6 +267,7 @@ const MyPage = ({
               {/* <h2>내 충전소</h2> */}
               <div>가입일: <strong>{currentUser?.joinedAt ? currentUser.joinedAt.slice(0,10) : '-'}</strong></div><br />
               <div>충전소 개수: <strong>{myStations.length}</strong></div><br />
+              <div>마지막 수정날짜</div><strong>{currentUser?.lastModified ? currentUser.lastModified.slice(0,10) : '-'}</strong><br />
               {/* <div>AICOLINK 활용률: <strong>{currentUser?.usageRate ?? 0}%</strong></div> */}
             </div>
     

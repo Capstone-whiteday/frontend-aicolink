@@ -1,0 +1,50 @@
+.station-card {
+  background: linear-gradient(to bottom, #fdfafa, #eefaf2); /* 연한 그라데이션 */
+  border-radius: 25px;
+  padding: 30px 25px;
+  width: 480px;
+  margin: 20px auto;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  font-family: 'Pretendard', sans-serif;
+}
+
+.station-title {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 25px;
+  color: #222;
+}
+
+.info-item {
+  margin-bottom: 16px;
+}
+
+.label {
+  display: block;
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 6px;
+}
+
+.value {
+  background-color: #fffef4; /* 약간 노란빛 */
+  padding: 10px 12px;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 15px;
+  box-shadow: inset 0 0 2px rgba(0,0,0,0.03);
+}
+
+.station-buttons button {
+  background-color: #f2f2f2;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.station-buttons button:hover {
+  background-color: #e6e6e6;
+}
