@@ -90,7 +90,7 @@ const Dashboard = () => {
       {/* 헤더 */}
       <div className="dashboard-header">
         <h1 className="station-name">VOLTUP 제주동부점</h1>
-        <span className="date-label" style={{ color: '#000', textDecoration: 'none', fontWeight: 500 }}>
+        <span className="date-label" style={{ fontSize:21 ,color: '#000', textDecoration: 'none', fontWeight: 500 }}>
         {formatToday()}
         </span>
       </div>
