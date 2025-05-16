@@ -203,7 +203,7 @@
 
 /* 카드 컴포넌트 스타일 */
 .station-item {
-  background: linear-gradient(135deg, #FFD1D1 0%, #22C55E 29%);
+  background: linear-gradient(1deg, #fffeb3 0%, #b0ffcd 29%);
   border-radius: 18px;
   padding: 32px 28px 24px 28px;
   box-shadow: 0 4px 18px rgba(34,197,94,0.08), 0 1.5px 8px rgba(255,209,209,0.10);

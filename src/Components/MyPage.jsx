@@ -236,11 +236,12 @@ const MyPage = ({
           <ChartTitle />
           {/* <div  style={{ width: '100%', maxWidth: 1000 }}> */}
             
-            <h1>내 페이지</h1>
+            <br /><h1>내 정보</h1><br /><br /><br /><br />
+
              <div className="mypage-info">
-              <h2>내 충전소</h2>
-              <div>가입일: <strong>{currentUser?.joinedAt ? currentUser.joinedAt.slice(0,10) : '-'}</strong></div>
-              <div>충전소 개수: <strong>{myStations.length}</strong></div>
+              {/* <h2>내 충전소</h2> */}
+              <div>가입일: <strong>{currentUser?.joinedAt ? currentUser.joinedAt.slice(0,10) : '-'}</strong></div><br />
+              <div>충전소 개수: <strong>{myStations.length}</strong></div><br />
               <div>AICOLINK 활용률: <strong>{currentUser?.usageRate ?? 0}%</strong></div>
             </div>
     
@@ -249,7 +250,7 @@ const MyPage = ({
               {myStations.length > 0 ? (
                 myStations.map(station => (
                   // <StationCard
-                  <StationInfoCard
+                  <StationCard
                     key={station.stationId}
                     station={station}
                     onRemove={handleRemoveStation}
