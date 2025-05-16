@@ -1,0 +1,38 @@
+name: Frontend Deploy
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Build React App
+        run: |
+          npm install
+          npm run build
+
+      - name: Prepare EC2 directory
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            rm -rf ~/frontend-aicolink/dist
+            mkdir -p ~/frontend-aicolink/dist
+
+      - name: Upload build files
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2_SSH_KEY }}
+          source: "dist"
+          target: "~/frontend-aicolink"
