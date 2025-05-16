@@ -2,9 +2,11 @@ import './Dashboard.css';
 import { useState } from 'react';
 import {
   LineChart, Line, XAxis, YAxis, CartesianGrid,
-  Tooltip, Legend, ResponsiveContainer, BarChart, Bar, Cell
+  Tooltip, Legend, ResponsiveContainer
 } from 'recharts';
 import Sidebar from './Sidebar';
+
+// ------------------ 데이터 정의 ------------------
 
 const batteryData = [
   { name: '00:00', battery: 400 }, { name: '01:00', battery: 380 }, { name: '02:00', battery: 360 },
@@ -30,6 +32,7 @@ const touData = [
   { name: '24:00', tou: 0 },
 ];
 
+// CHARGE / DISCHARGE 예측 결과
 const chargeDischargeData = [
   'charge','charge','charge','discharge','discharge','charge','charge','discharge','discharge','charge','charge','discharge','discharge','charge','charge','discharge','discharge','charge','charge','discharge','discharge','charge','charge','discharge'
 ].map((status, index) => ({
@@ -38,10 +41,13 @@ const chargeDischargeData = [
   label: status.toUpperCase()
 }));
 
+// ------------------ 컴포넌트 시작 ------------------
+
 const Dashboard = () => {
   const [selectedData, setSelectedData] = useState('battery');
   const [tooltip, setTooltip] = useState({ visible: false, x: 0, y: 0, label: '', time: '' });
 
+  // 선택된 탭에 따라 LineChart에 전달할 데이터 구성
   const getData = () => {
     if (selectedData === 'battery') return batteryData;
     if (selectedData === 'tou') return touData;
@@ -54,6 +60,7 @@ const Dashboard = () => {
     }
   };
 
+  // 툴팁 이벤트 핸들러
   const handleMouseEnter = (e, entry) => {
     const rect = e.target.getBoundingClientRect();
     setTooltip({
@@ -71,12 +78,14 @@ const Dashboard = () => {
 
   return (
     <main className="dashboard">
+      {/* 헤더 */}
       <div className="dashboard-header">
         <h1 className="station-name">VOLTUP 제주동부점</h1>
         <span className="date-label">MAR.21</span>
       </div>
 
       <div className="graph-section">
+        {/* 탭 영역 */}
         <div className="graph-header">
           <p>일일예측</p>
           <div className="graph-tabs">
@@ -87,22 +96,24 @@ const Dashboard = () => {
           <button className="export-btn">📄 Export PDF</button>
         </div>
 
-        {/* 상단 그래프 */}
-        <ResponsiveContainer width="100%" height={450}>
-          <LineChart data={getData()} margin={{ top: 20, right: 30, left: 10, bottom: 0 }}>
-            <CartesianGrid strokeDasharray="3 3" vertical={false} />
-            <XAxis dataKey="name" interval={0} type="category" tickFormatter={(tick) => ['00:00','06:00','12:00','18:00','24:00'].includes(tick) ? tick : ''} />
-            <YAxis yAxisId="left" label={{ value: '전력량 (kWh)', angle: -90, position: 'insideLeft' }} />
-            <YAxis yAxisId="right" orientation="right" label={{ value: 'TOU (원)', angle: -90, position: 'insideRight' }} />
-            <Tooltip />
-            <Legend />
-            {(selectedData === 'battery' || selectedData === 'all') && <Line yAxisId="left" type="monotone" dataKey="battery" stroke="#8884d8" strokeWidth={3} dot={false} />}
-            {(selectedData === 'tou' || selectedData === 'all') && <Line yAxisId="right" type="monotone" dataKey="tou" stroke="#ffc658" strokeWidth={3} dot={false} />}
-          </LineChart>
-        </ResponsiveContainer>
-
-        {/* 하단 상태 바 (Flex 기반 + 커스텀 툴팁) */}
-        <div style={{ position: 'relative', padding: '16px 0 12px 0' }}>
+        {/* ✅ 상단 라인 그래프 (폭 제한 wrapper 적용) */}
+        <div style={{ maxWidth: '960px', margin: '0 auto' }}>
+          <ResponsiveContainer width="100%" height={450}>
+            <LineChart data={getData()} margin={{ top: 20, right: 30, left: 10, bottom: 0 }}>
+              <CartesianGrid strokeDasharray="3 3" vertical={false} />
+              <XAxis dataKey="name" interval={0} type="category" tickFormatter={(tick) => ['00:00','06:00','12:00','18:00','24:00'].includes(tick) ? tick : ''} />
+              <YAxis yAxisId="left" label={{ value: '전력량 (kWh)', angle: -90, position: 'insideLeft' }} />
+              <YAxis yAxisId="right" orientation="right" label={{ value: 'TOU (원)', angle: -90, position: 'insideRight' }} />
+              <Tooltip />
+              <Legend />
+              {(selectedData === 'battery' || selectedData === 'all') && <Line yAxisId="left" type="monotone" dataKey="battery" stroke="#8884d8" strokeWidth={3} dot={false} />}
+              {(selectedData === 'tou' || selectedData === 'all') && <Line yAxisId="right" type="monotone" dataKey="tou" stroke="#ffc658" strokeWidth={3} dot={false} />}
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
+        <div><br/></div>
+        {/* ✅ 하단 상태 바 (같은 maxWidth로 정렬 일치) */}
+        <div style={{ maxWidth: '820px', margin: '0 auto', position: 'relative', padding: '16px 0 12px 0' }}>
           <div style={{ display: 'flex', width: '100%', height: 24 }}>
             {chargeDischargeData.map((entry, index) => (
               <div
@@ -145,15 +156,14 @@ const Dashboard = () => {
               {tooltip.time} - {tooltip.label}
             </div>
           )}
-
-          {/* 하단 텍스트 */}
+              <div><br/></div>
           <p style={{ textAlign: 'center', marginTop: 10, fontSize: '16px', fontWeight: 600 }}>
             <strong>AICOLINK</strong>가 예상하는 <span style={{ color: '#365BAC' }}>CHARGE</span> or <span style={{ color: '#00DDB3' }}>DISCHARGE</span>
           </p>
         </div>
       </div>
 
-      {/* 애니메이션 CSS */}
+      {/* ✅ 애니메이션 정의 (fade-in) */}
       <style>
         {`
           @keyframes fadeIn {
