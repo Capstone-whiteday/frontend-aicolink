@@ -4,6 +4,84 @@ import Sidebar_mp from './Sidebar_mp';
 import Header from './Header';
 import ChartTitle from './ChartTitle';
 import './MyPage.css';
+import './SttnComp.css'
+
+
+const StationInfoCard = ({ station, onRemove, onEdit }) => {
+  const [editMode, setEditMode] = useState(false);
+  const [editData, setEditData] = useState({
+    name: station.name,
+    location: station.location,
+    description: station.description,
+    regionName: station.regionName,
+    status: station.status,
+  });
+  const handleChange = (e) => {
+    setEditData({ ...editData, [e.target.name]: e.target.value });
+  };
+
+  const handleSave = () => {
+    onEdit(station.stationId, editData);
+    setEditMode(false);
+  };
+  return (
+  //   <div className="station-card">
+  //     <h2 className="station-title">voltup 제주동부점</h2>
+
+  //     <div className="info-item">
+  //       <span className="label">위치</span>
+  //       <div className="value">제주특별시 동부둘레길-80</div>
+  //     </div>
+
+  //     <div className="info-item">
+  //       <span className="label">등록일자</span>
+  //       <div className="value">2023년 8월 13일</div>
+  //     </div>
+
+  //     <div className="info-item">
+  //       <span className="label">이번 달 순매출</span>
+  //       <div className="value">약 314 만원</div>
+  //     </div>
+
+  //     <div className="info-item">
+  //       <span className="label">총 매출 대비 순수이익 변환률</span>
+  //       <div className="value">33%</div>
+  //     </div>
+
+  //     <div className="info-item">
+  //       <span className="label">현재 상태</span>
+  //       <div className="value">정상 영업 중</div>
+  //     </div>
+  //   </div>
+  // );
+  <div >
+      {editMode ? (
+        <>
+          <input name="name" value={editData.name} onChange={handleChange} />
+          <input name="regionName" value={editData.regionName} onChange={handleChange} />
+          <input name="location" value={editData.location} onChange={handleChange} />
+          <input name="description" value={editData.description} onChange={handleChange} />
+          <select name="status" value={editData.status} onChange={handleChange}>
+            <option value="ON">ON</option>
+            <option value="OFF">OFF</option>
+          </select>
+          <button onClick={handleSave}>저장</button>
+          <button onClick={() => setEditMode(false)}>취소</button>
+        </>
+      ) : (
+        <>
+        <strong>{station.name}</strong> <br />
+          위치: {station.location}<br />
+          설명: {station.description}<br />
+          상태: {station.status}<br />
+          <button onClick={() => setEditMode(true)}>정보수정</button>
+          <button onClick={() => onRemove(station.stationId)}>삭제</button>
+        </>
+      )}
+    </div>
+  );
+};
+
 
 // 충전소 카드 컴포넌트 (수정/삭제 기능 포함)
 const StationCard = ({ station, onRemove, onEdit }) => {
@@ -42,7 +120,7 @@ const StationCard = ({ station, onRemove, onEdit }) => {
         </>
       ) : (
         <>
-          <strong>{station.name}</strong> ({station.regionName})<br />
+        <strong>{station.name}</strong> <br />
           위치: {station.location}<br />
           설명: {station.description}<br />
           상태: {station.status}<br />
@@ -154,60 +232,30 @@ const MyPage = ({
       <Header />
       <div className="mypage-container" style={{ display: 'flex' }}>
         <Sidebar_mp isLoggedIn={isLoggedIn} currentUser={currentUser} />
-        <div className="mypage-center-content" style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <ChartTitle />
-          <div className="mypage-body" style={{ width: '100%', maxWidth: 600 }}>
-            <div className="mypage-info">
+          {/* <div  style={{ width: '100%', maxWidth: 1000 }}> */}
+            
+            <h1>내 페이지</h1>
+             <div className="mypage-info">
               <h2>내 충전소</h2>
               <div>가입일: <strong>{currentUser?.joinedAt ? currentUser.joinedAt.slice(0,10) : '-'}</strong></div>
               <div>충전소 개수: <strong>{myStations.length}</strong></div>
               <div>AICOLINK 활용률: <strong>{currentUser?.usageRate ?? 0}%</strong></div>
             </div>
-            <div className="add-station-form">
-              <h3>충전소 추가</h3>
-              <input
-                type="text"
-                placeholder="충전소 이름"
-                value={stationName}
-                onChange={e => setStationName(e.target.value)}
-              />
-              <input
-                type="text"
-                placeholder="위치"
-                value={stationLocation}
-                onChange={e => setStationLocation(e.target.value)}
-              />
-              <input
-                type="text"
-                placeholder="설명"
-                value={stationDesc}
-                onChange={e => setStationDesc(e.target.value)}
-              />
-              <input
-                type="text"
-                placeholder="regionId (숫자)"
-                value={stationRegion}
-                onChange={e => setStationRegion(e.target.value)}
-              />
-              <select
-                value={stationStatus}
-                onChange={e => setStationStatus(e.target.value)}
-              >
-                <option value="ON">ON</option>
-                <option value="OFF">OFF</option>
-              </select>
-              <button onClick={handleAddStation}>추가</button>
-            </div>
+    
             {/* 등록된 충전소 리스트 */}
             <div className="station-list">
               {myStations.length > 0 ? (
                 myStations.map(station => (
-                  <StationCard
+                  // <StationCard
+                  <StationInfoCard
                     key={station.stationId}
                     station={station}
                     onRemove={handleRemoveStation}
                     onEdit={handleEditStation}
                   />
+
                 ))
               ) : (
                 <div>등록된 충전소가 없습니다.</div>
@@ -215,7 +263,7 @@ const MyPage = ({
             </div>
           </div>
         </div>
-      </div>
+      {/* </div> */}
     </>
   );
 };
