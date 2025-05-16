@@ -9,330 +9,197 @@ import SignUp from './Components/SignUp';
 import MyPage from './Components/MyPage';
 import AddStation from './Components/AddStation';
 import ServiceIntro from './Components/ServiceIntro';
-
 import Sidebar_mp from './Components/Sidebar_mp';
+// ⚠️ 충전소/날짜별 데이터 연동을 위해 목업데이터 import (필요시)
+// import { batteryData, touData } from './mymockdata';
+
 function App() {
-// =========================
-// 기존 Mock Data (User 안에 stations 포함) - 주석 처리
-// =========================
-/*
-const [users, setUsers] = useState([
-  {
-    id: 1,
-    name: '홍길동',
-    email: 'test@test.com',
-    password: '1234',
-    joinedAt: '2024-05-01T10:00:00.000Z',
-    stations: [
-      {
-        stationId: 1,
-        name: 'voltup 제주동부점',
-        location: '제주특별자치도 동부돌레길 80',
-        createdAt: '2025-05-14T08:04:06.330Z',
-        updatedAt: '2025-05-14T08:04:06.330Z',
-        status: 'ON',
-        description: '제주 동부의 대표 충전소',
-        regionName: '제주'
-      }
-    ],
-    usageRate: 57
-  }
-]);
-*/
-// =========================
-
-// =========================
-// 백엔드 형식에 맞춘 Mock Data (User, Station 분리)
-// =========================
-const [users, setUsers] = useState([
-  {
-    id: 1,
-    name: '홍길동',
-    email: 'test@test.com',
-    password: '1234',
-    joinedAt: '2024-05-01T10:00:00.000Z',
-    usageRate: 57
-  }
-]);
-
-const [stations, setStations] = useState([
-  {
-    stationId: 1,
-    name: 'voltup 제주동부점',
-    location: '제주특별자치도 동부돌레길 80',
-    createdAt: '2025-05-14T08:04:06.330Z',
-    updatedAt: '2025-05-14T08:04:06.330Z',
-    status: 'ON',
-    description: '제주 동부의 대표 충전소',
-    regionName: '제주',
-    userId: 1 // 소유자 id 추가 (백엔드 연동 대비)
-  }
-]);
-
-// =========================
-
-const [isLoggedIn, setIsLoggedIn] = useState(false);
-const [currentUser, setCurrentUser] = useState(null);
-
-// 회원가입, 로그인 등 기존 함수는 동일하게 유지 (필요시 userId 부여)
-const handleSignUp = ({ name, email, password }) => {
-  const existingUser = users.find((user) => user.email === email);
-  if (existingUser) {
-    return { success: false, message: '이미 사용 중인 이메일입니다.' };
-  }
-  setUsers((prevUsers) => [
-    ...prevUsers,
+  // =========================
+  // 사용자/충전소 상태 (HEAD 기준 유지)
+  // =========================
+  const [users, setUsers] = useState([
     {
-      id: Date.now(),
-      name,
-      email,
-      password,
-      joinedAt: new Date().toISOString(),
-      usageRate: 0
+      id: 1,
+      name: '홍길동',
+      email: 'test@test.com',
+      password: '1234',
+      joinedAt: '2024-05-01T10:00:00.000Z',
+      usageRate: 57
     }
   ]);
-  return { success: true, message: '회원가입 성공!' };
-};
-return (
-  <Router>
-    <Header /> 
-    <Routes>
-      <Route path="/login" element={
-        <Login
-          setIsLoggedIn={setIsLoggedIn}
-          setCurrentUser={setCurrentUser}
-          users={users}
+
+  const [stations, setStations] = useState([
+    {
+      stationId: 1,
+      name: 'voltup 제주동부점',
+      location: '제주특별자치도 동부돌레길 80',
+      createdAt: '2025-05-14T08:04:06.330Z',
+      updatedAt: '2025-05-14T08:04:06.330Z',
+      status: 'ON',
+      description: '제주 동부의 대표 충전소',
+      regionName: '제주',
+      userId: 1 // 소유자 id 추가
+    }
+  ]);
+
+  // =========================
+  // 로그인/회원가입 상태 및 함수 (origin/master 기준 유지)
+  // =========================
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [currentUser, setCurrentUser] = useState(null);
+
+  // 회원가입 (origin/master 방식)
+  const handleSignUp = async ({ name, email, password }) => {
+    try {
+      const res = await fetch('http://52.79.124.254:8080/auth/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, password }),
+      });
+      const data = await res.json();
+      return res.ok
+        ? { success: true, message: '회원가입 성공!' }
+        : { success: false, message: data.message || '회원가입 실패' };
+    } catch (err) {
+      console.error('회원가입 오류:', err);
+      return { success: false, message: '서버 오류로 회원가입에 실패했습니다.' };
+    }
+  };
+
+  // 로그인 (origin/master 방식)
+  const handleLogin = async ({ email, password }) => {
+    try {
+      const res = await fetch('http://52.79.124.254:8080/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        localStorage.setItem('token', data.token);
+        setIsLoggedIn(true);
+        setCurrentUser({ email });
+        return { success: true };
+      } else {
+        return { success: false, message: data.message || '이메일 또는 비밀번호가 올바르지 않습니다.' };
+      }
+    } catch (err) {
+      return { success: false, message: '서버 오류' };
+    }
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    setIsLoggedIn(false);
+    setCurrentUser(null);
+  };
+
+  // =========================
+  // 선택 충전소/날짜 상태 (추가 필요시)
+  // =========================
+  // const [selectedStationId, setSelectedStationId] = useState(stations[0]?.stationId || null);
+  // const [selectedDate, setSelectedDate] = useState('2025-05-16');
+
+  // =========================
+  // 라우팅
+  // =========================
+  return (
+    <Router>
+      <Header />
+      <Routes>
+        <Route
+          path="/login"
+          element={
+            <Login
+              setIsLoggedIn={setIsLoggedIn}
+              setCurrentUser={setCurrentUser}
+              handleLogin={handleLogin}
+            />
+          }
         />
-      } />
         <Route path="/signup" element={<SignUp onSignUp={handleSignUp} />} />
-      <Route path="/" element={
-        isLoggedIn ? (
-          <>
-            <ChartTitle />
-            <div style={{ display: 'flex' }}>
-              <Sidebar
-                isLoggedIn={isLoggedIn}
-                setIsLoggedIn={setIsLoggedIn}
-                currentUser={currentUser}
-                stations={stations} // 
-              />
-              <Dashboard />
-            </div>
-          </>
-        ) : (
-          <Navigate to="/login" replace />
-        )
-      } />
-      <Route path="/mypage" element={
-        <>
-          <ChartTitle />
-        <MyPage
-          isLoggedIn={isLoggedIn}
-          currentUser={currentUser}
-          setCurrentUser={setCurrentUser}
-          stations={stations}
-          setStations={setStations}
+        <Route
+          path="/"
+          element={
+            isLoggedIn ? (
+              <>
+                <ChartTitle />
+                <div style={{ display: 'flex' }}>
+                  <Sidebar
+                    isLoggedIn={isLoggedIn}
+                    setIsLoggedIn={setIsLoggedIn}
+                    currentUser={currentUser}
+                    stations={stations}
+                    // selectedStationId={selectedStationId}
+                    // setSelectedStationId={setSelectedStationId}
+                  />
+                  <Dashboard
+                    // stations={stations}
+                    // selectedStationId={selectedStationId}
+                    // selectedDate={selectedDate}
+                    // batteryData={batteryData}
+                    // touData={touData}
+                  />
+                </div>
+              </>
+            ) : (
+              <Navigate to="/login" replace />
+            )
+          }
         />
-        </>
-      } />
-      <Route path="/add-station" element={
-        <AddStation
-          currentUser={currentUser}
-          stations={stations}
-          setStations={setStations}
-       />} />
-      <Route path="/service-intro" element={
-        <ServiceIntro
-          isLoggedIn={isLoggedIn}
-          currentUser={currentUser}
-          stations={stations}
-        />} />
-    </Routes>
-  </Router>
-);
+        <Route
+          path="/mypage"
+          element={
+            <>
+              <ChartTitle />
+              <MyPage
+                isLoggedIn={isLoggedIn}
+                currentUser={currentUser}
+                setCurrentUser={setCurrentUser}
+                stations={stations}
+                setStations={setStations}
+              />
+            </>
+          }
+        />
+        <Route
+          path="/add-station"
+          element={
+            <AddStation
+              currentUser={currentUser}
+              stations={stations}
+              setStations={setStations}
+            />
+          }
+        />
+        <Route
+          path="/service-intro"
+          element={
+            <ServiceIntro
+              isLoggedIn={isLoggedIn}
+              currentUser={currentUser}
+              stations={stations}
+            />
+          }
+        />
+      </Routes>
+    </Router>
+  );
 }
 
 export default App;
 
-// import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'; // Navigate 추가
-// import { useState } from 'react';
-// import Header from "./Components/Header";
-// import ChartTitle from "./Components/ChartTitle";
-// import Sidebar from './Components/Sidebar';
-// import Dashboard from './Components/Dashboard';
-// import Login from './Components/Login';
-// import SignUp from './Components/SignUp';
-// import MyPage from './Components/MyPage';
-// import AddStation from './Components/AddStation';
-// import Sidebar_mp from './Components/Sidebar_mp'; // 마이페이지용 사이드바
-// function App() {
-//   const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 상태 관리
-//   // const [users, setUsers] = useState([]); // 사용자 정보 관리
-//   // 예시: 사용자 객체에 stations 배열 추가
-// const [users, setUsers] = useState([
-//   {
-//     name: '홍길동',
-//     email: 'test@test.com',
-//     password: '1234',
-//     joinedAt: '2024-05-01T10:00:00.000Z',
-//     stations: [
-//       {
-//         stationId: 1,
-//         name: 'voltup 제주동부점',
-//         location: '제주특별자치도 동부돌레길 80',
-//         createdAt: '2025-05-14T08:04:06.330Z',
-//         updatedAt: '2025-05-14T08:04:06.330Z',
-//         status: 'ON',
-//         description: '제주 동부의 대표 충전소',
-//         regionName: '제주'
-//       }
-//     ],
-//     usageRate: 57 // AICOLINK 활용률 예시
-//   }
-// ]);
-//   const [currentUser, setCurrentUser] = useState(null); // 로그인한 사용자 정보 관리 추가****
-//   const handleSignUp = ({ name, email, password }) => {
-//     const existingUser = users.find((user) => user.email === email);
-//     if (existingUser) {
-//       return { success: false, message: '이미 사용 중인 이메일입니다.' };
-//     }
-  
-//     setUsers((prevUsers) => [...prevUsers, { name, email, password }]);
-//     return { success: true, message: '회원가입 성공!' };
-//   };
-//   return (
-//     <Router>
-//       <Header />
-//       <Routes>
-//         <Route path="/login" element={
-//             <Login 
-//               setIsLoggedIn={setIsLoggedIn} 
-//               setCurrentUser={setCurrentUser} // **setCurrentUser prop 추가**
-//               users={users} // **users prop 추가**
-//             />
-//           } 
-//         />
-//         <Route path="/signup" element={<SignUp onSignUp={handleSignUp} />} />
-//         <Route path="/" element={
-//           isLoggedIn ? (
-//             <>
-//               <ChartTitle />
-//               <div style={{ display: 'flex' }}>
-//                 <Sidebar
-//                  isLoggedIn={isLoggedIn} 
-//                  setIsLoggedIn={setIsLoggedIn}
-//                  currentUser={currentUser} // **currentUser prop 추가**
-//                 />
-//                 <Dashboard />
-//               </div>
-//             </>
-//           ) : (
-//             <Navigate to="/login" replace />
-//           )
-//         } />
-//         <Route path="/mypage" element={
-//            <>
-//            <ChartTitle />
-//            {/* <Sidebar_mp
-//                isLoggedIn={isLoggedIn} 
-//                setIsLoggedIn={setIsLoggedIn}
-//                currentUser={currentUser} // **currentUser prop 추가**
-//               /> */}
-//           <MyPage
-//     isLoggedIn={isLoggedIn}
-//     currentUser={currentUser}
-//     setCurrentUser={setCurrentUser}
-//   />
-            
-//            </> 
-//            } />
-           
-//         <Route path="/add-station" element={<AddStation />} />
-//         {/* <Route path="/add-station" element={<AddStation />} /> */}
-//         {/* <Route path="/mypage" element={<MyPage isLoggedIn={isLoggedIn} />} /> */}
-//         {/* <Route path="/add-station" element={<AddStation />} /> */}
-//       </Routes>
-//     </Router>
-//   );
-// }
-
-// export default App;
-
-
-
-
-// import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-// import { useState } from 'react';
-// import Header from "./Components/Header";
-// import ChartTitle from "./Components/ChartTitle";
-// import Sidebar from './Components/Sidebar';
-// import Dashboard from './Components/Dashboard';
-// import Login from './Components/Login';
-// import SignUp from './Components/SignUp';
-// import MyPage from './Components/MyPage';
-// import AddStation from './Components/AddStation';
-// import Sidebar_mp from './Components/Sidebar_mp'; // 마이페이지용 사이드바
-// function App() {
-//   const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 상태 관리
-//   const [users, setUsers] = useState([]); // 사용자 정보 관리
-//   const [currentUser, setCurrentUser] = useState(null); // 로그인한 사용자 정보 관리 추가****
-//   const handleSignUp = ({ name, email, password }) => {
-//     const existingUser = users.find((user) => user.email === email);
-//     if (existingUser) {
-//       return { success: false, message: '이미 사용 중인 이메일입니다.' };
-//     }
-  
-//     setUsers((prevUsers) => [...prevUsers, { name, email, password }]);
-//     return { success: true, message: '회원가입 성공!' };
-//   };
-//   return (
-//     <Router>
-//       <Header />
-//       <Routes>
-//         <Route path="/login" element={
-//             <Login 
-//               setIsLoggedIn={setIsLoggedIn} 
-//               setCurrentUser={setCurrentUser} // **setCurrentUser prop 추가**
-//               users={users} // **users prop 추가**
-//             />
-//           } 
-//         />
-//         <Route path="/signup" element={<SignUp onSignUp={handleSignUp} />} />
-//         <Route path="/" element={
-//           <>
-//             <ChartTitle />
-//             <div style={{ display: 'flex' }}>
-//               <Sidebar
-//                isLoggedIn={isLoggedIn} 
-//                setIsLoggedIn={setIsLoggedIn}
-//                currentUser={currentUser} // **currentUser prop 추가**
-//               />
-//               <Dashboard />
-//             </div>
-//           </>
-//         } />
-//         <Route path="/mypage" element={
-//            <>
-//            <ChartTitle />
-//            <Sidebar_mp
-//                isLoggedIn={isLoggedIn} 
-//                setIsLoggedIn={setIsLoggedIn}
-//                currentUser={currentUser} // **currentUser prop 추가**
-//               />
-//           <MyPage
-//            isLoggedIn={isLoggedIn} 
-//            />
-            
-//            </> 
-//            } />
-           
-//         <Route path="/add-station" element={<AddStation />} />
-//         {/* <Route path="/add-station" element={<AddStation />} /> */}
-//         {/* <Route path="/mypage" element={<MyPage isLoggedIn={isLoggedIn} />} /> */}
-//         {/* <Route path="/add-station" element={<AddStation />} /> */}
-//       </Routes>
-//     </Router>
-//   );
-// }
-
-// export default App;
+/*
+=========================
+[병합/변경 및 주석 설명]
+=========================
+1. 사용자/충전소 상태는 HEAD(로컬) 기준 유지.
+2. 로그인/회원가입 함수는 origin/master(원격) 기준 유지(실제 API 연동).
+3. Sidebar, Dashboard, MyPage, AddStation 등에는 필요한 props를 모두 전달.
+4. selectedStationId, selectedDate 등은 필요시 주석 해제하여 상태로 추가.
+5. 불필요한 중복/충돌 주석/미완성 코드 모두 제거.
+6. export default App;은 파일 맨 아래 한 번만!
+*/
