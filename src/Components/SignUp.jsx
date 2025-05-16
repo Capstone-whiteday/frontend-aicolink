@@ -1,47 +1,3 @@
-// import React, { useState } from 'react';
-
-// const SignUp = ({ onSignUp }) => {
-//   const [name, setName] = useState('');
-//   const [email, setEmail] = useState('');
-//   const [password, setPassword] = useState('');
-//   const [message, setMessage] = useState('');
-
-//   // =========================
-//   // 기존 mock 방식 (주석 처리)
-//   // =========================
-//   /*
-//   const handleSubmit = (e) => {
-//     e.preventDefault();
-//     const result = onSignUp({ name, email, password });
-//     setMessage(result.message);
-//   };
-//   */
-//   // =========================
-
-//   // =========================
-//   // 실제 백엔드 연동 방식
-//   // =========================
-//   const handleSubmit = async (e) => {
-//     e.preventDefault();
-//     const result = await onSignUp({ name, email, password });
-//     setMessage(result.message);
-//   };
-
-//   return (
-//     <div className="signup-container">
-//       <form className="signup-form" onSubmit={handleSubmit}>
-//         <input type="text" placeholder="이름" value={name} onChange={e => setName(e.target.value)} required />
-//         <input type="email" placeholder="이메일" value={email} onChange={e => setEmail(e.target.value)} required />
-//         <input type="password" placeholder="비밀번호" value={password} onChange={e => setPassword(e.target.value)} required />
-//         <button type="submit">회원가입</button>
-//         {message && <div>{message}</div>}
-//       </form>
-//     </div>
-//   );
-// };
-
-// export default SignUp;
-
 
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -69,7 +25,7 @@ const SignUp = ({ onSignUp }) => { // **onSignUp prop 추가**
 
     
     try {
-        const result = onSignUp({ name, email, password });
+        const result = await onSignUp({ name, email, password });
         console.log('회원가입 결과:', result);
         if (result.success) {
           alert(result.message);
