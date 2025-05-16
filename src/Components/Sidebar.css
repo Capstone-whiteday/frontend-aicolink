@@ -20,6 +20,7 @@
   /* height: 70vh; */
   max-height: 500px;
   /* min-height: 100vh; */
+  justify-content: space-between;
 }
 
   

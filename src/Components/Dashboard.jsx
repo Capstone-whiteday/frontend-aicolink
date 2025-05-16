@@ -255,7 +255,8 @@ const chartData = chargeDischargeData.map(d => ({
   </BarChart>
     <p>
     <strong>AICOLINK</strong>가 예상하는 <span className="charge">CHARGE</span> or <span className="discharge">DISCHARGE</span>
-  </p>
+  </p><br/><br/>
+  <p></p>
 </ResponsiveContainer>
     </main>
   );
