@@ -1,12 +1,14 @@
-name: Deploy React Frontend to EC2
+name: Frontend Deploy
 
 on:
   push:
-    branches: [master]
+    branches:
+      - master
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -16,21 +18,21 @@ jobs:
           npm install
           npm run build
 
-      - name: Deploy to EC2 via SSH
+      - name: Prepare EC2 directory
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            rm -rf ~/frontend-aicolink/build
-            mkdir -p ~/frontend-aicolink
-            exit
+            rm -rf ~/frontend-aicolink/dist
+            mkdir -p ~/frontend-aicolink/dist
+
       - name: Upload build files
         uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
-          source: "build/*"
-          target: "~/frontend-aicolink/build"
+          source: "dist"
+          target: "~/frontend-aicolink"
