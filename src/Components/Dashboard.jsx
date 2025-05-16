@@ -42,6 +42,15 @@ const chargeDischargeData = [
 }));
 
 // ------------------ 컴포넌트 시작 ------------------
+// 오늘 날짜를 YY.MM.DD 형식으로 반환하는 함수
+const formatToday = () => {
+  const today = new Date();
+  const year = String(today.getFullYear()).slice(2); // '25'
+  const month = String(today.getMonth() + 1).padStart(2, '0'); // '05'
+  const date = String(today.getDate()).padStart(2, '0'); // '17'
+  return `${year}.${month}.${date}`; // '25.05.17'
+};
+
 
 const Dashboard = () => {
   const [selectedData, setSelectedData] = useState('battery');
@@ -81,7 +90,9 @@ const Dashboard = () => {
       {/* 헤더 */}
       <div className="dashboard-header">
         <h1 className="station-name">VOLTUP 제주동부점</h1>
-        <span className="date-label">MAR.21</span>
+        <span className="date-label" style={{ color: '#000', textDecoration: 'none', fontWeight: 500 }}>
+        {formatToday()}
+        </span>
       </div>
 
       <div className="graph-section">
