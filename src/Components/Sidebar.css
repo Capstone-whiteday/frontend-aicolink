@@ -1,174 +1,74 @@
-/* 부모 컨테이너 */
-.mypage-container {
-  display: flex;
-  align-items: flex-start; /* 자식 높이 맞춤 */
-  min-height: 0; /* flexbox overflow 방지 */
-}
-
 .sidebar {
-  width: 240px;
-  margin: 20px;
-  background: linear-gradient(#ECFFE7 0%, #F2FFFE 100%);
-  border-radius: 24px;
-  padding: 24px;
-  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   gap: 20px;
+  width: 240px;
+  margin: 20px;
+  padding: 24px;
+  background: linear-gradient(#ECFFE7 0%, #F2FFFE 100%);
+  border-radius: 24px;
+  box-sizing: border-box;
   font-family: sans-serif;
-  /* 아래 3줄 제거 */
-  /* height: 70vh; */
-  max-height: 500px;
-  /* min-height: 100vh; */
-  justify-content: space-between;
+  min-height: auto; /* 높이 고정 X */
+  max-height: 100vh; /* 최대 높이 */
 }
 
-  
-  /* 프로필 */
-  .profile-section {
-    display: flex;
-    flex-direction: column;
-    align-items: right;
-  }
-  
-.profile-section.profile-row {
+.profile-row {
   display: flex;
-  align-items: right;;
-  gap: 16px; /* 이미지와 텍스트 사이 간격 */
+  align-items: center;
+  gap: 12px;
 }
 
 .profile-image {
   width: 48px;
   height: 48px;
-  position: absolute;
-  top: 13%;
-  left: 3%;
-  border-radius: 40%;
+  border-radius: 50%;
   object-fit: cover;
 }
 
-.profile-name {
+.profile-info {
   display: flex;
-  position: absolute;
-  top: 15%;
-  left: 8.5%;
   flex-direction: column;
   justify-content: center;
-}  
-.profile-email {
-  display: flex;
-  position: absolute;
-  top: 19%;
-  left: 3%;
-  flex-direction: column;
-  justify-content: center;
-}  
-  /* .profile-image {
-    border-radius: 50%;
-    width: 80px;
-    height: 80px;
-  }
-  
-  .profile-info {
-    text-align: center;
-    margin-top: 10px;
-  } */
-  
-  .profile-info strong {
-    display: block;
-    font-size: 16px;
-    margin-bottom: 4px;
-  }
-  
-  /* 섹션 제목 */
-  .section-title {
-    font-weight: bold;
-    font-size: 14px;
-    color: #888;
-    margin-top: 110px;
-  }
-  
-  /* 가게 버튼들 */
-  .store-buttons {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-  
-  .store-btn {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    background: white;
-    text-align: left;
-    font-size: 14px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: background 0.2s ease;
-  }
-  
-  .store-btn:hover {
-    background: #d2f1d6;
-  }
-  
-  .store-btn.active {
-    background: #b7eac0;
-    font-weight: bold;
-  }
-  
-.info-btn {
-  padding: 10px;
-  font-size: 14px;
-  margin-top: 10px;
-  border: none;
-  background: white;
-  border-radius: 8px;
-  cursor: pointer;
 }
 
+.profile-name {
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.profile-email {
+  font-size: 12px;
+  color: #555;
+}
+
+/* '내가 관리하는 가게' */
+.section-title {
+  font-weight: bold;
+  font-size: 14px;
+  color: #888;
+  margin-top: 0px;  /* 이미지와 이메일 아래 즉시 붙도록 */
+}
+
+/* 가게 버튼 */
+.store-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* 로그아웃 버튼 */
 .logout-btn {
-  background: #f3f3f3;
-  /* position: inherit;  <-- 이 줄 삭제 */
-  margin-top: 30px; /* 적당한 값으로 조절 (예: 30px) */
+  margin-top: auto; /* 아래쪽으로 밀기 */
   padding: 10px;
   font-size: 14px;
   border: none;
   border-radius: 8px;
+  background: #f3f3f3;
   cursor: pointer;
   transition: background 0.3s ease;
 }
+
 .logout-btn:hover {
   background: #e0e0e0;
 }
-  /* 날씨 */
-  .weather-widget {
-    margin-top: 20px;
-    padding: 16px;
-    border-radius: 12px;
-    background: white;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
-  
-  .weather-icon {
-    font-size: 28px;
-    margin-bottom: 8px;
-  }
-  
-  .weather-info {
-    font-size: 14px;
-    margin-bottom: 10px;
-  }
-  
-  .weather-btn {
-    font-size: 13px;
-    background: #f4f4f4;
-    border: none;
-    border-radius: 6px;
-    padding: 6px 12px;
-    cursor: pointer;
-  }
-  

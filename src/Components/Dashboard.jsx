@@ -2,7 +2,7 @@ import './Dashboard.css';
 import { useState } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { BarChart, Bar } from 'recharts';
-
+import Sidebar from './Sidebar';
 const batteryData = [
   { name: '00:00', battery: 400 },
   { name: '01:00', battery: 380 },
@@ -255,7 +255,7 @@ const chartData = chargeDischargeData.map(d => ({
   </BarChart>
     <p>
     <strong>AICOLINK</strong>가 예상하는 <span className="charge">CHARGE</span> or <span className="discharge">DISCHARGE</span>
-  </p><br/><br/>
+  </p>
   <p></p>
 </ResponsiveContainer>
     </main>
