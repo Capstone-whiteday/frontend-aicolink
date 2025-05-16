@@ -120,13 +120,38 @@ const StationCard = ({ station, onRemove, onEdit }) => {
         </>
       ) : (
         <>
-        <strong>{station.name}</strong> <br />
+        <div className="station-card">
+  <h2 className="station-title">{station.name}</h2>
+
+  <div className="info-item">
+    <span className="label">위치</span>
+    <div className="value">{station.location}</div>
+  </div>
+
+  <div className="info-item">
+    <span className="label">설명</span>
+    <div className="value">{station.description}</div>
+  </div>
+
+  <div className="info-item">
+    <span className="label">상태</span>
+    <div className="value">{station.status}</div>
+  </div>
+
+  <div className="station-buttons">
+    <button onClick={() => setEditMode(true)}>정보수정</button>
+    <button onClick={() => onRemove(station.stationId)}>삭제</button>
+  </div>
+</div>
+</>
+        /* <h2 className="station-title"><strong>{station.name}</strong></h2> <br />
           위치: {station.location}<br />
           설명: {station.description}<br />
           상태: {station.status}<br />
           <button onClick={() => setEditMode(true)}>정보수정</button>
           <button onClick={() => onRemove(station.stationId)}>삭제</button>
-        </>
+        
+        </> */
       )}
     </div>
   );
@@ -242,7 +267,7 @@ const MyPage = ({
               {/* <h2>내 충전소</h2> */}
               <div>가입일: <strong>{currentUser?.joinedAt ? currentUser.joinedAt.slice(0,10) : '-'}</strong></div><br />
               <div>충전소 개수: <strong>{myStations.length}</strong></div><br />
-              <div>AICOLINK 활용률: <strong>{currentUser?.usageRate ?? 0}%</strong></div>
+              {/* <div>AICOLINK 활용률: <strong>{currentUser?.usageRate ?? 0}%</strong></div> */}
             </div>
     
             {/* 등록된 충전소 리스트 */}
