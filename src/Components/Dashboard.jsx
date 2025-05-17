@@ -24,6 +24,8 @@ const Dashboard = ({ selectedStationId, selectedDate, setSelectedDate }) => {
     if (!selectedStationId || !selectedDate) return;
 
     const fetchAll = async () => {
+      
+
       try {
         const [batteryRes, scheduleRes, touRes] = await Promise.all([
           fetch(`http://52.79.124.254:8080/battery?stationId=${selectedStationId}&date=${formattedDate}`),
@@ -48,6 +50,7 @@ const Dashboard = ({ selectedStationId, selectedDate, setSelectedDate }) => {
 
     fetchAll();
   }, [selectedStationId, selectedDate]);
+  
 
   // 🟡 라인차트 선택 항목
   const [selectedData, setSelectedData] = useState('battery');
