@@ -14,6 +14,8 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
   const [stations, setStations] = useState([]);
+  const [selectedStationId, setSelectedStationId] = useState(null);
+  const [selectedDate, setSelectedDate] = useState(new Date());
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -35,6 +37,27 @@ function App() {
         .then(data => setStations(data));
     }
   }, []);
+
+  // Mock data for testing
+  useEffect(() => {
+  if (isLoggedIn && currentUser && stations.length === 0) {
+    setStations([
+      {
+        stationId: 101,
+        name: 'Mock 충전소 A',
+        location: '제주시 연동',
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        status: 'ON',
+        description: '테스트용 충전소입니다',
+        regionId: 1,
+        userId: currentUser.id,
+      }
+    ]);
+  }
+}, [isLoggedIn, currentUser]);
+
+
 
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -63,7 +86,11 @@ function App() {
                     stations={stations}
                     onLogout={handleLogout}
                   />
-                  <Dashboard />
+                  <Dashboard 
+                      selectedStationId={selectedStationId}
+                      selectedDate={selectedDate}
+                      setSelectedDate={setSelectedDate}
+                  />
                 </div>
               </>
             ) : (
