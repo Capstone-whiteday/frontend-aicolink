@@ -18,19 +18,31 @@ const AddStation = ({ currentUser }) => {
   const [regions, setRegions] = useState([]);
 
   // 컴포넌트 마운트 시 지역 목록 가져오기
-  useEffect(() => {
-    const fetchRegions = async () => {
-      try {
-        const response = await fetch('http://52.79.124.254:8080/region/list');
-        const data = await response.json();
-        setRegions(data);
-      } catch (error) {
-        console.error('지역 목록 불러오기 실패:', error);
-      }
-    };
+useEffect(() => {
+  const fetchRegions = async () => {
+    try {
+      const token = localStorage.getItem('token');
 
-    fetchRegions();
-  }, []);
+      const response = await fetch('http://localhost:8080/region/list', {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP 오류: ${response.status}`);
+      }
+
+      const data = await response.json();
+      setRegions(data);
+    } catch (error) {
+      console.error('지역 목록 불러오기 실패:', error);
+    }
+  };
+
+  fetchRegions();
+}, []);
 
   // 입력 핸들링
   const handleChange = (e) => {
@@ -44,7 +56,7 @@ const AddStation = ({ currentUser }) => {
     const token = localStorage.getItem('token');
 
     try {
-      const response = await fetch('http://52.79.124.254:8080/station/register', {
+      const response = await fetch('http://localhost:8080/station/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
