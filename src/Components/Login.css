@@ -1,80 +1,193 @@
+/* 전체 페이지 스타일 */
 .login-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background: linear-gradient(90deg, #ECFFE7 0%, #F2FFFE 100%);
-    /* position:absolute; */
-    /* top: 0;
-    left: 0 */
+  display: flex;
+  min-height: 100vh;
+  background-color: #f2fbf6;
+}
+
+/* 로그인 폼 영역 */
+.login-form-wrapper {
+  flex: 1.2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+}
+
+/* 로그인 폼 */
+.login-form {
+  background: white;
+  width: 100%;
+  max-width: 400px;
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+/* 로그인 제목 */
+.login-title {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 30px;
+  color: #004d2f;
+  text-align: center;
+}
+
+/* 폼 그룹 */
+.form-group {
+  margin-bottom: 20px;
+}
+
+/* 입력 필드 라벨 */
+.input-label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: #555;
+}
+
+/* 입력 필드 */
+.input-field {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.input-field:focus {
+  border-color: #22c55e;
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
+  outline: none;
+}
+
+/* 로그인 버튼 */
+.login-button {
+  width: 100%;
+  padding: 14px;
+  background-color: #004d2f;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+  margin-bottom: 16px;
+}
+
+.login-button:hover {
+  background-color: #00432a;
+  transform: translateY(-2px);
+}
+
+/* 회원가입 버튼 */
+.signup-button {
+  width: 100%;
+  padding: 14px;
+  background-color: white;
+  color: #004d2f;
+  border: 1px solid #004d2f;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.signup-button:hover {
+  background-color: #f0fdf4;
+}
+
+/* 브랜드 이미지 영역 */
+.login-right {
+  flex: 0.8;
+  background-color: #004d2f;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 60px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* 브랜드 텍스트 */
+.brand-text {
+  font-size: 64px;
+  font-weight: 700;
+  line-height: 1.1;
+  color: #a7f3d0;
+  margin-bottom: 30px;
+  position: relative;
+  z-index: 2;
+}
+
+/* 브랜드 설명 */
+.brand-description {
+  font-size: 18px;
+  color: white;
+  opacity: 0.9;
+  max-width: 500px;
+  margin-bottom: 40px;
+  position: relative;
+  z-index: 2;
+}
+
+/* 배경 장식 요소 */
+.brand-decoration {
+  position: absolute;
+  bottom: -50px;
+  right: -50px;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: rgba(167, 243, 208, 0.1);
+  z-index: 1;
+}
+
+.brand-decoration:before {
+  content: "";
+  position: absolute;
+  top: -100px;
+  left: -100px;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: rgba(167, 243, 208, 0.07);
+}
+
+/* 반응형 디자인 */
+@media (max-width: 992px) {
+  .login-container {
+    flex-direction: column-reverse;
+  }
+  
+  .login-right {
+    padding: 40px;
+    min-height: 40vh;
+  }
+  
+  .brand-text {
+    font-size: 48px;
+  }
+}
+
+@media (max-width: 576px) {
+  .login-form-wrapper {
+    padding: 20px;
   }
   
   .login-form {
-    background: white;
-    padding: 24px;
-    border-radius: 12px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 300px;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    position: absolute;
-    /* top: 50%; */
-    left: 17%;
-    /* transform: translate(-50%, -50%); */
+    padding: 30px;
   }
   
-  .login-form h1 {
-    font-size: 24px;
-    margin-bottom: 16px;
-    text-align: center;
+  .login-right {
+    padding: 30px;
   }
   
-  .login-form label {
-    font-size: 14px;
-    font-weight: bold;
+  .brand-text {
+    font-size: 36px;
   }
-  
-  .login-form input {
-    padding: 8px;
-    font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-  }
-  
-  .login-form button {
-    padding: 10px;
-    font-size: 16px;
-    background: #004225;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background 0.3s ease;
-  }
-  
-  .login-form button:hover {
-    background: #006837;
-  }
-
-.login-right {
-  position:absolute;
-  top: 0;
-  left: 30%;
-  width: 78vw;
-  height: 122vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: none;
-  position: relative;
-  /* 기존 position, top, left, transform, width, height, border-radius 등은 모두 제거 */
-}
-
-.login-right img {
-  width: 70%;      /* 원하는 비율로 조절 (예: 70%) */
-  height: auto;
-  max-height: 80%; /* 세로 최대 크기 제한 */
-  object-fit: contain;
-  display: block;
 }
