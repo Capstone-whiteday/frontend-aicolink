@@ -181,11 +181,18 @@ const MyPage = ({
   }, [isLoggedIn, navigate]);
 
   // 충전소 목록 불러오기 (GET /station/list)
-  useEffect(() => {
-    fetch('http://52.79.124.254:8080/station/list')
-      .then(res => res.json())
-      .then(data => setStations(data));
-  }, [setStations]);
+useEffect(() => {
+  const token = localStorage.getItem('token');
+  fetch('http://localhost:8080/station/list', {
+    method: 'GET',
+    headers: {
+      'Authorization': `Bearer ${token}`,
+    },
+    credentials: 'include',
+  })
+    .then(res => res.json())
+    .then(data => setStations(data));
+}, [setStations]);
 
   // 사용자별 충전소만 필터링 (userId로 연결)
   const myStations = stations.filter(station => station.userId === currentUser?.id);
@@ -194,7 +201,7 @@ const MyPage = ({
   const handleAddStation = async () => {
     if (!stationName || !stationLocation || !stationRegion) return;
     try {
-      const res = await fetch('http://52.79.124.254:8080/station/register', {
+      const res = await fetch('http://localhost:8080/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -206,7 +213,7 @@ const MyPage = ({
         })
       });
       if (res.ok) {
-        fetch('http://52.79.124.254:8080/station/list')
+        fetch('http://localhost:8080/station/list')
           .then(res => res.json())
           .then(data => setStations(data));
       }
@@ -219,21 +226,33 @@ const MyPage = ({
   };
 
   // 충전소 삭제 (DELETE /station/{stationId})
-  const handleRemoveStation = async (stationId) => {
-    try {
-      const res = await fetch(`http://52.79.124.254:8080/station/${stationId}`, {
-        method: 'DELETE'
-      });
-      if (res.ok) {
-        setStations(stations.filter(s => s.stationId !== stationId));
-      }
-    } catch (e) {}
-  };
+const handleRemoveStation = async (stationId) => {
+  const token = localStorage.getItem("token");
+
+  try {
+    const res = await fetch(`http://localhost:8080/station/${stationId}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+
+    if (res.ok) {
+      setStations(stations.filter(s => s.stationId !== stationId));
+    } else {
+      console.error("삭제 실패:", res.status);
+      alert("삭제 권한이 없거나 실패했습니다.");
+    }
+  } catch (e) {
+    console.error("삭제 중 오류:", e);
+  }
+};
+
 
   // 충전소 정보 수정 (PUT /station/{stationId})
   const handleEditStation = async (stationId, newData) => {
     try {
-      const res = await fetch(`http://52.79.124.254:8080/station/${stationId}`, {
+      const res = await fetch(`http://localhost:8080/station/${stationId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -243,7 +262,7 @@ const MyPage = ({
         })
       });
       if (res.ok) {
-        fetch('http://52.79.124.254:8080/station/list')
+        fetch('http://localhost:8080/station/list')
           .then(res => res.json())
           .then(data => setStations(data));
       }
