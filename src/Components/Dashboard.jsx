@@ -20,37 +20,78 @@ const Dashboard = ({ selectedStationId, selectedDate, setSelectedDate }) => {
   const formattedDate = format(selectedDate, 'yyyy-MM-dd');
 
   // 🟡 충전소 및 예측 데이터 불러오기
-  useEffect(() => {
-    if (!selectedStationId || !selectedDate) return;
+useEffect(() => {
+  if (!selectedStationId || !selectedDate) return;
 
-    const fetchAll = async () => {
-      
+  const fetchAll = async () => {
+      console.log("🚀 fetchAll triggered");
+      console.log("📌 selectedStationId:", selectedStationId);
+      console.log("📌 formattedDate:", formattedDate);
+    try {
+      const formattedDate = format(selectedDate, 'yyyy-MM-dd');
 
-      try {
-        const [batteryRes, scheduleRes, touRes] = await Promise.all([
-          fetch(`http://52.79.124.254:8080/battery?stationId=${selectedStationId}&date=${formattedDate}`),
-          fetch(`http://52.79.124.254:8080/scheduling/hourly?stationId=${selectedStationId}&date=${formattedDate}`),
-          fetch(`http://52.79.124.254:8080/tou/hourly?regionId=1&date=${formattedDate}`), // regionId는 임시
+      // ✅ MOCK STATION ID일 경우 - API 호출 없이 mock 데이터 주입
+      if (selectedStationId === 101) {
+        setStationName("Mock 충전소 A");
+
+        setBatteryData([
+          { name: '00:00', battery: 400 }, { name: '01:00', battery: 390 },
+          { name: '02:00', battery: 380 }, { name: '03:00', battery: 370 },
+          { name: '04:00', battery: 360 }, { name: '05:00', battery: 350 },
+          { name: '06:00', battery: 340 }, { name: '07:00', battery: 330 },
+          { name: '08:00', battery: 320 }, { name: '09:00', battery: 310 },
+          { name: '10:00', battery: 300 }, { name: '11:00', battery: 290 },
+          { name: '12:00', battery: 280 }, { name: '13:00', battery: 270 },
+          { name: '14:00', battery: 260 }, { name: '15:00', battery: 250 },
+          { name: '16:00', battery: 240 }, { name: '17:00', battery: 230 },
+          { name: '18:00', battery: 220 }, { name: '19:00', battery: 210 },
+          { name: '20:00', battery: 200 }, { name: '21:00', battery: 190 },
+          { name: '22:00', battery: 180 }, { name: '23:00', battery: 170 }
         ]);
 
-        const [battery, schedule, tou] = await Promise.all([
-          batteryRes.json(),
-          scheduleRes.json(),
-          touRes.json(),
+        setScheduleData([
+          ...Array(24).fill(null).map((_, i) => ({
+            name: `${String(i).padStart(2, '0')}:00`,
+            status: i % 2 === 0 ? 'CHARGE' : 'DISCHARGE',
+            label: i % 2 === 0 ? 'CHARGE' : 'DISCHARGE'
+          }))
         ]);
 
-        setBatteryData(battery);
-        setScheduleData(schedule);
-        setTouData(tou);
-        setStationName(`충전소 ID ${selectedStationId}`);
-      } catch (err) {
-        console.error('데이터 불러오기 실패:', err);
+        setTouData([
+          ...Array(24).fill(null).map((_, i) => ({
+            name: `${String(i).padStart(2, '0')}:00`,
+            tou: 120 - i * 5
+          }))
+        ]);
+
+        return; // 🛑 여기서 함수 종료 (실제 fetch는 실행 안 됨)
       }
-    };
 
-    fetchAll();
-  }, [selectedStationId, selectedDate]);
-  
+      // ✅ 실제 API 호출
+      const [batteryRes, scheduleRes, touRes] = await Promise.all([
+        fetch(`http://52.79.124.254:8080/battery?stationId=${selectedStationId}&date=${formattedDate}`),
+        fetch(`http://52.79.124.254:8080/scheduling/hourly?stationId=${selectedStationId}&date=${formattedDate}`),
+        fetch(`http://52.79.124.254:8080/tou/hourly?regionId=1&date=${formattedDate}`),
+      ]);
+
+      const [battery, schedule, tou] = await Promise.all([
+        batteryRes.json(),
+        scheduleRes.json(),
+        touRes.json(),
+      ]);
+
+      setBatteryData(battery);
+      setScheduleData(schedule);
+      setTouData(tou);
+      setStationName(`충전소 ID ${selectedStationId}`);
+    } catch (err) {
+      console.error('데이터 불러오기 실패:', err);
+    }
+  };
+
+  fetchAll();
+}, [selectedStationId, selectedDate]);
+
 
   // 🟡 라인차트 선택 항목
   const [selectedData, setSelectedData] = useState('battery');

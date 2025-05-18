@@ -9,7 +9,7 @@ import SignUp from './Components/SignUp';
 import MyPage from './Components/MyPage';
 import AddStation from './Components/AddStation';
 import ServiceIntro from './Components/ServiceIntro';
-
+import SupportPage from './Components/SupportPage';
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
@@ -38,7 +38,8 @@ function App() {
     }
   }, []);
 
-  // Mock data for testing
+
+  //Mock data for testing
   useEffect(() => {
   if (isLoggedIn && currentUser && stations.length === 0) {
     setStations([
@@ -72,6 +73,8 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} setCurrentUser={setCurrentUser} />} />
         <Route path="/signup" element={<SignUp />} />
+        <Route path="/ServiceIntro" element={<ServiceIntro />} />
+        <Route path="/SupportPage" element={<SupportPage />} />
         <Route
           path="/"
           element={
@@ -110,8 +113,9 @@ function App() {
             />
           }
         />
-        <Route path="/add-station" element={<AddStation currentUser={currentUser} stations={stations} setStations={setStations} />} />
+        {/* <Route path="/add-station" element={<AddStation currentUser={currentUser} stations={stations} setStations={setStations} />} /> */}
         <Route path="/service-intro" element={<ServiceIntro isLoggedIn={isLoggedIn} currentUser={currentUser} stations={stations} />} />
+
       </Routes>
     </Router>
   );
