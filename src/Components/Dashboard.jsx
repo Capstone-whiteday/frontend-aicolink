@@ -28,9 +28,9 @@ const Dashboard = ({ selectedStationId, selectedDate, setSelectedDate }) => {
 
       try {
         const [batteryRes, scheduleRes, touRes] = await Promise.all([
-          fetch(`http://52.79.124.254:8080/battery?stationId=${selectedStationId}&date=${formattedDate}`),
-          fetch(`http://52.79.124.254:8080/scheduling/hourly?stationId=${selectedStationId}&date=${formattedDate}`),
-          fetch(`http://52.79.124.254:8080/tou/hourly?regionId=1&date=${formattedDate}`), // regionId는 임시
+          fetch(`http://localhost:8080/battery?stationId=${selectedStationId}&date=${formattedDate}`),
+          fetch(`http://localhost:8080/scheduling/hourly?stationId=${selectedStationId}&date=${formattedDate}`),
+          fetch(`http://localhost:8080/tou/hourly?regionId=1&date=${formattedDate}`), // regionId는 임시
         ]);
 
         const [battery, schedule, tou] = await Promise.all([
