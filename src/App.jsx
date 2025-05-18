@@ -16,27 +16,67 @@ function App() {
   const [stations, setStations] = useState([]);
   const [selectedStationId, setSelectedStationId] = useState(null);
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const handleSignUp = async ({ name, email, password }) => {
+  try {
+    const res = await fetch('http://localhost:8080/auth/signup', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, email, password }),
+    });
 
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    const savedEmail = localStorage.getItem('email');
-    if (token) {
-      fetch("http://52.79.124.254:8080/profile", {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-        .then(res => res.json())
-        .then(data => {
-          setCurrentUser({ name: data.name, email: savedEmail || '' });
-          setIsLoggedIn(true);
-        });
+    const data = await res.json();
+    return {
+      success: res.ok,
+      message: data.message || '회원가입 완료',
+    };
+  } catch (error) {
+    console.error('회원가입 실패:', error);
+    return {
+      success: false,
+      message: '서버 요청 중 오류가 발생했습니다.',
+    };
+  }
+};
 
-      fetch("http://52.79.124.254:8080/station/list", {
-        headers: { Authorization: `Bearer ${token}` },
+
+useEffect(() => {
+  const token = localStorage.getItem('token');
+  const savedEmail = localStorage.getItem('email');
+
+  if (token) {
+    // 사용자 프로필 요청
+    fetch("http://localhost:8080/profile", {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then(res => {
+        if (!res.ok) throw new Error("인증 실패");
+        return res.json();
       })
-        .then(res => res.json())
-        .then(data => setStations(data));
-    }
-  }, []);
+      .then(data => {
+        setCurrentUser({ name: data.name, email: savedEmail || '' });
+        setIsLoggedIn(true);
+      })
+      .catch(err => {
+        console.error("프로필 요청 실패:", err);
+        setIsLoggedIn(false);
+      });
+
+    // 충전소 목록 요청
+    fetch("http://localhost:8080/station/list", {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then(res => {
+        if (!res.ok) throw new Error("충전소 요청 실패");
+        return res.json();
+      })
+      .then(data => setStations(data))
+      .catch(err => {
+        console.error("충전소 목록 로드 실패:", err);
+        setStations([]);
+      });
+  }
+}, []);
+
 
   // Mock data for testing
   useEffect(() => {
@@ -71,7 +111,7 @@ function App() {
       <Header />
       <Routes>
         <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} setCurrentUser={setCurrentUser} />} />
-        <Route path="/signup" element={<SignUp />} />
+        <Route path="/signup" element={<SignUp onSignUp={handleSignUp} />} />
         <Route
           path="/"
           element={
