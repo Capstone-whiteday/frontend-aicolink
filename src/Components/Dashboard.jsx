@@ -72,6 +72,9 @@ useEffect(() => {
         ]);
 
         return; // 🛑 여기서 함수 종료 (실제 fetch는 실행 안 됨)
+      }catch (error) {
+        console.error('API 호출 실패:', error);
+        return; // 🛑
       }
 
       // ✅ 실제 API 호출
