@@ -273,7 +273,7 @@ const handleRemoveStation = async (stationId) => {
 
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <div className="mypage-container" style={{ display: 'flex' }}>
         <div className="sidebar-section">
             <Sidebar_mp isLoggedIn={isLoggedIn} currentUser={currentUser} />
