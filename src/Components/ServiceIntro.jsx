@@ -2,7 +2,7 @@ import React from 'react';
 import './ServiceIntro.css'; // CSS 파일 import
 import { useNavigate } from 'react-router-dom';
 const ServiceIntro = () => {
-   const navigate = useNavigate(); // ← 이 줄 추가!
+   const navigate = useNavigate(); // 추가해야함
 
   return (
     <div>

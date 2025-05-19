@@ -135,7 +135,7 @@ const SupportPage = () => {
                 </div>
                 {activeFaqIndex === 1 && (
                   <div className="faq-answer">
-                    네, AICOLINK는 대부분의 상용 ESS 배터리와 호환됩니다. 리튬이온, LFP, 납축전지 등 다양한 종류의 배터리를 지원합니다. '설정 > 배터리 관리'에서 배터리 타입을 선택하실 수 있습니다.
+                    네, AICOLINK는 대부분의 상용 ESS 배터리와 호환됩니다. 리튬이온, LFP, 납축전지 등 다양한 종류의 배터리를 지원합니다. '설정 - 배터리 관리'에서 배터리 타입을 선택하실 수 있습니다.
                   </div>
                 )}
               </div>
