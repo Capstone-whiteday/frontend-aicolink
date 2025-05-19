@@ -125,7 +125,7 @@ useEffect(() => {
           element={
             isLoggedIn ? (
               <>
-                <ChartTitle />
+                {/* <ChartTitle /> */}
                 <div style={{ display: 'flex' }}>
                   <Sidebar
                     isLoggedIn={isLoggedIn}

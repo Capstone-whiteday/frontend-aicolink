@@ -27,7 +27,7 @@ const Sidebar = ({ isLoggedIn, setIsLoggedIn, currentUser, stations, onLogout })
         </div>
       </div>
 
-      <p className="section-title">내가 관리하는 가게</p>
+      <p className="sidebar-section-title">내가 관리하는 가게</p>
       <div className="store-buttons">
         {stations.length > 0 ? (
           stations.map(station => (
@@ -47,7 +47,7 @@ const Sidebar = ({ isLoggedIn, setIsLoggedIn, currentUser, stations, onLogout })
         )}
       </div>
 
-      <button className="logout-btn" onClick={onLogout}>← Log out</button>
+      <button className="sidebar-logout-btn" onClick={onLogout}>← Log out</button>
     </aside>
   );
 };
