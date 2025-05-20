@@ -110,62 +110,6 @@ useEffect(() => {
     setCurrentUser(null);
   };
 
-  // return ( //얘가 진짜
-  //   <Router>
-  //     <Header />
-  //     <Routes>
-  //       <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} setCurrentUser={setCurrentUser} />} />
-
-  //       // <Route path="/signup" element={<SignUp />} />
-  //       <Route path="/signup" element={<SignUp onSignUp={handleSignUp} />} />
-  //       <Route path="/ServiceIntro" element={<ServiceIntro />} />
-  //       <Route path="/SupportPage" element={<SupportPage />} />
-
-  //       <Route
-  //         path="/"
-  //         element={
-  //           isLoggedIn ? (
-  //             <>
-  //               {/* <ChartTitle /> */}
-  //               <div style={{ display: 'flex' }}>
-  //                 <Sidebar
-  //                   isLoggedIn={isLoggedIn}
-  //                   setIsLoggedIn={setIsLoggedIn}
-  //                   currentUser={currentUser}
-  //                   stations={stations}
-  //                   onLogout={handleLogout}
-  //                   setSelectedStationId={setSelectedStationId} // 🟡 반드시 전달!
-  //                 />
-  //                 <Dashboard 
-  //                     selectedStationId={selectedStationId}
-  //                     selectedDate={selectedDate}
-  //                     setSelectedDate={setSelectedDate}
-  //                 />
-  //               </div>
-  //             </>
-  //           ) : (
-  //             <Navigate to="/login" replace />
-  //           )
-  //         }
-  //       />
-  //       <Route
-  //         path="/mypage"
-  //         element={
-  //           <MyPage
-  //             isLoggedIn={isLoggedIn}
-  //             currentUser={currentUser}
-  //             setCurrentUser={setCurrentUser}
-  //             stations={stations}
-  //             setStations={setStations}
-  //           />
-  //         }
-  //       />
-  //       <Route path="/add-station" element={<AddStation currentUser={currentUser} stations={stations} setStations={setStations} />} />
-  //       <Route path="/service-intro" element={<ServiceIntro isLoggedIn={isLoggedIn} currentUser={currentUser} stations={stations} />} />
-
-  //     </Routes>
-  //   </Router>
-  // );
 
     return ( //css fixing
     <Router>
@@ -181,7 +125,8 @@ useEffect(() => {
         <Route
           path="/"
           element={
-            1 ? (
+              // isLoggedIn ? (
+              1 ? (
               <>
                 {/* <ChartTitle /> */}
                 <div style={{ display: 'flex' }}>
