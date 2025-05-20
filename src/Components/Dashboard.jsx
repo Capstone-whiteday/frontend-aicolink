@@ -8,6 +8,16 @@ import {
   Tooltip, Legend, ResponsiveContainer
 } from 'recharts';
 
+
+
+// 상단에 import 추가
+import { mockScheduleResponse } from '../mock/mockDashboardData';
+
+// 예시: fetch 실패 시 목데이터 사용
+// setScheduleData(mockScheduleResponse.scheduleList);
+
+
+
 // // 🟡 웹 푸시 알림 관련 함수 추가 (서비스워커 필요)
 // function showNotification(title, options) {
 //   if ('Notification' in window && Notification.permission === 'granted') {
@@ -46,92 +56,122 @@ const Dashboard = ({ selectedStationId, selectedDate, setSelectedDate }) => {
   //   }
   // }, []);
 
-  // 🟡 스케줄링 요청 시간 설정 (예: 매일 00:00에 요청)
-  // 실제 서비스에서는 서버에서 스케줄링을 돌리겠지만, 프론트에서 테스트용으로 setInterval 사용 가능
-  useEffect(() => {
-    // 예시: 매일 00:00에 스케줄링 요청
-    // 실제 서비스에서는 서버에서 처리하는 것이 맞음
-    const now = new Date();
-    const nextSchedule = new Date(now);
-    nextSchedule.setHours(0, 0, 0, 0); // 00:00:00
-    if (now > nextSchedule) {
-      nextSchedule.setDate(nextSchedule.getDate() + 1);
-    }
-    const timeout = nextSchedule - now;
-    const timer = setTimeout(() => {
-      // 실제 스케줄링 요청
-      // fetch(`http://52.79.124.254:8080/scheduling/hourly?stationId=${selectedStationId}&date=${formattedDate}`, {
-      fetch(`http://localhost:8080/scheduling/dashboard/stationId=${selectedStationId}&date=${formattedDate}`, {
+  // // 🟡 스케줄링 요청 시간 설정 (예: 매일 00:00에 요청) 백엔드에서 직접 요청 예정, 우선 주석처리
+  // // 실제 서비스에서는 서버에서 스케줄링을 돌리겠지만, 프론트에서 테스트용으로 setInterval 사용 가능
+  // useEffect(() => {
+  //   // 예시: 매일 00:00에 스케줄링 요청
+  //   // 실제 서비스에서는 서버에서 처리하는 것이 맞음
+  //   const now = new Date();
+  //   const nextSchedule = new Date(now);
+  //   nextSchedule.setHours(0, 0, 0, 0); // 00:00:00
+  //   if (now > nextSchedule) {
+  //     nextSchedule.setDate(nextSchedule.getDate() + 1);
+  //   }
+  //   const timeout = nextSchedule - now;
+  //   const timer = setTimeout(() => {
+  //     // 실제 스케줄링 요청
+  //     // fetch(`http://52.79.124.254:8080/scheduling/hourly?stationId=${selectedStationId}&date=${formattedDate}`, {
+  //     fetch(`http://localhost:8080/scheduling/dashboard/stationId=${selectedStationId}&date=${formattedDate}`, {
       
-      method: 'GET', // 실제 API가 POST라면, 아니면 GET으로 변경
-      })
-        .then(res => res.json())
-        .then(data => {
-          // 필요시 알림 등 처리
-          // console.log('스케줄링 요청 완료:', data);
-        })
-        .catch(err => {
-          // console.error('스케줄링 요청 실패:', err);
-        });
-    }, timeout);
+  //     method: 'GET', // 실제 API가 POST라면, 아니면 GET으로 변경
+  //     })
+  //       .then(res => res.json())
+  //       .then(data => {
+  //         // 필요시 알림 등 처리
+  //         // console.log('스케줄링 요청 완료:', data);
+  //       })
+  //       .catch(err => {
+  //         // console.error('스케줄링 요청 실패:', err);
+  //       });
+  //   }, timeout);
 
-    return () => clearTimeout(timer);
-  }, [selectedStationId, formattedDate]);
-  // ↑ 이 부분이 "내가 코드에서 설정한 시간에 벡엔드에 스케줄링 요청"을 담당합니다.
+  //   return () => clearTimeout(timer);
+  // }, [selectedStationId, formattedDate]);
+  // // ↑ 이 부분이 "내가 코드에서 설정한 시간에 벡엔드에 스케줄링 요청"을 담당합니다.
 
-  // 🟡 충전소 및 예측 데이터 불러오기
-  useEffect(() => {
-    if (!selectedStationId || !selectedDate) return;
 
-    const fetchAll = async () => {
-      console.log("🚀 fetchAll triggered");
-      console.log("📌 selectedStationId:", selectedStationId);
-      console.log("📌 formattedDate:", formattedDate);
 
-      // ✅ 실제 백엔드 연동 (스케줄링 기준)
-      try {
-        const scheduleRes = await fetch(
-          // `http://52.79.124.254:8080/scheduling/hourly?stationId=${selectedStationId}&date=${formattedDate}`
-          `http://localhost:8080/scheduling/dashboard/stationId=${selectedStationId}&date=${formattedDate}`
-        );
-        const scheduleJson = await scheduleRes.json();
 
-        setStationName(`충전소 ID ${scheduleJson.stationId}`);
-
-        // scheduleList를 24시간 배열로 변환
-        const scheduleArr = Array(24).fill(null).map((_, i) => {
-          const entry = scheduleJson.scheduleList.find(item => item.hour === i);
-          return {
-            name: `${String(i).padStart(2, '0')}:00`,
-            status: entry?.action || 'IDLE',
-            label: entry?.action || 'IDLE',
-            powerKw: entry?.powerKw ?? null,
-            predictSolar: entry?.predictSolar ?? null,
-            powerPayment: entry?.powerPayment ?? null,
-          };
-        });
-        setScheduleData(scheduleArr);
-
-        // batteryData, touData도 scheduleList에서 추출
-        setBatteryData(
-          scheduleArr.map(item => ({
-            name: item.name,
-            battery: item.powerKw,
-          }))
-        );
-        setTouData(
-          scheduleArr.map(item => ({
-            name: item.name,
-            tou: item.powerPayment,
-          }))
-        );
-      } catch (err) {
-        console.error('데이터 불러오기 실패:', err);
-      }
+  // 🟡 목 데이터로 상태 세팅 (useEffect로 대체)
+useEffect(() => {
+  // mock 데이터로 상태 초기화
+  setStationName(`충전소 ID ${mockScheduleResponse.stationId}`);
+  const scheduleArr = Array(24).fill(null).map((_, i) => {
+    const entry = mockScheduleResponse.scheduleList.find(item => item.hour === i);
+    return {
+      name: `${String(i).padStart(2, '0')}:00`,
+      status: entry?.action || 'IDLE',
+      label: entry?.action || 'IDLE',
+      powerKw: entry?.powerKw ?? null,
+      predictSolar: entry?.predictSolar ?? null,
+      powerPayment: entry?.powerPayment ?? null,
     };
+  });
+  setScheduleData(scheduleArr);
+  setBatteryData(scheduleArr.map(item => ({
+    name: item.name,
+    battery: item.powerKw,
+  })));
+  setTouData(scheduleArr.map(item => ({
+    name: item.name,
+    tou: item.powerPayment,
+  })));
+}, []);
 
-    fetchAll();
-  }, [selectedStationId, selectedDate, formattedDate]);
+
+  // // 🟡 충전소 및 예측 데이터 불러오기(얘가 진짜)
+  // useEffect(() => {
+  //   if (!selectedStationId || !selectedDate) return;
+
+  //   const fetchAll = async () => {
+  //     console.log("🚀 fetchAll triggered");
+  //     console.log("📌 selectedStationId:", selectedStationId);
+  //     console.log("📌 formattedDate:", formattedDate);
+
+  //     // ✅ 실제 백엔드 연동 (스케줄링 기준)
+  //     try {
+  //       const scheduleRes = await fetch(
+  //         // `http://52.79.124.254:8080/scheduling/hourly?stationId=${selectedStationId}&date=${formattedDate}`
+  //         `http://localhost:8080/scheduling/dashboard/stationId=${selectedStationId}&date=${formattedDate}`
+  //       );
+  //       const scheduleJson = await scheduleRes.json();
+
+  //       setStationName(`충전소 ID ${scheduleJson.stationId}`);
+
+  //       // scheduleList를 24시간 배열로 변환
+  //       const scheduleArr = Array(24).fill(null).map((_, i) => {
+  //         const entry = scheduleJson.scheduleList.find(item => item.hour === i);
+  //         return {
+  //           name: `${String(i).padStart(2, '0')}:00`,
+  //           status: entry?.action || 'IDLE',
+  //           label: entry?.action || 'IDLE',
+  //           powerKw: entry?.powerKw ?? null,
+  //           predictSolar: entry?.predictSolar ?? null,
+  //           powerPayment: entry?.powerPayment ?? null,
+  //         };
+  //       });
+  //       setScheduleData(scheduleArr);
+
+  //       // batteryData, touData도 scheduleList에서 추출
+  //       setBatteryData(
+  //         scheduleArr.map(item => ({
+  //           name: item.name,
+  //           battery: item.powerKw,
+  //         }))
+  //       );
+  //       setTouData(
+  //         scheduleArr.map(item => ({
+  //           name: item.name,
+  //           tou: item.powerPayment,
+  //         }))
+  //       );
+  //     } catch (err) {
+  //       console.error('데이터 불러오기 실패:', err);
+  //     }
+  //   };
+
+  //   fetchAll();
+  // }, [selectedStationId, selectedDate, formattedDate]);
 
   // // 🟡 웹 푸시 알림: 10분 뒤 DISCHARGE로 변환되는 구간이 있으면 알림
   // useEffect(() => {
@@ -222,7 +262,17 @@ const Dashboard = ({ selectedStationId, selectedDate, setSelectedDate }) => {
           <ResponsiveContainer width="100%" height={450}>
             <LineChart data={getData()} margin={{ top: 20, right: 30, left: 10, bottom: 0 }}>
               <CartesianGrid strokeDasharray="3 3" vertical={false} />
-              <XAxis dataKey="name" interval={0} />
+              {/* XAxis에 tickFormatter와 ticks 옵션 추가 */}
+                <XAxis
+                  dataKey="name"
+                  ticks={['06:00', '12:00','18:00', '23:00']}
+                  tickFormatter={(tick) => {
+                    // 6시, 18시, 24시(23:00)만 표시
+                    if (tick === '06:00' || tick=='12:00'||tick === '18:00' || tick === '23:00') return tick;
+                    return '';
+                  }}
+                  interval={0}
+                />
               <YAxis yAxisId="left" label={{ value: '전력량 (kWh)', angle: -90, position: 'insideLeft' }} />
               <YAxis yAxisId="right" orientation="right" label={{ value: 'TOU (원)', angle: -90, position: 'insideRight' }} />
               <Tooltip />
