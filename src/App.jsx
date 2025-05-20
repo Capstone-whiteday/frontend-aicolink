@@ -24,7 +24,6 @@ function App() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name, email, password }),
     });
-
     const data = await res.json();
     return {
       success: res.ok,

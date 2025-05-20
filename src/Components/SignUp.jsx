@@ -8,6 +8,9 @@ const SignUp = ({ onSignUp }) => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const navigate = useNavigate();
+  // 가입 날짜(ISO 문자열) 생성
+  const createdAt = new Date().toISOString();
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -23,7 +26,7 @@ const SignUp = ({ onSignUp }) => {
     }
 
     try {
-      const result = await onSignUp({ name, email, password });
+      const result = await onSignUp({ name, email, password,createdAt });
       if (result.success) {
         alert(result.message);
         navigate('/login');
