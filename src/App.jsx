@@ -134,6 +134,7 @@ useEffect(() => {
                     currentUser={currentUser}
                     stations={stations}
                     onLogout={handleLogout}
+                    setSelectedStationId={setSelectedStationId} // 🟡 반드시 전달!
                   />
                   <Dashboard 
                       selectedStationId={selectedStationId}
