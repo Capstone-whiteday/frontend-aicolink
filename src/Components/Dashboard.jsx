@@ -276,6 +276,7 @@ useEffect(() => {
                     if (tick === '06:00' || tick=='12:00'||tick === '18:00' || tick === '24:00') return tick;
                     return '';
                   }}
+                  // tickFormatter={tick => tick}
                   interval={0}
                 />
               <YAxis yAxisId="left" label={{ value: '전력량 (kWh)', angle: -90, position: 'insideLeft' }} />
