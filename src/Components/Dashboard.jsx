@@ -238,7 +238,9 @@ useEffect(() => {
     <main className="dashboard">
       {/* 제목 및 날짜 선택 */}
       <div className="dashboard-header">
-        <h1 className="station-name">{stationName || '충전소 이름'}</h1>
+      <h1 className="station-name">
+        {selectedStationId ? (stationName || '충전소 이름') : '충전소를 선택하세요'}
+      </h1>
         <DatePicker
           selected={selectedDate}
           onChange={(date) => {
