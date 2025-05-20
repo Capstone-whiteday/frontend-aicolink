@@ -11,8 +11,8 @@ const Login = ({ setIsLoggedIn, setCurrentUser }) => {
     e.preventDefault();
 
     try {
-      // const response = await fetch('http://localhost:8080/auth/login', {
-        const response = await fetch('http://52.79.124.254:8080/auth/login', {
+      const response = await fetch('http://localhost:8080/auth/login', {
+        // const response = await fetch('http://52.79.124.254:8080/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
@@ -73,7 +73,7 @@ const Login = ({ setIsLoggedIn, setCurrentUser }) => {
       
       <div className="login-right">
         <div className="brand-decoration"></div>
-        <h1 className="brand-text">Smart<br />Charge,<br />Greener<br />Future</h1>
+        <h1 className="brand-text">Smarter<br />Charge,<br />Greener<br />Future</h1>
         <p className="brand-description">인공지능과 함께한 전기차 충전소 최적화, 더 나은 미래를 만들어갑니다</p>
       </div>
     </div>
