@@ -18,8 +18,8 @@ function App() {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const handleSignUp = async ({ name, email, password }) => {
   try {
-    // const res = await fetch('http://localhost:8080/auth/signup', {
-    const res = await fetch('http://52.79.124.254:8080/auth/signup', {
+    const res = await fetch('http://localhost:8080/auth/signup', {
+    // const res = await fetch('http://52.79.124.254:8080/auth/signup', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name, email, password }),
@@ -46,7 +46,8 @@ useEffect(() => {
 
   if (token) {
     // 사용자 프로필 요청
-    fetch("http://52.79.124.254:8080/profile", {
+    // fetch("http://52.79.124.254:8080/profile", {
+    fetch("http://localhost:8080/profile", {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then(res => {
@@ -63,8 +64,8 @@ useEffect(() => {
       });
 
     // 충전소 목록 요청
-    // fetch("http://localhost:8080/station/list", {
-    fetch('http://52.79.124.254:8080/station/list', {
+    fetch("http://localhost:8080/station/list", {
+    // fetch('http://52.79.124.254:8080/station/list', {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then(res => {

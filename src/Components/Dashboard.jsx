@@ -8,6 +8,15 @@ import {
   Tooltip, Legend, ResponsiveContainer
 } from 'recharts';
 
+// // 🟡 웹 푸시 알림 관련 함수 추가 (서비스워커 필요)
+// function showNotification(title, options) {
+//   if ('Notification' in window && Notification.permission === 'granted') {
+//     navigator.serviceWorker.getRegistration().then(reg => {
+//       if (reg) reg.showNotification(title, options);
+//     });
+//   }
+// }
+
 const Dashboard = ({ selectedStationId, selectedDate, setSelectedDate }) => {
 
   const [batteryData, setBatteryData] = useState([]);
@@ -22,22 +31,39 @@ const Dashboard = ({ selectedStationId, selectedDate, setSelectedDate }) => {
   // 🟡 라인차트 선택 항목
   const [selectedData, setSelectedData] = useState('battery');
 
-  // 🟡 스케줄링 요청 시간 설정 (예: 매일 00:10에 요청)
+  // // 🟡 서비스워커 등록 및 알림 권한 요청 (최초 1회)
+  // useEffect(() => {
+  //   // 이미 등록되어 있으면 중복 등록 안함
+  //   if ('serviceWorker' in navigator) {
+  //     navigator.serviceWorker.getRegistration().then(reg => {
+  //       if (!reg) {
+  //         navigator.serviceWorker.register('/sw.js');
+  //       }
+  //     });
+  //   }
+  //   if ('Notification' in window && Notification.permission !== 'granted') {
+  //     Notification.requestPermission();
+  //   }
+  // }, []);
+
+  // 🟡 스케줄링 요청 시간 설정 (예: 매일 00:00에 요청)
   // 실제 서비스에서는 서버에서 스케줄링을 돌리겠지만, 프론트에서 테스트용으로 setInterval 사용 가능
   useEffect(() => {
-    // 예시: 매일 00:10에 스케줄링 요청
+    // 예시: 매일 00:00에 스케줄링 요청
     // 실제 서비스에서는 서버에서 처리하는 것이 맞음
     const now = new Date();
     const nextSchedule = new Date(now);
-    nextSchedule.setHours(0, 10, 0, 0); // 00:10:00
+    nextSchedule.setHours(0, 0, 0, 0); // 00:00:00
     if (now > nextSchedule) {
       nextSchedule.setDate(nextSchedule.getDate() + 1);
     }
     const timeout = nextSchedule - now;
     const timer = setTimeout(() => {
       // 실제 스케줄링 요청
-      fetch(`http://52.79.124.254:8080/scheduling/hourly?stationId=${selectedStationId}&date=${formattedDate}`, {
-        method: 'POST', // 실제 API가 POST라면, 아니면 GET으로 변경
+      // fetch(`http://52.79.124.254:8080/scheduling/hourly?stationId=${selectedStationId}&date=${formattedDate}`, {
+      fetch(`http://localhost:8080/scheduling/hourly?stationId=${selectedStationId}&date=${formattedDate}`, {
+      
+      method: 'POST', // 실제 API가 POST라면, 아니면 GET으로 변경
       })
         .then(res => res.json())
         .then(data => {
@@ -62,7 +88,7 @@ const Dashboard = ({ selectedStationId, selectedDate, setSelectedDate }) => {
       console.log("📌 selectedStationId:", selectedStationId);
       console.log("📌 formattedDate:", formattedDate);
 
-      // 기존 mock 데이터/테스트 코드 주석 처리 (삭제 X)
+      // 기존 mock 데이터/테스트 코드 주석 처리
       // try {
       //   const [batteryRes, scheduleRes, touRes] = await Promise.all([
       //     fetch(`http://localhost:8080/battery?stationId=${selectedStationId}&date=${formattedDate}`),
@@ -91,7 +117,8 @@ const Dashboard = ({ selectedStationId, selectedDate, setSelectedDate }) => {
       // ✅ 실제 백엔드 연동 (스케줄링 기준)
       try {
         const scheduleRes = await fetch(
-          `http://52.79.124.254:8080/scheduling/hourly?stationId=${selectedStationId}&date=${formattedDate}`
+          // `http://52.79.124.254:8080/scheduling/hourly?stationId=${selectedStationId}&date=${formattedDate}`
+          `http://localhost:8080/scheduling/hourly?stationId=${selectedStationId}&date=${formattedDate}`
         );
         const scheduleJson = await scheduleRes.json();
 
@@ -131,6 +158,36 @@ const Dashboard = ({ selectedStationId, selectedDate, setSelectedDate }) => {
 
     fetchAll();
   }, [selectedStationId, selectedDate, formattedDate]);
+
+  // // 🟡 웹 푸시 알림: 10분 뒤 DISCHARGE로 변환되는 구간이 있으면 알림
+  // useEffect(() => {
+  //   if (!scheduleData.length) return;
+  //   if (!('Notification' in window) || Notification.permission !== 'granted') return;
+
+  //   const now = new Date();
+
+  //   // 10분 뒤 DISCHARGE로 변환되는 구간 찾기
+  //   for (let i = 0; i < scheduleData.length - 1; i++) {
+  //     if (
+  //       scheduleData[i].status !== 'DISCHARGE' &&
+  //       scheduleData[i + 1].status === 'DISCHARGE'
+  //     ) {
+  //       // 변환 시각 계산
+  //       const changeTime = new Date();
+  //       changeTime.setHours(i + 1, 0, 0, 0);
+  //       const diff = changeTime - now;
+  //       // 10분 이내(0 < diff <= 10분)면 알림
+  //       if (diff > 0 && diff <= 10 * 60 * 1000) {
+  //         showNotification('충방전 일정 안내', {
+  //           body: '10분 뒤 방전(DISCHARGE)으로 변환을 제안드립니다.',
+  //           icon: '/battery_icon.png', // 아이콘 파일은 public 폴더에 직접 추가 필요
+  //         });
+  //         break; // 여러 번 알림 방지
+  //       }
+  //     }
+  //   }
+  // }, [scheduleData]);
+  // // ↑ 이 부분이 "10분 뒤 DISCHARGE로 변환될 때 웹 푸시 알림"을 담당합니다.
 
   const getData = () => {
     if (selectedData === 'battery') return batteryData;
@@ -261,6 +318,22 @@ const Dashboard = ({ selectedStationId, selectedDate, setSelectedDate }) => {
 
 export default Dashboard;
 
+// ----------------------
+// 🟡 추가 설명
+// ----------------------
+// 1. showNotification 함수와 서비스워커 등록/권한 요청 useEffect가 추가되었습니다.
+// 2. "10분 뒤 DISCHARGE로 변환"되는 구간이 있으면 웹 푸시 알림을 띄웁니다.
+// 3. 알림을 받으려면 public/sw.js(서비스워커 파일)가 필요합니다. 아래 예시 참고:
+//
+// // public/sw.js
+// self.addEventListener('notificationclick', function(event) {
+//   event.notification.close();
+//   // 클릭 시 동작 추가 가능
+// });
+//
+// 4. 아이콘 파일(battery_icon.png 등)은 public 폴더에 직접 넣어야 합니다.
+// 5. 기존 mock/test 코드, 주석 등은 절대 삭제하지 않고 모두 남겨두었습니다.
+// ----------------------
 
 // import './Dashboard.css';
 // import { useEffect, useState } from 'react';
