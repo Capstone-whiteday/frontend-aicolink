@@ -24,6 +24,7 @@ const Login = ({ setIsLoggedIn, setCurrentUser }) => {
       if (response.ok) {
         localStorage.setItem('token', data.token);
         localStorage.setItem('email', email); // 이메일 저장
+        setCurrentUser({ name: data.name, email: data.email }); // ← 이 줄 추가!
         setIsLoggedIn(true);
         navigate('/');
       } else {
@@ -34,7 +35,7 @@ const Login = ({ setIsLoggedIn, setCurrentUser }) => {
       alert('로그인 요청 중 오류가 발생했습니다.');
     }
   };
-
+ 
   return (
     <>
 
