@@ -98,8 +98,11 @@ useEffect(() => {
   setStationName(`충전소 ID ${mockScheduleResponse.stationId}`);
   const scheduleArr = Array(24).fill(null).map((_, i) => {
     const entry = mockScheduleResponse.scheduleList.find(item => item.hour === i);
+    const start = String(i).padStart(2, '0') + ':00';
+    const end = String((i + 1) % 24).padStart(2, '0') + ':00';
     return {
-      name: `${String(i).padStart(2, '0')}:00`,
+      // name: `${String(i).padStart(2, '0')}:00`,
+      name: `${start} ~ ${end}`,
       status: entry?.action || 'IDLE',
       label: entry?.action || 'IDLE',
       powerKw: entry?.powerKw ?? null,
@@ -265,10 +268,10 @@ useEffect(() => {
               {/* XAxis에 tickFormatter와 ticks 옵션 추가 */}
                 <XAxis
                   dataKey="name"
-                  ticks={['06:00', '12:00','18:00', '23:00']}
+                  ticks={['06:00', '12:00','18:00', '24:00']}
                   tickFormatter={(tick) => {
                     // 6시, 18시, 24시(23:00)만 표시
-                    if (tick === '06:00' || tick=='12:00'||tick === '18:00' || tick === '23:00') return tick;
+                    if (tick === '06:00' || tick=='12:00'||tick === '18:00' || tick === '24:00') return tick;
                     return '';
                   }}
                   interval={0}
@@ -283,9 +286,32 @@ useEffect(() => {
           </ResponsiveContainer>
         </div>
 
-        <div style={{ maxWidth: '820px', margin: '0 auto', padding: '16px 0 12px 0' }}>
+        <div style={{ maxWidth: '810px', margin: '0 auto', padding: '16px 0 12px 0' }}>
           {/* 스케줄링 상태 바 */}
-          <div style={{ display: 'flex', width: '100%', height: 24 }}>
+          <div className="status-bar-wrapper">
+  <div style={{ display: 'flex', width: '100%', height: 24 }}>
+    {scheduleData.map((entry, index) => (
+      <div
+        key={index}
+        onMouseEnter={(e) => handleMouseEnter(e, entry)}
+        onMouseLeave={handleMouseLeave}
+        style={{
+          flex: 1,
+          backgroundColor:
+            entry.status === 'CHARGE'
+              ? '#365BAC'
+              : entry.status === 'DISCHARGE'
+              ? '#00DDB3'
+              : '#ccc',
+          height: '100%',
+          cursor: 'pointer',
+          transition: 'opacity 0.3s ease',
+        }}
+      />
+    ))}
+  </div>
+</div>
+          {/* <div style={{ display: 'flex', width: '100%', height: 24 }}>
             {scheduleData.map((entry, index) => (
               <div
                 key={index}
@@ -306,7 +332,7 @@ useEffect(() => {
                 }}
               />
             ))}
-          </div>
+          </div> */}
 
           {tooltip.visible && (
             <div

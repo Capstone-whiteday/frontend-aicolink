@@ -1,13 +1,16 @@
 .sidebar {
   display: flex;
   flex-direction: column;
-  width: 260px;
+  width: 310px;
   background-color: #f0fff0;
-  border-radius: 15px;
+  border-radius: 40px;
   box-sizing: border-box;
   font-family: sans-serif;
-  min-height: 100vh;
-  padding: 20px;
+  min-height: 60vh;                /* min-height 초기화 */
+  max-height: 79vh;             /* 세로 길이 화면의 79%로 제한 */
+  padding: 40px;
+  margin: 40px auto 0 20px;   /* 왼쪽 20px, 위 40px, 아래 0, 오른쪽 auto */
+  overflow-y: auto;             /* 내용이 넘치면 스크롤 */
 }
 
 .profile-section {
