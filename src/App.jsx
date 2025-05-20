@@ -125,8 +125,8 @@ useEffect(() => {
         <Route
           path="/"
           element={
-              // isLoggedIn ? (
-              1 ? (
+              isLoggedIn ? (
+              // 1 ? (
               <>
                 {/* <ChartTitle /> */}
                 <div style={{ display: 'flex' }}>
