@@ -11,20 +11,21 @@ const Login = ({ setIsLoggedIn, setCurrentUser }) => {
     e.preventDefault();
 
     try {
-      const response = await fetch('http://52.79.124.254:8080/auth/login', {
+      const response = await fetch('http://localhost:8080/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        credentials: 'include', // ✅ 쿠키 전달 필수
+        credentials: 'include',
+
         body: JSON.stringify({ email, password }),
       });
 
       const data = await response.json();
 
       if (response.ok) {
-        localStorage.setItem('token', data.token); // ✅ JWT 저장
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('email', email); // 이메일 저장
         setIsLoggedIn(true);
-        setCurrentUser({ email }); // ✅ 사용자 이메일만 저장
-        alert('로그인 성공!');
+
         navigate('/');
       } else {
         alert(`로그인 실패: ${data.message || '이메일 또는 비밀번호가 잘못되었습니다.'}`);
@@ -41,7 +42,6 @@ const Login = ({ setIsLoggedIn, setCurrentUser }) => {
         <h1>로그인</h1>
         <label htmlFor="email">이메일</label>
         <input type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-
         <label htmlFor="password">비밀번호</label>
         <input type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
 

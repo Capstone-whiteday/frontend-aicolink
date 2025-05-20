@@ -33,9 +33,7 @@ const Sidebar = ({ isLoggedIn, setIsLoggedIn, currentUser, stations }) => { // s
     setIsLoggedIn(false); // 로그인 상태 변경
     navigate('/'); // 메인 페이지로 이동
   };
-    const handleAddStationClick = () => {
-    navigate('/add-station');
-  };
+
   if (!isLoggedIn) {
     return (
       <aside className="sidebar">
@@ -64,15 +62,19 @@ const Sidebar = ({ isLoggedIn, setIsLoggedIn, currentUser, stations }) => { // s
           src="/profile_empty.svg"
           alt="프로필"
         />
-        <div className="profile-info">
-          <strong>{currentUser?.name || '사용자 이름'}</strong> {/* **currentUser.name 표시** */}
+        <div className="profile-name">
+          <strong>{'NAME  :  '+currentUser?.name || '사용자 이름'}</strong> {/* **currentUser.name 표시** */}
+         
+        </div>
+        <div className="profile-email">
+
           <p>{currentUser?.email || '사용자 이메일'}</p> {/* **currentUser.email 표시** */}
         </div>
       </div>
-{/* 
+
       <p className="section-title">내가 관리하는 가게</p>
       {/* 기존 방식은 주석 처리, 아래는 userId로 필터링 */}
-      {/* <div className="store-buttons">
+      <div className="store-buttons">
         {myStations.length > 0 ? (
           myStations.map(station => (
             <button
@@ -86,12 +88,8 @@ const Sidebar = ({ isLoggedIn, setIsLoggedIn, currentUser, stations }) => { // s
         ) : (
           <span style={{ color: '#aaa', fontSize: '13px' }}>등록된 충전소가 없습니다.</span>
         )}
-      </div>  */}
+      </div>
 
-        {/* 충전소 추가 버튼 */}
-      <button className="logout-btn" onClick={handleAddStationClick}>
-        + 충전소 추가
-      </button>
       {/* <button className="info-btn">→ 내 정보 변경하기</button> */}
       <button className="logout-btn" onClick={handleLogoutClick}>← Log out</button>
     </aside>

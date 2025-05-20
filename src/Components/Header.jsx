@@ -16,7 +16,7 @@ const Header = () => {
         <a href="#">월말정산</a>
         <a href="#" onClick={() => navigate('/MyPage')}>내 충전소</a>
         <a href="#">도움말</a>
-        <a href="#">서비스 소개</a>
+        <a href="#" onClick={() => navigate('/ServiceIntro')}>서비스 소개</a>
         <div className="icons">
           <button className="icon-button">
             <img src="/logo_settings.svg" alt="setting icon" className="setting-icon" />

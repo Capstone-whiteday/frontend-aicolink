@@ -1,0 +1,51 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  font-family: sans-serif;
+}
+
+.main-layout {
+  display: flex;
+}
+
+.service-main {
+  flex: 1;
+  padding: 2rem;
+  background-color: #fff;
+}
+
+.main-title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 2rem;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.5rem;
+}
+
+.card {
+  padding: 1.5rem;
+  border-radius: 20px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  box-shadow: 0 0 10px rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+}
+
+.card.green {
+  background-color: #ECFFE7;
+}
+
+.card.yellow {
+  background-color: #FEFEE6;
+}
+
+.card.white {
+  background-color: #F9FAF9;
+}
