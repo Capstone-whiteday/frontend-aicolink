@@ -104,8 +104,8 @@ useEffect(() => {
         <select name="regionId" value={form.regionId} onChange={handleChange} required>
           <option value="">-- 지역 선택 --</option>
           {regions.map(region => (
-            <option key={region.id} value={region.id}>
-              {region.name}
+            <option key={region.regionId} value={region.regionId}>
+              {region.regionName}
             </option>
           ))}
         </select>

@@ -8,8 +8,6 @@ import {
   Tooltip, Legend, ResponsiveContainer
 } from 'recharts';
 
-
-
 // 상단에 import 추가
 import { mockScheduleResponse } from '../mock/mockDashboardData';
 
@@ -92,89 +90,142 @@ const Dashboard = ({ selectedStationId, selectedDate, setSelectedDate }) => {
 
 
 
-  // 🟡 목 데이터로 상태 세팅 (useEffect로 대체)
-useEffect(() => {
-  // mock 데이터로 상태 초기화
-  setStationName(`충전소 ID ${mockScheduleResponse.stationId}`);
-  const scheduleArr = Array(24).fill(null).map((_, i) => {
-    const entry = mockScheduleResponse.scheduleList.find(item => item.hour === i);
-    const start = String(i).padStart(2, '0') + ':00';
-    const end = String((i + 1) % 24).padStart(2, '0') + ':00';
-    return {
-      // name: `${String(i).padStart(2, '0')}:00`,
-      name: `${start} ~ ${end}`,
-      status: entry?.action || 'IDLE',
-      label: entry?.action || 'IDLE',
-      powerKw: entry?.powerKw ?? null,
-      predictSolar: entry?.predictSolar ?? null,
-      powerPayment: entry?.powerPayment ?? null,
+//   // 🟡 목 데이터로 상태 세팅 (useEffect로 대체)
+// useEffect(() => {
+//   // mock 데이터로 상태 초기화
+//   setStationName(`충전소 ID ${mockScheduleResponse.stationId}`);
+//   const scheduleArr = Array(24).fill(null).map((_, i) => {
+//     const entry = mockScheduleResponse.scheduleList.find(item => item.hour === i);
+//     const start = String(i).padStart(2, '0') + ':00';
+//     const end = String((i + 1) % 24).padStart(2, '0') + ':00';
+//     return {
+//       // name: `${String(i).padStart(2, '0')}:00`,
+//       name: `${start} ~ ${end}`,
+//       status: entry?.action || 'IDLE',
+//       label: entry?.action || 'IDLE',
+//       powerKw: entry?.powerKw ?? null,
+//       predictSolar: entry?.predictSolar ?? null,
+//       powerPayment: entry?.powerPayment ?? null,
+//     };
+//   });
+//   setScheduleData(scheduleArr);
+//   setBatteryData(scheduleArr.map(item => ({
+//     name: item.name,
+//     battery: item.powerKw,
+//   })));
+//   setTouData(scheduleArr.map(item => ({
+//     name: item.name,
+//     tou: item.powerPayment,
+//   })));
+// }, []);
+
+
+  // 🟡 충전소 및 예측 데이터 불러오기(얘가 진짜)
+  // 🟢
+  useEffect(() => {
+    // [변경] 충전소가 선택되지 않았으면 목데이터로 초기화
+    if (!selectedStationId) {
+      setStationName('');
+      // 목데이터로 초기화
+      setStationName(`충전소 ID ${mockScheduleResponse.stationName}`);
+      const scheduleArr = Array(24).fill(null).map((_, i) => {
+        const entry = mockScheduleResponse.scheduleList.find(item => item.hour === i);
+        const start = String(i).padStart(2, '0') + ':00';
+        const end = String((i + 1) % 24).padStart(2, '0') + ':00';
+        return {
+          name: `${start} ~ ${end}`,
+          status: entry?.action || 'IDLE',
+          label: entry?.action || 'IDLE',
+          powerKw: entry?.powerKw ?? null,
+          predictSolar: entry?.predictSolar ?? null,
+          powerPayment: entry?.powerPayment ?? null,
+        };
+      });
+      setScheduleData(scheduleArr);
+      setBatteryData(scheduleArr.map(item => ({
+        name: item.name,
+        battery: item.powerKw,
+      })));
+      setTouData(scheduleArr.map(item => ({
+        name: item.name,
+        tou: item.powerPayment,
+      })));
+      return;
+    }
+
+    // [변경] 실제 API 호출
+    const fetchAll = async () => {
+      try {
+        const scheduleRes = await fetch(
+          // `http://52.79.124.254:8080/scheduling/hourly?stationId=${selectedStationId}&date=${formattedDate}`
+                `http://localhost:8080/scheduling/dashboard/${selectedStationId}`  
+        );
+        const scheduleJson = await scheduleRes.json();
+
+        // [변경] 스케줄 데이터가 존재하면 대시보드에 표시, 없으면 안내
+        if (scheduleJson && Array.isArray(scheduleJson.scheduleList) && scheduleJson.scheduleList.length > 0) {
+          setStationName(scheduleJson.stationName || `충전소 ID ${scheduleJson.stationId}`);
+          // scheduleList를 24시간 배열로 변환
+          const scheduleArr = Array(24).fill(null).map((_, i) => {
+            const entry = scheduleJson.scheduleList.find(item => item.hour === i);
+            const start = String(i).padStart(2, '0') + ':00';
+            const end = String((i + 1) % 24).padStart(2, '0') + ':00';
+            return {
+              name: `${start} ~ ${end}`,
+              status: entry?.action || 'IDLE',
+              label: entry?.action || 'IDLE',
+              powerKw: entry?.powerKw ?? null,
+              predictSolar: entry?.predictSolar ?? null,
+              powerPayment: entry?.powerPayment ?? null,
+            };
+          });
+          setScheduleData(scheduleArr);
+          setBatteryData(scheduleArr.map(item => ({
+            name: item.name,
+            battery: item.powerKw,
+          })));
+          setTouData(scheduleArr.map(item => ({
+            name: item.name,
+            tou: item.powerPayment,
+          })));
+        } else {
+          // [변경] 스케줄 데이터가 없으면 안내 메시지와 빈 데이터
+          setStationName(scheduleJson.stationName || `충전소 ID ${scheduleJson.stationId}`);
+          setScheduleData([]);
+          setBatteryData([]);
+          setTouData([]);
+        }
+      } catch (err) {
+        console.error('데이터 불러오기 실패:', err);
+        // 에러 시 목데이터로 fallback
+        setStationName(`충전소 ID ${mockScheduleResponse.stationId} (목데이터)`);
+        const scheduleArr = Array(24).fill(null).map((_, i) => {
+          const entry = mockScheduleResponse.scheduleList.find(item => item.hour === i);
+          const start = String(i).padStart(2, '0') + ':00';
+          const end = String((i + 1) % 24).padStart(2, '0') + ':00';
+          return {
+            name: `${start} ~ ${end}`,
+            status: entry?.action || 'IDLE',
+            label: entry?.action || 'IDLE',
+            powerKw: entry?.powerKw ?? null,
+            predictSolar: entry?.predictSolar ?? null,
+            powerPayment: entry?.powerPayment ?? null,
+          };
+        });
+        setScheduleData(scheduleArr);
+        setBatteryData(scheduleArr.map(item => ({
+          name: item.name,
+          battery: item.powerKw,
+        })));
+        setTouData(scheduleArr.map(item => ({
+          name: item.name,
+          tou: item.powerPayment,
+        })));
+      }
     };
-  });
-  setScheduleData(scheduleArr);
-  setBatteryData(scheduleArr.map(item => ({
-    name: item.name,
-    battery: item.powerKw,
-  })));
-  setTouData(scheduleArr.map(item => ({
-    name: item.name,
-    tou: item.powerPayment,
-  })));
-}, []);
 
-
-  // // 🟡 충전소 및 예측 데이터 불러오기(얘가 진짜)
-  // useEffect(() => {
-  //   if (!selectedStationId || !selectedDate) return;
-
-  //   const fetchAll = async () => {
-  //     console.log("🚀 fetchAll triggered");
-  //     console.log("📌 selectedStationId:", selectedStationId);
-  //     console.log("📌 formattedDate:", formattedDate);
-
-  //     // ✅ 실제 백엔드 연동 (스케줄링 기준)
-  //     try {
-  //       const scheduleRes = await fetch(
-  //         // `http://52.79.124.254:8080/scheduling/hourly?stationId=${selectedStationId}&date=${formattedDate}`
-  //         `http://localhost:8080/scheduling/dashboard/stationId=${selectedStationId}&date=${formattedDate}`
-  //       );
-  //       const scheduleJson = await scheduleRes.json();
-
-  //       setStationName(`충전소 ID ${scheduleJson.stationId}`);
-
-  //       // scheduleList를 24시간 배열로 변환
-  //       const scheduleArr = Array(24).fill(null).map((_, i) => {
-  //         const entry = scheduleJson.scheduleList.find(item => item.hour === i);
-  //         return {
-  //           name: `${String(i).padStart(2, '0')}:00`,
-  //           status: entry?.action || 'IDLE',
-  //           label: entry?.action || 'IDLE',
-  //           powerKw: entry?.powerKw ?? null,
-  //           predictSolar: entry?.predictSolar ?? null,
-  //           powerPayment: entry?.powerPayment ?? null,
-  //         };
-  //       });
-  //       setScheduleData(scheduleArr);
-
-  //       // batteryData, touData도 scheduleList에서 추출
-  //       setBatteryData(
-  //         scheduleArr.map(item => ({
-  //           name: item.name,
-  //           battery: item.powerKw,
-  //         }))
-  //       );
-  //       setTouData(
-  //         scheduleArr.map(item => ({
-  //           name: item.name,
-  //           tou: item.powerPayment,
-  //         }))
-  //       );
-  //     } catch (err) {
-  //       console.error('데이터 불러오기 실패:', err);
-  //     }
-  //   };
-
-  //   fetchAll();
-  // }, [selectedStationId, selectedDate, formattedDate]);
+    fetchAll();
+  }, [selectedStationId, selectedDate, formattedDate]);
 
   // // 🟡 웹 푸시 알림: 10분 뒤 DISCHARGE로 변환되는 구간이 있으면 알림
   // useEffect(() => {
@@ -272,11 +323,10 @@ useEffect(() => {
                   dataKey="name"
                   ticks={['06:00', '12:00','18:00', '24:00']}
                   tickFormatter={(tick) => {
-                    // 6시, 18시, 24시(23:00)만 표시
+                    // 6시, 12시, 18시, 24시(23:00)만 표시
                     if (tick === '06:00' || tick=='12:00'||tick === '18:00' || tick === '24:00') return tick;
                     return '';
                   }}
-                  // tickFormatter={tick => tick}
                   interval={0}
                 />
               <YAxis yAxisId="left" label={{ value: '전력량 (kWh)', angle: -90, position: 'insideLeft' }} />
@@ -291,51 +341,36 @@ useEffect(() => {
 
         <div style={{ maxWidth: '810px', margin: '0 auto', padding: '16px 0 12px 0' }}>
           {/* 스케줄링 상태 바 */}
-          <div className="status-bar-wrapper">
-  <div style={{ display: 'flex', width: '100%', height: 24 }}>
-    {scheduleData.map((entry, index) => (
-      <div
-        key={index}
-        onMouseEnter={(e) => handleMouseEnter(e, entry)}
-        onMouseLeave={handleMouseLeave}
-        style={{
-          flex: 1,
-          backgroundColor:
-            entry.status === 'CHARGE'
-              ? '#365BAC'
-              : entry.status === 'DISCHARGE'
-              ? '#00DDB3'
-              : '#ccc',
-          height: '100%',
-          cursor: 'pointer',
-          transition: 'opacity 0.3s ease',
-        }}
-      />
-    ))}
-  </div>
-</div>
-          {/* <div style={{ display: 'flex', width: '100%', height: 24 }}>
-            {scheduleData.map((entry, index) => (
-              <div
-                key={index}
-                onMouseEnter={(e) => handleMouseEnter(e, entry)}
-                onMouseLeave={handleMouseLeave}
-                style={{
-                  flex: 1,
-                  // CHARGE, DISCHARGE, IDLE 상태 모두 색상 구분
-                  backgroundColor:
-                    entry.status === 'CHARGE'
-                      ? '#365BAC'
-                      : entry.status === 'DISCHARGE'
-                      ? '#00DDB3'
-                      : '#ccc', // IDLE 등 기타 상태는 회색
-                  height: '100%',
-                  cursor: 'pointer',
-                  transition: 'opacity 0.3s ease',
-                }}
-              />
-            ))}
-          </div> */}
+          {/* [변경] 스케줄 데이터가 없으면 안내 메시지 */}
+          {scheduleData.length === 0 ? (
+            <div style={{ textAlign: 'center', color: '#888', fontSize: 18, margin: '40px 0' }}>
+              해당 날짜에 스케줄 데이터가 없습니다.
+            </div>
+          ) : (
+            <div className="status-bar-wrapper">
+              <div style={{ display: 'flex', width: '100%', height: 24 }}>
+                {scheduleData.map((entry, index) => (
+                  <div
+                    key={index}
+                    onMouseEnter={(e) => handleMouseEnter(e, entry)}
+                    onMouseLeave={handleMouseLeave}
+                    style={{
+                      flex: 1,
+                      backgroundColor:
+                        entry.status === 'CHARGE'
+                          ? '#365BAC'
+                          : entry.status === 'DISCHARGE'
+                          ? '#00DDB3'
+                          : '#ccc',
+                      height: '100%',
+                      cursor: 'pointer',
+                      transition: 'opacity 0.3s ease',
+                    }}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
 
           {tooltip.visible && (
             <div
@@ -374,16 +409,8 @@ export default Dashboard;
 // ----------------------
 // 🟡 추가 설명
 // ----------------------
-// 1. showNotification 함수와 서비스워커 등록/권한 요청 useEffect가 추가되었습니다.
-// 2. "10분 뒤 DISCHARGE로 변환"되는 구간이 있으면 웹 푸시 알림을 띄웁니다.
-// 3. 알림을 받으려면 public/sw.js(서비스워커 파일)가 필요합니다. 아래 예시 참고:
-//
-// // public/sw.js
-// self.addEventListener('notificationclick', function(event) {
-//   event.notification.close();
-//   // 클릭 시 동작 추가 가능
-// });
-//
-// 4. 아이콘 파일(battery_icon.png 등)은 public 폴더에 직접 넣어야 합니다.
-// 5. 기존 mock/test 코드, 주석 등은 절대 삭제하지 않고 모두 남겨두었습니다.
+// 1. 충전소와 날짜가 선택되면 해당 충전소/날짜의 스케줄이 있으면 대시보드에 표시, 없으면 안내 메시지 표시(변경/추가)
+// 2. 기존 mock/test 코드, 주석 등은 절대 삭제하지 않고 모두 남겨두었습니다.
+// 3. fetch 실패 시 목데이터로 fallback 동작도 그대로 유지됩니다.
+// 4. XAxis의 tickFormatter는 6, 12, 18, 24시만 표시합니다.
 // ----------------------

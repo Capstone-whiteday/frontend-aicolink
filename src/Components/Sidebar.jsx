@@ -1,7 +1,10 @@
 import { useNavigate } from 'react-router-dom';
 import './Sidebar.css';
 
-const Sidebar = ({ isLoggedIn, setIsLoggedIn, currentUser, stations, onLogout }) => {
+
+
+// ✅ 
+const Sidebar = ({ isLoggedIn, setIsLoggedIn, currentUser, stations, onLogout, setSelectedStationId }) => {
   const navigate = useNavigate();
 
   if (!isLoggedIn) {
@@ -20,7 +23,7 @@ const Sidebar = ({ isLoggedIn, setIsLoggedIn, currentUser, stations, onLogout })
       <div className="profile-section">
         <img className="profile-image" src="/profile_empty.svg" alt="프로필" />
         <div className="profile-name">
-          <strong>{'name  :  ' + (currentUser?.name || '사용자 이름')}</strong>
+          <strong>{'name  :  ' + (currentUser.name || '사용자 이름')}</strong>
         </div>
         <div className="profile-email">
           <p>{currentUser?.email || '사용자 이메일'}</p>
@@ -37,7 +40,7 @@ const Sidebar = ({ isLoggedIn, setIsLoggedIn, currentUser, stations, onLogout })
             <button
               className="store-btn"
               key={station.stationId}
-              onClick={() => setSelectedStationId(station.stationId)} // ✅ 이거 있어야 함
+              onClick={() => setSelectedStationId(Number(station.stationId))} // ✅ 이거 있어야 함
             >
               {station.name}
             </button>
@@ -46,7 +49,6 @@ const Sidebar = ({ isLoggedIn, setIsLoggedIn, currentUser, stations, onLogout })
           <span style={{ color: '#aaa', fontSize: '13px' }}>등록된 충전소가 없습니다.</span>
         )}
       </div>
-
       <button className="sidebar-logout-btn" onClick={onLogout}>← Log out</button>
     </aside>
   );

@@ -4,6 +4,7 @@ import './Login.css';
 import Header from './Header'; // Header 컴포넌트 import
 const Login = ({ setIsLoggedIn, setCurrentUser }) => {
   const [email, setEmail] = useState('');
+    const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
@@ -18,13 +19,15 @@ const Login = ({ setIsLoggedIn, setCurrentUser }) => {
         credentials: 'include',
         body: JSON.stringify({ email, password }),
       });
-
+      
       const data = await response.json();
-
+      
       if (response.ok) {
         localStorage.setItem('token', data.token);
+        // localStorage.setItem('name', Name); // 이메일 저장
         localStorage.setItem('email', email); // 이메일 저장
-        setCurrentUser({ name: data.name, email: data.email }); // ← 이 줄 추가!
+        // setCurrentUser({ name: data.name, email: data.email }); // ← 이 줄 추가!
+        setCurrentUser({ name: data.name || email.split('1')[0], email: data.email || email });
         setIsLoggedIn(true);
         navigate('/');
       } else {
@@ -51,6 +54,7 @@ const Login = ({ setIsLoggedIn, setCurrentUser }) => {
               className="input-field"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              // onChange={(e) => setName(e.target.value)}
               placeholder="이메일을 입력하세요"
               required
             />
