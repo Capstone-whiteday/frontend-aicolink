@@ -251,23 +251,37 @@ const handleRemoveStation = async (stationId) => {
 
   // 충전소 정보 수정 (PUT /station/{stationId})
   const handleEditStation = async (stationId, newData) => {
-    try {
-      const res = await fetch(`http://localhost:8080/station/${stationId}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: newData.name,
-          status: newData.status,
-          description: newData.description
-        })
-      });
-      if (res.ok) {
-        fetch('http://localhost:8080/station/list')
-          .then(res => res.json())
-          .then(data => setStations(data));
-      }
-    } catch (e) {}
-  };
+  const token = localStorage.getItem("token"); // ✅ 토큰 가져오기
+
+  try {
+    const res = await fetch(`http://localhost:8080/station/${stationId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}` // ✅ 헤더에 토큰 포함
+      },
+      body: JSON.stringify({
+        name: newData.name,
+        status: newData.status,
+        description: newData.description
+      })
+    });
+
+    if (res.ok) {
+      fetch('http://localhost:8080/station/list', {
+        headers: { Authorization: `Bearer ${token}` } // 이 fetch도 보완
+      })
+        .then(res => res.json())
+        .then(data => setStations(data));
+    } else {
+      console.error('수정 실패:', res.status);
+      alert('수정 권한이 없거나 실패했습니다.');
+    }
+  } catch (e) {
+    console.error('수정 중 오류:', e);
+    alert('오류가 발생했습니다.');
+  }
+};
 
   if (!isLoggedIn) return null;
 
