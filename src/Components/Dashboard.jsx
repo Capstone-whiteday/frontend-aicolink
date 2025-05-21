@@ -108,6 +108,7 @@ useEffect(() => {
       powerKw: entry?.powerKw ?? null,
       predictSolar: entry?.predictSolar ?? null,
       powerPayment: entry?.powerPayment ?? null,
+
     };
   });
   setScheduleData(scheduleArr);

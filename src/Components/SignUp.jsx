@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './SignUp.css';
@@ -36,6 +37,7 @@ const SignUp = ({ onSignUp }) => {
       } else {
         alert(result.message);
       }
+
     } catch (error) {
       console.error('회원가입 요청 중 오류 발생:', error);
       alert('회원가입 요청 중 오류가 발생했습니다.');
@@ -64,3 +66,5 @@ const SignUp = ({ onSignUp }) => {
 };
 
 export default SignUp;
+
+

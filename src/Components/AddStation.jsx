@@ -25,6 +25,7 @@ useEffect(() => {
 
       const response = await fetch('http://localhost:8080/region/list', {
       // const response = await fetch('http://52.79.124.254:8080/region/list', {
+
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -59,6 +60,7 @@ useEffect(() => {
     try {
       const response = await fetch('http://localhost:8080/station/register', {
       // const response = await fetch('http://52.79.124.254:8080/swagger-ui/index.html#/station/register', {
+
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

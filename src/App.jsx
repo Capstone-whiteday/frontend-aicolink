@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+
 import Header from "./Components/Header";
 import ChartTitle from "./Components/ChartTitle";
 import Sidebar from './Components/Sidebar';
@@ -10,6 +11,7 @@ import MyPage from './Components/MyPage';
 import AddStation from './Components/AddStation';
 import ServiceIntro from './Components/ServiceIntro';
 import SupportPage from './Components/SupportPage';
+
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
@@ -17,11 +19,14 @@ function App() {
   const [selectedStationId, setSelectedStationId] = useState(null);
   const [selectedDate, setSelectedDate] = useState(new Date());
  const handleSignUp = async ({ name, email, password, createdAt }) => {
+
+
   try {
     const res = await fetch('http://localhost:8080/auth/signup', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name, email, password, createdAt }),
+
     });
 
     const data = await res.json();
@@ -46,6 +51,7 @@ useEffect(() => {
   if (token) {
     // 사용자 프로필 요청
     // fetch("http://52.79.124.254:8080/profile", {
+
     fetch("http://localhost:8080/profile", {
       headers: { Authorization: `Bearer ${token}` },
     })
@@ -71,6 +77,7 @@ useEffect(() => {
         if (!res.ok) throw new Error("충전소 요청 실패");
         return res.json();
       })
+
       .then(data => setStations(data))
       .catch(err => {
         console.error("충전소 목록 로드 실패:", err);
@@ -78,6 +85,7 @@ useEffect(() => {
       });
   }
 }, []);
+
 
 
 
@@ -109,6 +117,7 @@ useEffect(() => {
     setCurrentUser(null);
   };
 
+
   return (
     <Router>
       <Header />
@@ -118,6 +127,7 @@ useEffect(() => {
         <Route path="/signup" element={<SignUp onSignUp={handleSignUp} />} />
         <Route path="/ServiceIntro" element={<ServiceIntro />} />
         <Route path="/SupportPage" element={<SupportPage />} />
+
 
         <Route
           path="/"
@@ -167,5 +177,6 @@ useEffect(() => {
 }
 
 export default App;
+
 
 

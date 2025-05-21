@@ -13,9 +13,11 @@ const Login = ({ setIsLoggedIn, setCurrentUser }) => {
     try {
       const response = await fetch('http://localhost:8080/auth/login', {
         // const response = await fetch('http://52.79.124.254:8080/auth/login', {
+
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
+
         body: JSON.stringify({ email, password }),
       });
 
@@ -26,6 +28,7 @@ const Login = ({ setIsLoggedIn, setCurrentUser }) => {
         localStorage.setItem('email', email); // 이메일 저장
         setCurrentUser({ name: data.name, email: data.email }); // ← 이 줄 추가!
         setIsLoggedIn(true);
+
         navigate('/');
       } else {
         alert(`로그인 실패: ${data.message || '이메일 또는 비밀번호가 잘못되었습니다.'}`);
@@ -72,6 +75,7 @@ const Login = ({ setIsLoggedIn, setCurrentUser }) => {
         </form>
       </div>
       
+
       <div className="login-right">
         <div className="brand-decoration"></div>
         <h1 className="brand-text">Smarter<br />Charge,<br />Greener<br />Future</h1>
@@ -283,3 +287,4 @@ export default Login;
 // // // };
 
 // // // export default Login;
+
