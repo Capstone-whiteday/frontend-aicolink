@@ -111,7 +111,7 @@ const Dashboard = ({ selectedStationId, selectedDate, setSelectedDate,stations=[
       try {
         const scheduleRes = await fetch(
           // `http://52.79.124.254:8080/scheduling/hourly?stationId=${selectedStationId}&date=${formattedDate}`
-                `http://localhost:8080/scheduling/dashboard/${selectedStationId}` ,
+                `http://localhost:8080/scheduling/dashboard/${selectedStationId}/${formattedDate}`,
                 {
                   method: 'GET',
                           headers: {
