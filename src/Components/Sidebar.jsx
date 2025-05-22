@@ -4,7 +4,7 @@ import './Sidebar.css';
 
 
 // ✅ 
-const Sidebar = ({ isLoggedIn, setIsLoggedIn, currentUser, stations, onLogout, setSelectedStationId }) => {
+const Sidebar = ({ isLoggedIn, setIsLoggedIn, currentUser, stations, onLogout, setSelectedStationId ,mockUsers}) => {
   const navigate = useNavigate();
 
   if (!isLoggedIn) {
@@ -18,12 +18,14 @@ const Sidebar = ({ isLoggedIn, setIsLoggedIn, currentUser, stations, onLogout, s
     );
   }
 
+           // 1. mockUsers에서 먼저 찾기
+    const user = mockUsers.find(u => u.email === email && u.password === password);
   return (
     <aside className="sidebar">
       <div className="profile-section">
         <img className="profile-image" src="/profile_empty.svg" alt="프로필" />
         <div className="profile-name">
-          <strong>{'name  :  ' + (currentUser.name || '사용자 이름')}</strong>
+          <strong>{'user  :  ' + (currentUser.name || '사용자 이름')}</strong>
         </div>
         <div className="profile-email">
           <p>{currentUser?.email || '사용자 이메일'}</p>

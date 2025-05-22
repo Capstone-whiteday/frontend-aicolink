@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Sidebar_mp from './Sidebar_mp';
-import Header from './Header';
 import ChartTitle from './ChartTitle';
 import './MyPage.css';
 import './SttnComp.css'
 
+
+// 오늘 날짜를 yyyy-MM-dd 형식으로 반환하는 함수
+const getToday = () => {
+  const d = new Date();
+  return d.toISOString().slice(0, 10);
+};
 
 const StationInfoCard = ({ station, onRemove, onEdit }) => {
   const [editMode, setEditMode] = useState(false);
@@ -163,6 +168,7 @@ const MyPage = ({
   setCurrentUser,
   stations,      // 전체 충전소 배열 (App.jsx에서 prop으로 전달)
   setStations    // 전체 충전소 setter (App.jsx에서 prop으로 전달)
+
 }) => {
   const navigate = useNavigate();
 
@@ -303,13 +309,13 @@ const handleRemoveStation = async (stationId) => {
           <ChartTitle />
           {/* <div  style={{ width: '100%', maxWidth: 1000 }}> */}
             
-            <br /><h1>내 정보</h1><br /><br /><br /><br />
+            <br /><h1>내 정보</h1><br /><br />
 
              <div className="mypage-info">
               {/* <h2>내 충전소</h2> */}
-              <div>가입일: <strong>{currentUser?.joinedAt ? currentUser.joinedAt.slice(0,10) : '-'}</strong></div><br />
+              <div>가입일: <strong>{currentUser?.joinedAt ? currentUser.joinedAt.slice(0,10) : getToday()}</strong></div><br />
               <div>충전소 개수: <strong>{myStations.length}</strong></div><br />
-              <div>마지막 수정날짜</div><strong>{currentUser?.lastModified ? currentUser.lastModified.slice(0,10) : '-'}</strong><br />
+              <div>마지막 수정날짜</div><strong>{currentUser?.lastModified ? currentUser.lastModified.slice(0,10) : getToday()}</strong><br />
               {/* <div>AICOLINK 활용률: <strong>{currentUser?.usageRate ?? 0}%</strong></div> */}
             </div>
     

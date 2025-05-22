@@ -11,12 +11,14 @@ import AddStation from './Components/AddStation';
 import ServiceIntro from './Components/ServiceIntro';
 import SupportPage from './Components/SupportPage';
 function App() {
+    const [mockUsers, setMockUsers] = useState([]); // 🟡 임시 유저 배열
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
   const [stations, setStations] = useState([]);
   const [selectedStationId, setSelectedStationId] = useState(null);
   const [selectedDate, setSelectedDate] = useState(new Date());
  const handleSignUp = async ({ name, email, password, createdAt }) => {
+      setMockUsers(prev => [...prev, { name, email, password }]);
   try {
     const res = await fetch('http://localhost:8080/auth/signup', {
       method: 'POST',
@@ -54,7 +56,7 @@ useEffect(() => {
         return res.json();
       })
       .then(data => {
-        setCurrentUser({ name: data.name, email: savedEmail || '' });
+        setCurrentUser({ name: data.name, email: data.email || savedEmail || '' });
         setIsLoggedIn(true);
       })
       .catch(err => {
@@ -100,8 +102,6 @@ useEffect(() => {
   }
 }, [isLoggedIn, currentUser]);
 
-
-
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('email');
@@ -113,7 +113,10 @@ useEffect(() => {
     <Router>
       <Header />
       <Routes>
-        <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} setCurrentUser={setCurrentUser} />} />
+        <Route path="/login" element={ !isLoggedIn?(
+          <Login setIsLoggedIn={setIsLoggedIn} setCurrentUser={setCurrentUser} 
+                    mockUsers={mockUsers} // 🟡 전달
+        />):(<Navigate to="/" replace/>)} />
 
         <Route path="/signup" element={<SignUp onSignUp={handleSignUp} />} />
         <Route path="/ServiceIntro" element={<ServiceIntro />} />
@@ -133,16 +136,18 @@ useEffect(() => {
                     stations={stations}
                     onLogout={handleLogout}
                     setSelectedStationId={setSelectedStationId} // 🟡 반드시 전달!
+                    mockUsers={mockUsers} // 🟡 전달
                   />
                   <Dashboard 
                       selectedStationId={selectedStationId}
                       selectedDate={selectedDate}
                       setSelectedDate={setSelectedDate}
+                      stations={stations} // ✅ 추가
                   />
                 </div>
               </>
             ) : (
-              <Navigate to="/login" replace />
+              <Navigate to="/ServiceIntro" replace />
             )
           }
         />
@@ -155,6 +160,7 @@ useEffect(() => {
               setCurrentUser={setCurrentUser}
               stations={stations}
               setStations={setStations}
+              onLogout={handleLogout}
             />
           }
         />

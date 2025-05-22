@@ -25,7 +25,7 @@ import { mockScheduleResponse } from '../mock/mockDashboardData';
 //   }
 // }
 
-const Dashboard = ({ selectedStationId, selectedDate, setSelectedDate }) => {
+const Dashboard = ({ selectedStationId, selectedDate, setSelectedDate,stations=[] }) => {
 
   const [batteryData, setBatteryData] = useState([]);
   const [touData, setTouData] = useState([]);
@@ -123,15 +123,29 @@ const Dashboard = ({ selectedStationId, selectedDate, setSelectedDate }) => {
   // 🟡 충전소 및 예측 데이터 불러오기(얘가 진짜)
   // 🟢
   useEffect(() => {
+
+        // 🔵 selectedStationId가 바뀔 때 stations에서 이름을 찾아서 바로 표시
+    if (selectedStationId && stations.length > 0) {
+      const found = stations.find(st => Number(st.stationId) === Number(selectedStationId));
+      if (found) setStationName(found.name);
+    }
+
+
+
     // [변경] 충전소가 선택되지 않았으면 목데이터로 초기화
     if (!selectedStationId) {
       setStationName('');
+      console.log('충전소를 선택하세요');
       // 목데이터로 초기화
       setStationName(`충전소 ID ${mockScheduleResponse.stationName}`);
+
+
       const scheduleArr = Array(24).fill(null).map((_, i) => {
         const entry = mockScheduleResponse.scheduleList.find(item => item.hour === i);
         const start = String(i).padStart(2, '0') + ':00';
         const end = String((i + 1) % 24).padStart(2, '0') + ':00';
+
+
         return {
           name: `${start} ~ ${end}`,
           status: entry?.action || 'IDLE',
@@ -141,6 +155,8 @@ const Dashboard = ({ selectedStationId, selectedDate, setSelectedDate }) => {
           powerPayment: entry?.powerPayment ?? null,
         };
       });
+
+
       setScheduleData(scheduleArr);
       setBatteryData(scheduleArr.map(item => ({
         name: item.name,
@@ -161,6 +177,14 @@ const Dashboard = ({ selectedStationId, selectedDate, setSelectedDate }) => {
                 `http://localhost:8080/scheduling/dashboard/${selectedStationId}`  
         );
         const scheduleJson = await scheduleRes.json();
+
+              // 🔵 항상 stations에서 이름을 우선적으로 찾아서 표시
+        const found = stations.find(st => Number(st.stationId) === Number(selectedStationId));
+        setStationName(
+          (found && found.name) ||
+          scheduleJson.stationName ||
+          `충전소 ID ${scheduleJson.stationId}`
+        );
 
         // [변경] 스케줄 데이터가 존재하면 대시보드에 표시, 없으면 안내
         if (scheduleJson && Array.isArray(scheduleJson.scheduleList) && scheduleJson.scheduleList.length > 0) {
@@ -190,7 +214,7 @@ const Dashboard = ({ selectedStationId, selectedDate, setSelectedDate }) => {
           })));
         } else {
           // [변경] 스케줄 데이터가 없으면 안내 메시지와 빈 데이터
-          setStationName(scheduleJson.stationName || `충전소 ID ${scheduleJson.stationId}`);
+          // setStationName(scheduleJson.stationName || `충전소 ID ${scheduleJson.stationId}`);
           setScheduleData([]);
           setBatteryData([]);
           setTouData([]);
@@ -198,7 +222,8 @@ const Dashboard = ({ selectedStationId, selectedDate, setSelectedDate }) => {
       } catch (err) {
         console.error('데이터 불러오기 실패:', err);
         // 에러 시 목데이터로 fallback
-        setStationName(`충전소 ID ${mockScheduleResponse.stationId} (목데이터)`);
+        setStationName(`충전소 ID ${mockScheduleResponse.stationName} (에러임)`);
+        console.log('목데이터로 초기화합니다.');
         const scheduleArr = Array(24).fill(null).map((_, i) => {
           const entry = mockScheduleResponse.scheduleList.find(item => item.hour === i);
           const start = String(i).padStart(2, '0') + ':00';
@@ -225,7 +250,7 @@ const Dashboard = ({ selectedStationId, selectedDate, setSelectedDate }) => {
     };
 
     fetchAll();
-  }, [selectedStationId, selectedDate, formattedDate]);
+  }, [selectedStationId, selectedDate, formattedDate],stations);
 
   // // 🟡 웹 푸시 알림: 10분 뒤 DISCHARGE로 변환되는 구간이 있으면 알림
   // useEffect(() => {

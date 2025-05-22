@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Login.css';
 import Header from './Header'; // Header 컴포넌트 import
-const Login = ({ setIsLoggedIn, setCurrentUser }) => {
+const Login = ({ setIsLoggedIn, setCurrentUser,mockUsers }) => {
   const [email, setEmail] = useState('');
     const [name, setName] = useState('');
   const [password, setPassword] = useState('');
@@ -21,13 +21,16 @@ const Login = ({ setIsLoggedIn, setCurrentUser }) => {
       });
       
       const data = await response.json();
-      
+    //      // 1. mockUsers에서 먼저 찾기
+    // const user = mockUsers.find(u => u.email === email && u.password === password);
       if (response.ok) {
         localStorage.setItem('token', data.token);
         // localStorage.setItem('name', Name); // 이메일 저장
         localStorage.setItem('email', email); // 이메일 저장
         // setCurrentUser({ name: data.name, email: data.email }); // ← 이 줄 추가!
+
         setCurrentUser({ name: data.name || email.split('1')[0], email: data.email || email });
+        // setCurrentUser({ name: user || email.split('1')[0], email: data.email || email });
         setIsLoggedIn(true);
         navigate('/');
       } else {
@@ -41,7 +44,6 @@ const Login = ({ setIsLoggedIn, setCurrentUser }) => {
  
   return (
     <>
-
     <div className="login-container">
       <div className="login-form-wrapper">
         <form className="login-form" onSubmit={handleSubmit}>
