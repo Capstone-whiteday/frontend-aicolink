@@ -16,15 +16,15 @@ import { mockScheduleResponse } from '../mock/mockDashboardData';
 
 
 
-// // 🟡 웹 푸시 알림 관련 함수 추가 (서비스워커 필요)
-// function showNotification(title, options) {
-//   if ('Notification' in window && Notification.permission === 'granted') {
-//     navigator.serviceWorker.getRegistration().then(reg => {
-//       if (reg) reg.showNotification(title, options);
-//     });
-//   }
-// }
-
+// 🟡 웹 푸시 알림 관련 함수 추가 (서비스워커 필요)
+function showNotification(title, options) {
+  if ('Notification' in window && Notification.permission === 'granted') {
+    navigator.serviceWorker.getRegistration().then(reg => {
+      if (reg) reg.showNotification(title, options);
+    });
+  }
+}
+const token = localStorage.getItem('token');
 const Dashboard = ({ selectedStationId, selectedDate, setSelectedDate,stations=[] }) => {
 
   const [batteryData, setBatteryData] = useState([]);
@@ -39,91 +39,29 @@ const Dashboard = ({ selectedStationId, selectedDate, setSelectedDate,stations=[
   // 🟡 라인차트 선택 항목
   const [selectedData, setSelectedData] = useState('battery');
 
-  // // 🟡 서비스워커 등록 및 알림 권한 요청 (최초 1회)
-  // useEffect(() => {
-  //   // 이미 등록되어 있으면 중복 등록 안함
-  //   if ('serviceWorker' in navigator) {
-  //     navigator.serviceWorker.getRegistration().then(reg => {
-  //       if (!reg) {
-  //         navigator.serviceWorker.register('/sw.js');
-  //       }
-  //     });
-  //   }
-  //   if ('Notification' in window && Notification.permission !== 'granted') {
-  //     Notification.requestPermission();
-  //   }
-  // }, []);
+  // 🟡 서비스워커 등록 및 알림 권한 요청 (최초 1회)
+  useEffect(() => {
+    // 이미 등록되어 있으면 중복 등록 안함
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistration().then(reg => {
+        if (!reg) {
+          navigator.serviceWorker.register('/sw.js');
+        }
+      });
+    }
+    if ('Notification' in window && Notification.permission !== 'granted') {
+      Notification.requestPermission();
+    }
+  }, []);
 
-  // // 🟡 스케줄링 요청 시간 설정 (예: 매일 00:00에 요청) 백엔드에서 직접 요청 예정, 우선 주석처리
-  // // 실제 서비스에서는 서버에서 스케줄링을 돌리겠지만, 프론트에서 테스트용으로 setInterval 사용 가능
-  // useEffect(() => {
-  //   // 예시: 매일 00:00에 스케줄링 요청
-  //   // 실제 서비스에서는 서버에서 처리하는 것이 맞음
-  //   const now = new Date();
-  //   const nextSchedule = new Date(now);
-  //   nextSchedule.setHours(0, 0, 0, 0); // 00:00:00
-  //   if (now > nextSchedule) {
-  //     nextSchedule.setDate(nextSchedule.getDate() + 1);
-  //   }
-  //   const timeout = nextSchedule - now;
-  //   const timer = setTimeout(() => {
-  //     // 실제 스케줄링 요청
-  //     // fetch(`http://52.79.124.254:8080/scheduling/hourly?stationId=${selectedStationId}&date=${formattedDate}`, {
-  //     fetch(`http://localhost:8080/scheduling/dashboard/stationId=${selectedStationId}&date=${formattedDate}`, {
-      
-  //     method: 'GET', // 실제 API가 POST라면, 아니면 GET으로 변경
-  //     })
-  //       .then(res => res.json())
-  //       .then(data => {
-  //         // 필요시 알림 등 처리
-  //         // console.log('스케줄링 요청 완료:', data);
-  //       })
-  //       .catch(err => {
-  //         // console.error('스케줄링 요청 실패:', err);
-  //       });
-  //   }, timeout);
-
-  //   return () => clearTimeout(timer);
-  // }, [selectedStationId, formattedDate]);
-  // // ↑ 이 부분이 "내가 코드에서 설정한 시간에 벡엔드에 스케줄링 요청"을 담당합니다.
-
-
-
-
-//   // 🟡 목 데이터로 상태 세팅 (useEffect로 대체)
-// useEffect(() => {
-//   // mock 데이터로 상태 초기화
-//   setStationName(`충전소 ID ${mockScheduleResponse.stationId}`);
-//   const scheduleArr = Array(24).fill(null).map((_, i) => {
-//     const entry = mockScheduleResponse.scheduleList.find(item => item.hour === i);
-//     const start = String(i).padStart(2, '0') + ':00';
-//     const end = String((i + 1) % 24).padStart(2, '0') + ':00';
-//     return {
-//       // name: `${String(i).padStart(2, '0')}:00`,
-//       name: `${start} ~ ${end}`,
-//       status: entry?.action || 'IDLE',
-//       label: entry?.action || 'IDLE',
-//       powerKw: entry?.powerKw ?? null,
-//       predictSolar: entry?.predictSolar ?? null,
-//       powerPayment: entry?.powerPayment ?? null,
-//     };
-//   });
-//   setScheduleData(scheduleArr);
-//   setBatteryData(scheduleArr.map(item => ({
-//     name: item.name,
-//     battery: item.powerKw,
-//   })));
-//   setTouData(scheduleArr.map(item => ({
-//     name: item.name,
-//     tou: item.powerPayment,
-//   })));
-// }, []);
 
 
   // 🟡 충전소 및 예측 데이터 불러오기(얘가 진짜)
   // 🟢
   useEffect(() => {
-
+    console.log('selectedStationId:', selectedStationId);
+  console.log('stations:', stations);
+  console.log('selectedStation:', stations.find(st => Number(st.stationId) === Number(selectedStationId)));
         // 🔵 selectedStationId가 바뀔 때 stations에서 이름을 찾아서 바로 표시
     if (selectedStationId && stations.length > 0) {
       const found = stations.find(st => Number(st.stationId) === Number(selectedStationId));
@@ -134,10 +72,9 @@ const Dashboard = ({ selectedStationId, selectedDate, setSelectedDate,stations=[
 
     // [변경] 충전소가 선택되지 않았으면 목데이터로 초기화
     if (!selectedStationId) {
-      setStationName('');
-      console.log('충전소를 선택하세요');
+      console.log('충전소를 미선택');
       // 목데이터로 초기화
-      setStationName(`충전소 ID ${mockScheduleResponse.stationName}`);
+      setStationName(`충전소1111ID ${mockScheduleResponse.stationName}`);
 
 
       const scheduleArr = Array(24).fill(null).map((_, i) => {
@@ -174,7 +111,14 @@ const Dashboard = ({ selectedStationId, selectedDate, setSelectedDate,stations=[
       try {
         const scheduleRes = await fetch(
           // `http://52.79.124.254:8080/scheduling/hourly?stationId=${selectedStationId}&date=${formattedDate}`
-                `http://localhost:8080/scheduling/dashboard/${selectedStationId}`  
+                `http://localhost:8080/scheduling/dashboard/${selectedStationId}` ,
+                {
+                  method: 'GET',
+                          headers: {
+                         'Authorization': `Bearer ${token}`,
+                         'Content-Type': 'application/json'
+                       },          
+                }
         );
         const scheduleJson = await scheduleRes.json();
 
@@ -250,37 +194,37 @@ const Dashboard = ({ selectedStationId, selectedDate, setSelectedDate,stations=[
     };
 
     fetchAll();
-  }, [selectedStationId, selectedDate, formattedDate],stations);
+  }, [selectedStationId, selectedDate, formattedDate,stations]);
 
-  // // 🟡 웹 푸시 알림: 10분 뒤 DISCHARGE로 변환되는 구간이 있으면 알림
-  // useEffect(() => {
-  //   if (!scheduleData.length) return;
-  //   if (!('Notification' in window) || Notification.permission !== 'granted') return;
+  // 🟡 웹 푸시 알림: 10분 뒤 DISCHARGE로 변환되는 구간이 있으면 알림
+  useEffect(() => {
+    if (!scheduleData.length) return;
+    if (!('Notification' in window) || Notification.permission !== 'granted') return;
 
-  //   const now = new Date();
+    const now = new Date();
 
-  //   // 10분 뒤 DISCHARGE로 변환되는 구간 찾기
-  //   for (let i = 0; i < scheduleData.length - 1; i++) {
-  //     if (
-  //       scheduleData[i].status !== 'DISCHARGE' &&
-  //       scheduleData[i + 1].status === 'DISCHARGE'
-  //     ) {
-  //       // 변환 시각 계산
-  //       const changeTime = new Date();
-  //       changeTime.setHours(i + 1, 0, 0, 0);
-  //       const diff = changeTime - now;
-  //       // 10분 이내(0 < diff <= 10분)면 알림
-  //       if (diff > 0 && diff <= 10 * 60 * 1000) {
-  //         showNotification('충방전 일정 안내', {
-  //           body: '10분 뒤 방전(DISCHARGE)으로 변환을 제안드립니다.',
-  //           icon: '/battery_icon.png', // 아이콘 파일은 public 폴더에 직접 추가 필요
-  //         });
-  //         break; // 여러 번 알림 방지
-  //       }
-  //     }
-  //   }
-  // }, [scheduleData]);
-  // // ↑ 이 부분이 "10분 뒤 DISCHARGE로 변환될 때 웹 푸시 알림"을 담당합니다.
+    // 10분 뒤 DISCHARGE로 변환되는 구간 찾기
+    for (let i = 0; i < scheduleData.length - 1; i++) {
+      if (
+        scheduleData[i].status !== 'DISCHARGE' &&
+        scheduleData[i + 1].status === 'DISCHARGE'
+      ) {
+        // 변환 시각 계산
+        const changeTime = new Date();
+        changeTime.setHours(i + 1, 0, 0, 0);
+        const diff = changeTime - now;
+        // 10분 이내(0 < diff <= 10분)면 알림
+        if (diff > 0 && diff <= 10 * 60 * 1000) {
+          showNotification('충방전 일정 안내', {
+            body: '10분 뒤 방전(DISCHARGE)으로 변환을 제안드립니다.',
+            icon: '/battery_icon.png', // 아이콘 파일은 public 폴더에 직접 추가 필요
+          });
+          break; // 여러 번 알림 방지
+        }
+      }
+    }
+  }, [scheduleData]);
+  // ↑ 이 부분이 "10분 뒤 DISCHARGE로 변환될 때 웹 푸시 알림"을 담당합니다.
 
   const getData = () => {
     if (selectedData === 'battery') return batteryData;
@@ -311,6 +255,7 @@ const Dashboard = ({ selectedStationId, selectedDate, setSelectedDate,stations=[
   };
 
   return (
+    
     <main className="dashboard">
       {/* 제목 및 날짜 선택 */}
       <div className="dashboard-header">

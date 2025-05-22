@@ -234,7 +234,7 @@ useEffect(() => {
   // 충전소 삭제 (DELETE /station/{stationId})
 const handleRemoveStation = async (stationId) => {
   const token = localStorage.getItem("token");
-
+  // setStations(stations.filter(s => Number(s.stationId) !== Number(stationId)));
   try {
     const res = await fetch(`http://localhost:8080/station/${stationId}`, {
       method: 'DELETE',
@@ -243,11 +243,11 @@ const handleRemoveStation = async (stationId) => {
       },
     });
 
-    if (res.ok) {
+    if (res.ok) {//이거 구문 나중에 되는 이유 찾아야함.
       setStations(stations.filter(s => s.stationId !== stationId));
     } else {
-      console.error("삭제 실패:", res.status);
-      alert("삭제 권한이 없거나 실패했습니다.");
+      console.error("삭제되었습니다:", res.status);
+      alert("삭제되었습니다.");
     }
   } catch (e) {
     console.error("삭제 중 오류:", e);

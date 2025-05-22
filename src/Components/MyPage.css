@@ -1,336 +1,326 @@
+/* MyPage.css */
 
-/* 메인 레이아웃 (Sidebar 제외 본문) */
-.mypage-main {
+/* 전체 컨테이너 */
+.mypage-container {
   display: flex;
-  gap: 2rem;
-  padding: 2rem 3rem;
-  margin-left: 250px; /* 사이드바 너비 고려 */
+  min-height: 100vh;
+  background-color: #f5f7f9;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
-/* 프로필 카드 */
-.profile-card {
-  width: 240px;
-  background-color: #ffffff;
-  padding: 1.5rem;
-  border-radius: 20px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-}
-
-.profile-avatar {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  margin-bottom: 1rem;
-}
-
-.profile-name {
-  font-weight: 600;
-  font-size: 1.1rem;
-  margin-bottom: 0.2rem;
-}
-
-.profile-email {
-  font-size: 0.9rem;
-  color: #666;
-  margin-bottom: 1rem;
-}
-
-.profile-edit-btn,
-.logout-btn {
-  width: 100%;
-  padding: 0.5rem;
-  margin-top: 0.5rem;
-  border: none;
-  border-radius: 12px;
-  background-color: #eaf4ec;
-  color: #333;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.profile-edit-btn:hover,
-.logout-btn:hover {
-  background-color: #d2eede;
-}
-
-/* 오른쪽 정보 영역 */
-.station-info {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-}
-
-/* 상단 통계 카드 */
-.summary-card {
-  background: #ffffff;
-  padding: 1.5rem 2rem;
-  border-radius: 20px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
-}
-
-.summary-card h2 {
-  margin-bottom: 1rem;
-  font-size: 1.3rem;
-  font-weight: 600;
-}
-
-.summary-card p {
-  margin: 0.3rem 0;
-  font-size: 0.95rem;
-}
-
-/* 선택된 충전소 상세 카드 */
-.detail-card {
-  background: linear-gradient(135deg, #184c2c, #fdfcf9);
-  padding: 1.5rem 2rem;
-  border-radius: 20px;
-  box-shadow: inset 0 0 0 1px #e0e0e0;
-}
-
-.detail-card h3 {
-  font-size: 1.2rem;
-  margin-bottom: 1rem;
-}
-
-.detail-card p {
-  margin: 0.3rem 0;
-  font-size: 0.95rem;
-}
-
-/* 다른 충전소 버튼들 */
-.store-buttons {
-  display: flex;
-  gap: 1rem;
-}
-
-.store-btn {
-  flex: 1;
-  padding: 0.75rem 1rem;
-  border: none;
-  border-radius: 15px;
-  background-color: #f1f5f1;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.store-btn:hover {
-  background-color: #ddeee1;
-}
-
-/* 충전소 버튼 활성화 */
-/* 가운데 영역 */
-.mypage-center-content {
-  background: #fff;
-  border-radius: 18px;
-  box-shadow: 0 2px 16px rgba(0,0,0,0.07);
-  margin: 32px 0;
-  padding: 32px 24px 40px 24px;
-  width: 100%;
-  max-width: 1000px;
-  min-height: 600px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-/* 사용자 정보 요약 */
-.mypage-info {
-  width: 100%;
-  margin-bottom: 32px;
-  padding-bottom: 16px;
-  border-bottom: 1px solid #e0e0e0;
-}
-.mypage-info h2 {
-  margin-bottom: 12px;
-  font-size: 1.4rem;
-  color: #365BAC;
-}
-
-/* 충전소 추가 폼 */
-.add-station-form {
-  width: 100%;
-  background: #f8f9fa;
-  border-radius: 10px;
-  padding: 18px 16px 14px 16px;
-  margin-bottom: 28px;
-  box-shadow: 0 1px 6px rgba(54,91,172,0.06);
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-.add-station-form h3 {
-  margin-bottom: 8px;
-  color: #365BAC;
-  font-size: 1.1rem;
-}
-.add-station-form input,
-.add-station-form select {
-  padding: 8px;
-  border: 1px solid #d0d0d0;
-  border-radius: 6px;
-  font-size: 15px;
-}
-.add-station-form button {
-  margin-top: 8px;
-  padding: 9px;
-  background: #365BAC;
-  color: #fff;
-  border: none;
-  border-radius: 6px;
-  font-size: 15px;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-.add-station-form button:hover {
-  background: #27447a;
-}
-
-/* station-list를 카드형 컴포넌트로 개선 */
-.station-list {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 40px;
-}
-
-/* 카드 컴포넌트 스타일 */
-.station-item {
-  background: linear-gradient(1deg, #55b075 0%, hwb(45 50% 26%) 45%);
-  border-radius: 18px;
-  padding: 32px 28px 24px 28px;
-  box-shadow: 0 4px 18px rgba(34,197,94,0.08), 0 1.5px 8px rgba(255,209,209,0.10);
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  font-size: 16px;
-  position: relative;
-  min-width: 800px;
-  max-width: 480px;
-  max-height: 870px;
-  margin: 0 auto;
-}
-
-/* 카드 내부 요소(팩터) 스타일 - 로그인폼 느낌 */
-.station-item label {
-  font-weight: 600;
-  margin-bottom: 4px;
-  color: #184c2c;
-  font-size: 15px;
-  display: block;
-}
-
-.station-item .station-factor {
-  width: 100%;
-  margin-bottom: 12px;
-  display: flex;
-  flex-direction: column;
-}
-
-.station-item input,
-.station-item select,
-.station-item textarea {
-  padding: 9px 12px;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  font-size: 15px;
-  margin-bottom: 0;
-  background: #fff;
-  margin-top: 2px;
-  resize: none;
-}
-
-.station-item textarea {
-  min-height: 48px;
-}
-
-.station-item .station-factor:last-child {
-  margin-bottom: 0;
-}
-
-/* 정보수정/삭제 버튼 영역 */
-.station-item .station-btn-group {
-  width: 100%;
-  display: flex;
-  gap: 12px;
-  margin-top: 18px;
-  justify-content: flex-end;
-}
-
-.station-item button {
-  padding: 8px 20px;
-  border: none;
-  border-radius: 8px;
-  background: #fff;
-  color: #18532e;
-  font-weight: bold;
-  font-size: 15px;
-  cursor: pointer;
-  box-shadow: 0 1px 4px rgba(34,197,94,0.08);
-  transition: background 0.2s, color 0.2s;
-}
-
-.station-item button:hover {
-  background: #22C55E;
-  color: #fff;
-}
-
-/* 정보수정 버튼 별도 색상 */
-.station-item .edit-btn {
-  background: #fff;
-  color: #184c2c;
-}
-
-.station-item .edit-btn:hover {
-  background: #184c2c;
-  color: #fff;
-}
-
-/* 삭제 버튼 별도 색상 */
-.station-item .delete-btn {
-  background: #fff;
-  color: #ff4d4f;
-}
-
-.station-item .delete-btn:hover {
-  background: #ff4d4f;
-  color: #fff;
-}
+/* 사이드바 섹션 */
 .sidebar-section {
+  width: 280px;
+  padding: 20px;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  gap: 20px;
 }
 
+/* 날씨 위젯 */
 .weather-widget {
-  margin-top: 12px;
-  padding: 16px;
-  width: 205px;
-  border-radius: 16px;
   background: white;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-  text-align: center;
-  font-size: 14px;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
 .weather-icon {
-  font-size: 28px;
-  margin-bottom: 4px;
+  font-size: 24px;
+}
+
+.weather-info {
+  flex: 1;
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
 }
 
 .weather-btn {
-  margin-top: 8px;
   padding: 6px 12px;
-  border-radius: 6px;
-  font-size: 13px;
+  background: #f0f0f0;
   border: none;
-  background: #f4f4f4;
+  border-radius: 6px;
+  font-size: 12px;
   cursor: pointer;
+  transition: background 0.2s;
+}
+
+.weather-btn:hover {
+  background: #e0e0e0;
+}
+
+/* 메인 컨텐츠 영역 */
+.main-content {
+  flex: 1;
+  padding: 20px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* 페이지 제목 */
+.page-title {
+  font-size: 32px;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+/* 내 정보 섹션 */
+.mypage-info {
+  background: white;
+  border-radius: 16px;
+  padding: 30px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  width: 100%;
+  max-width: 600px;
+}
+
+.info-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.info-item:last-child {
+  border-bottom: none;
+}
+
+.info-label {
+  font-size: 16px;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.info-value {
+  font-size: 16px;
+  color: #1f2937;
+  font-weight: 600;
+}
+
+/* 충전소 목록 */
+.station-list {
+  width: 78%;
+  display: flex;
+    flex-direction: column;   /* 세로 방향으로만 쌓임 */
+  /* grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); */
+  gap: 50px;
+  margin-top: 20px;
+}
+
+/* 충전소 아이템 (카드) */
+.station-item {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border-left: 4px solid #22c55e;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.station-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* 충전소 제목 */
+.station-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.station-title::before {
+  content: "⚡";
+  color: #22c55e;
+  font-size: 24px;
+  margin-right: 8px;
+}
+
+/* 정보 아이템 (충전소 카드 내부) */
+.station-item .info-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 10px 0;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.station-item .info-item:last-of-type {
+  border-bottom: none;
+  margin-bottom: 20px;
+}
+
+.label {
+  font-size: 13px;
+  color: #6b7280;
+  margin-bottom: 5px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.value {
+  font-size: 15px;
+  color: #1f2937;
+  font-weight: 500;
+}
+
+/* 충전소 버튼들 */
+.station-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.station-buttons button {
+  flex: 1;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.station-buttons button:first-child {
+  background: #f0fdf4;
+  color: #166534;
+  border: 1px solid #bbf7d0;
+}
+
+.station-buttons button:first-child:hover {
+  background: #dcfce7;
+}
+
+.station-buttons button:last-child {
+  background: #fef2f2;
+  color: #dc2626;
+  border: 1px solid #fecaca;
+}
+
+.station-buttons button:last-child:hover {
+  background: #fee2e2;
+}
+
+/* 편집 모드 스타일 */
+.edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.edit-form input, .edit-form select {
+  padding: 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: border-color 0.2s;
+}
+
+.edit-form input:focus, .edit-form select:focus {
+  outline: none;
+  border-color: #22c55e;
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
+}
+
+.edit-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.edit-buttons button {
+  flex: 1;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.edit-buttons button:first-child {
+  background: #22c55e;
+  color: white;
+}
+
+.edit-buttons button:first-child:hover {
+  background: #16a34a;
+}
+
+.edit-buttons button:last-child {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+.edit-buttons button:last-child:hover {
+  background: #e5e7eb;
+}
+
+/* 빈 상태 메시지 */
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: #6b7280;
+  font-size: 16px;
+}
+
+.empty-state::before {
+  content: "📍";
+  font-size: 48px;
+  display: block;
+  margin-bottom: 16px;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .mypage-container {
+    flex-direction: column;
+  }
+  
+  .sidebar-section {
+    width: 100%;
+    padding: 15px;
+  }
+  
+  .main-content {
+    padding: 20px;
+  }
+  
+  .station-list {
+    grid-template-columns: 1fr;
+  }
+  
+  .page-title {
+    font-size: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .station-item {
+    padding: 20px;
+  }
+  
+  .station-buttons {
+    flex-direction: column;
+  }
+  
+  .weather-widget {
+    padding: 15px;
+  }
 }

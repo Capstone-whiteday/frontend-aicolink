@@ -15,7 +15,9 @@ const Login = ({ setIsLoggedIn, setCurrentUser,mockUsers }) => {
       const response = await fetch('http://localhost:8080/auth/login', {
         // const response = await fetch('http://52.79.124.254:8080/auth/login', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {  
+          // 'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json' },
         credentials: 'include',
         body: JSON.stringify({ email, password }),
       });

@@ -6,7 +6,7 @@
   border-radius: 40px;
   box-sizing: border-box;
   font-family: sans-serif;
-  min-height: 60vh;                /* min-height 초기화 */
+  min-height: 70vh;                /* min-height 초기화 */
   max-height: 79vh;             /* 세로 길이 화면의 79%로 제한 */
   padding: 40px;
   margin: 40px auto 0 20px;   /* 왼쪽 20px, 위 40px, 아래 0, 오른쪽 auto */
