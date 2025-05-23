@@ -146,7 +146,7 @@ const StationCard = ({ station, onRemove, onEdit }) => {
   <div className="station-buttons">
     <button onClick={() => setEditMode(true)}>정보수정</button>
     <button onClick={() => {
-      console.log("삭제 요청 id:"), station.stationId,
+      console.log("삭제 요청 id:", station.stationId),
       onRemove(station.stationId)}}>삭제</button>
   </div>
 </div>
@@ -247,7 +247,7 @@ const handleRemoveStation = async (stationId) => {
     });
 
     if (res.ok) {//이거 구문 나중에 되는 이유 찾아야함.
-      console.log("삭제 요청 id:", station.stationId);
+      // console.log("삭제 요청 id:", station.stationId);
       setStations(stations.filter(s => s.stationId !== stationId));
     } else {
       console.error("삭제되었습니다:", res.status);
