@@ -13,7 +13,7 @@ const Header = () => {
         <span className="logo-text">AICOLINK</span>
       </div>
       <nav className="nav">
-        <a href="#">월말정산</a>
+        <a href="#" onClick={() => navigate('/')}>Board</a>
         <a href="#" onClick={() => navigate('/MyPage')}>마이 인포</a>
         <a href="#" onClick={()=>navigate('SupportPage')}>도움말</a>
         <a href="#" onClick={() => navigate('/ServiceIntro')}>서비스 소개</a>

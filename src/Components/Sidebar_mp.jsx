@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import './Sidebar.css';
+import './Sidebar_mp.css';
 
 // =========================
 // 기존: currentUser.stations 사용 (주석 처리)
@@ -38,7 +38,7 @@ const Sidebar = ({ isLoggedIn, setIsLoggedIn, currentUser, stations }) => { // s
   };
   if (!isLoggedIn) {
     return (
-      <aside className="sidebar">
+      <aside className="sidebar_mp">
         <div className="profile-section">
           <p>로그인이 필요합니다.</p>
           <button className="login-btn" onClick={handleLoginClick}>
@@ -57,7 +57,7 @@ const Sidebar = ({ isLoggedIn, setIsLoggedIn, currentUser, stations }) => { // s
     : [];
 
   return (
-    <aside className="sidebar">
+    <aside className="sidebar_mp">
       <div className="profile-section">
         <img
           className="profile-image"
@@ -89,11 +89,11 @@ const Sidebar = ({ isLoggedIn, setIsLoggedIn, currentUser, stations }) => { // s
       </div>  */}
 
         {/* 충전소 추가 버튼 */}
-      <button className="logout-btn" onClick={handleAddStationClick}>
+      <button className="sidebar-logout-btn" onClick={handleAddStationClick}>
         + 충전소 추가
       </button>
       {/* <button className="info-btn">→ 내 정보 변경하기</button> */}
-      <button className="logout-btn" onClick={handleLogoutClick}>← Log out</button>
+      <button className="sidebar-logout-btn" onClick={handleLogoutClick}>← Log out</button>
     </aside>
   );
 };

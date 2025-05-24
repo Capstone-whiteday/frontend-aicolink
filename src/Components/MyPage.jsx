@@ -311,11 +311,11 @@ const MyPage = ({
       <div className="mypage-container" style={{ display: 'flex' }}>
         <div className="sidebar-section">
           <Sidebar_mp isLoggedIn={isLoggedIn} currentUser={currentUser} />
-          <div className="weather-widget">
+          {/* <div className="weather-widget">
             <div className="weather-icon">🌤</div>
             <div className="weather-info">제주, 21℃</div>
             <button className="weather-btn">상세보기</button>
-          </div>
+          </div> */}
         </div>
 
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>

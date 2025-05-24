@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   width: 310px;
-  background-color: #f0fff0;
+  background: linear-gradient(#ECFFE7, #F2FFFE); 
   border-radius: 40px;
   box-sizing: border-box;
   font-family: sans-serif;
@@ -99,10 +99,10 @@
   padding: 15px;
   font-size: 14px;
   border: none;
-  background: color#e0d8d8;
+  background: color#ffefef;
   cursor: pointer;
   text-align: center;
-  color: #333;
+  color: #929191;
   transition: color 0.3s;
   margin-bottom: 20px;
 }
