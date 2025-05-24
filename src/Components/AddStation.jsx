@@ -63,6 +63,17 @@ const AddStation = ({ currentUser }) => {
   const handleAddStation = async (e) => {
     e.preventDefault();
     const token = localStorage.getItem('token');
+      // 콘솔에 입력값 확인
+  console.log('폼 입력값:', form);
+  const bodyData = {
+    stationName: form.name,
+    location: form.location,
+    description: form.description,
+    regionId: Number(form.regionId),
+    status: form.status,
+  };
+  console.log('전송 body:', bodyData);
+
 
     try {
       const response = await fetch('http://localhost:8080/station/register', {
@@ -106,7 +117,7 @@ const AddStation = ({ currentUser }) => {
         <input type="text" name="location" value={form.location} onChange={handleChange} required />
 
         <label htmlFor="description">설명</label>
-        <textarea name="description" value={form.description} onChange={handleChange} />
+        <textarea name="description" value={form.description} onChange={handleChange} required/>
 
         <label htmlFor="regionId">지역 선택</label>
         <select name="regionId" value={form.regionId} onChange={handleChange} required>
