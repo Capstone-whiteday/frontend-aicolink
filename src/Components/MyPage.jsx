@@ -349,6 +349,9 @@ const MyPage = ({
         </div>
       </div>
       {/* </div> */}
+      <br/>
+      <br/>
+      <br/>
     </>
   );
 };

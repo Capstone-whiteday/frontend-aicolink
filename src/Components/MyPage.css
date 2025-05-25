@@ -76,11 +76,11 @@
 
 /* 내 정보 섹션 */
 .mypage-info {
-  background: white;
-  border-radius: 16px;
+  background: rgb(255, 254, 250);
+  border-radius: 45px;
   padding: 30px;
   margin-bottom: 30px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  box-shadow: inset 4px 12px rgba(153, 88, 72, 0.05);
   width: 200%;
   max-width: 930px;
 }
