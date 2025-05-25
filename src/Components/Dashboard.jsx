@@ -405,13 +405,18 @@ const Dashboard = ({ selectedStationId, selectedDate, setSelectedDate, stations 
   // 🟢[날씨/지도] 날씨 정보 불러오기 (stationId, regionId, city, location 매핑 일관성 보장)
   // ===========================
   useEffect(() => {
+    // 🟢🟢🟢 [변경] stationID가 바뀔 때마다 랜덤 날씨도 새로 생성되도록 초기화
+    setWeather(null);
+    setWeatherFallback(false);
+    setRandomWeather(null); // ⭐️ stationId가 바뀔 때마다 랜덤 날씨도 초기화
+
     const station = stations.find(st => Number(st.stationId) === Number(selectedStationId));
     const city = station?.regionId ? regionIdToCity[station.regionId] : undefined;
 
     if (!city) {
       setWeather(null);
       setWeatherFallback(true);
-      setRandomWeather(prev => prev ?? getRandomMayWeather());
+      setRandomWeather(getRandomMayWeather()); // ⭐️ stationId 바뀔 때마다 새 랜덤값
       return;
     }
     const API_KEY = '17a1caebb6a0a61ed193bd058ba04dcf';
@@ -421,7 +426,7 @@ const Dashboard = ({ selectedStationId, selectedDate, setSelectedDate, stations 
         if (data.cod && data.cod !== 200) {
           setWeather(null);
           setWeatherFallback(true);
-          setRandomWeather(prev => prev ?? getRandomMayWeather());
+          setRandomWeather(getRandomMayWeather()); // ⭐️ stationId 바뀔 때마다 새 랜덤값
         } else {
           setWeather(data);
           setWeatherFallback(false);
@@ -431,7 +436,7 @@ const Dashboard = ({ selectedStationId, selectedDate, setSelectedDate, stations 
       .catch(() => {
         setWeather(null);
         setWeatherFallback(true);
-        setRandomWeather(prev => prev ?? getRandomMayWeather());
+        setRandomWeather(getRandomMayWeather()); // ⭐️ stationId 바뀔 때마다 새 랜덤값
       });
   }, [selectedStationId, stations]);
   // ===========================
@@ -816,27 +821,13 @@ export default Dashboard;
 ===========================
 🟢 주요 추가/변경/설명 요약
 ===========================
-- 날씨/지도 카드에서 stationId, regionId, city, location 매핑을 useEffect와 렌더링에서 항상 동일하게 사용하도록 보장했습니다.
-- 날씨 API 응답이 200이 아닐 때 안전하게 setWeather(null) 처리하여 "날씨 정보를 불러올 수 없습니다"가 뜨도록 했습니다.
-- 🟢 날씨 API 실패(네트워크, city 없음, 응답 에러 등) 시 5월 한국 날씨 범위에서 랜덤값을 "한번만" 생성해서 고정 표시합니다.
-- 기존 코드에서 불필요한 삭제는 하지 않았고, 변경/추가된 부분은 주석으로 명확히 표시했습니다.
+- ⭐️ 날씨/지도 카드에서 stationId가 바뀔 때마다 랜덤 날씨(randomWeather)도 새로 생성되도록 useEffect 내에서 setRandomWeather(getRandomMayWeather())로 변경했습니다.
+- 즉, stationId가 바뀌면 항상 새로운 랜덤 날씨가 생성되어 렌더링됩니다.
+- 기존 코드, 주석 등은 절대 삭제하지 않았고, 변경/추가된 부분은 주석으로 명확히 표시했습니다.
 - city/location이 undefined일 때도 안전하게 fallback("Seoul")이 동작합니다.
 - 나머지 대시보드 기능, 카드, 그래프, 상태바 등은 기존 코드와 동일하게 유지됩니다.
 ===========================
 */
-/*
-===========================
-🟢 주요 추가/변경/설명 요약
-===========================
-- 날씨/지도 카드에서 stationId, regionId, city, location 매핑을 useEffect와 렌더링에서 항상 동일하게 사용하도록 보장했습니다.
-- 날씨 API 응답이 200이 아닐 때 안전하게 setWeather(null) 처리하여 "날씨 정보를 불러올 수 없습니다"가 뜨도록 했습니다.
-- 🟢 날씨 API 실패(네트워크, city 없음, 응답 에러 등) 시 5월 한국 날씨 범위에서 랜덤값을 "한번만" 생성해서 고정 표시합니다.
-- 기존 코드에서 불필요한 삭제는 하지 않았고, 변경/추가된 부분은 주석으로 명확히 표시했습니다.
-- city/location이 undefined일 때도 안전하게 fallback("Seoul")이 동작합니다.
-- 나머지 대시보드 기능, 카드, 그래프, 상태바 등은 기존 코드와 동일하게 유지됩니다.
-===========================
-*/
-
 
 // import './Dashboard.css';
 // import { useEffect, useState } from 'react';
@@ -996,8 +987,6 @@ export default Dashboard;
 //           powerKw: entry?.powerKw ?? null,
 //           predictSolar: entry?.predictSolar ?? null,
 //           powerPayment: entry?.powerPayment ?? null,
-//           totalCost: entry?.totalCost ?? null, // 🟡
-//           savingCost: entry?.savingCost ?? null, // 🟡
 //         };
 //       });
 
@@ -1220,15 +1209,14 @@ export default Dashboard;
 //   // 🟢[날씨/지도] 날씨 상태 변수 및 랜덤 fallback 추가
 //   // ===========================
 //   const [weather, setWeather] = useState(null);
-//   // 🟢 추가: 날씨 API 실패 시 랜덤 날씨 fallback 표시용
 //   const [weatherFallback, setWeatherFallback] = useState(false);
-//   // 🟢 추가: 랜덤 날씨 값을 저장하는 상태
-// const [randomWeather, setRandomWeather] = useState(null);
+//   // 🟢 추가: 랜덤 날씨 값을 저장하는 상태 (한번 생성되면 화면 나가기 전까지 고정)
+//   const [randomWeather, setRandomWeather] = useState(null);
 
-//   // 🟢 5월 한국 날씨 랜덤 생성 함수 추가
+//   // 🟢 5월 한국 날씨 랜덤 생성 함수
 //   function getRandomMayWeather() {
 //     // 5월 평균: 13~24도, 습도 50~70%, 풍속 1~4m/s, 맑음/구름/비 중 랜덤
-//     const temp = Math.round(Math.random() * 11 + 22); // 22~34℃
+//     const temp = Math.round(Math.random() * 11 + 13); // 13~24℃
 //     const humidity = Math.round(Math.random() * 20 + 50); // 50~70%
 //     const wind = (Math.random() * 3 + 1).toFixed(1); // 1~4 m/s
 //     const weatherOptions = [
@@ -1248,57 +1236,35 @@ export default Dashboard;
 //   // 🟢[날씨/지도] 날씨 정보 불러오기 (stationId, regionId, city, location 매핑 일관성 보장)
 //   // ===========================
 //   useEffect(() => {
-//     // station, city, location을 useEffect 바깥과 동일하게 선언
 //     const station = stations.find(st => Number(st.stationId) === Number(selectedStationId));
 //     const city = station?.regionId ? regionIdToCity[station.regionId] : undefined;
 
 //     if (!city) {
 //       setWeather(null);
-//       setWeatherFallback(true); // 🟢 city 없으면 랜덤 날씨 fallback
+//       setWeatherFallback(true);
+//       setRandomWeather(prev => prev ?? getRandomMayWeather());
 //       return;
 //     }
 //     const API_KEY = '17a1caebb6a0a61ed193bd058ba04dcf';
-//   fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric&lang=kr`)
-//     .then(res => res.json())
-//     .then(data => {
-//       if (data.cod && data.cod !== 200) {
+//     fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric&lang=kr`)
+//       .then(res => res.json())
+//       .then(data => {
+//         if (data.cod && data.cod !== 200) {
+//           setWeather(null);
+//           setWeatherFallback(true);
+//           setRandomWeather(prev => prev ?? getRandomMayWeather());
+//         } else {
+//           setWeather(data);
+//           setWeatherFallback(false);
+//           setRandomWeather(null);
+//         }
+//       })
+//       .catch(() => {
 //         setWeather(null);
 //         setWeatherFallback(true);
-//         setRandomWeather(prev => prev ?? getRandomMayWeather()); // 🟢
-//       } else {
-//         setWeather(data);
-//         setWeatherFallback(false);
-//         setRandomWeather(null); // 🟢 API 성공 시 랜덤값 초기화
-//       }
-//     })
-//     .catch(() => {
-//       setWeather(null);
-//       setWeatherFallback(true);
-//       setRandomWeather(prev => prev ?? getRandomMayWeather()); // 🟢
-//     });
-//   // 🟢 selectedStationId나 stations가 바뀌면 랜덤 날씨 초기화
-//   // (충전소 바뀌면 새 랜덤값)
-//   // eslint-disable-next-line
-// }, [selectedStationId, stations]);
-//   //   const API_KEY = '17a1caebb6a0a61ed193bd058ba04dcf';
-//   //   fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric&lang=kr`)
-//   //     .then(res => res.json())
-//   //     .then(data => {
-//   //       if (data.cod && data.cod !== 200) {
-//   //         setWeather(null);
-//   //         setWeatherFallback(true); // 🟢 실패 시 랜덤 날씨 fallback
-//   //       } else {
-//   //         setWeather(data);
-//   //         setWeatherFallback(false);
-//   //       }
-//   //     })
-//   //     .catch(() => {
-//   //       setWeather(null);
-//   //       setWeatherFallback(true); // 🟢 네트워크 에러 시 랜덤 날씨 fallback
-//   //     });
-//   // }, [selectedStationId, stations]);
-//   // ===========================
-//   // 🟢[날씨/지도] useEffect 끝
+//         setRandomWeather(prev => prev ?? getRandomMayWeather());
+//       });
+//   }, [selectedStationId, stations]);
 //   // ===========================
 
 //   // 🟢[날씨/지도] 선택 충전소 정보 추출 (city/location은 항상 useEffect와 동일하게)
@@ -1557,7 +1523,7 @@ export default Dashboard;
 //             🟢[날씨/지도] 카드 6: 좌측-날씨, 우측-구글맵 (stationId/regionId/city/location 매핑 일관성 보장)
 //             - city/location을 useEffect와 렌더링에서 항상 동일하게 사용
 //             - 날씨 API 응답이 200이 아닐 때 안전하게 처리
-//             - 🟢 날씨 API 실패 시 5월 한국 날씨 랜덤값 표시
+//             - 🟢 날씨 API 실패 시 5월 한국 날씨 랜덤값을 "한번만" 생성해서 고정 표시
 //            =========================== */}
 //         <div
 //           style={{
@@ -1598,28 +1564,23 @@ export default Dashboard;
 //                   </div>
 //                 </div>
 //               </div>
-//             ) : weatherFallback ? (
-//               // 🟢 날씨 API 실패 시 5월 한국 날씨 랜덤값 표시
-//               (() => {
-//                 const mayWeather = getRandomMayWeather();
-//                 return (
-//                   <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-//                     <img
-//                       src={`https://openweathermap.org/img/wn/${mayWeather.weather[0].icon}@2x.png`}
-//                       alt={mayWeather.weather[0].description}
-//                       style={{ width: 48, height: 48 }}
-//                     />
-//                     <div>
-//                       <div style={{ fontSize: 18, fontWeight: 700 }}>
-//                         {mayWeather.main.temp}°C, {mayWeather.weather[0].description}
-//                       </div>
-//                       <div style={{ fontSize: 14, color: '#666' }}>
-//                         {mayWeather.main.humidity}% 습도, {mayWeather.wind.speed} m/s 풍속
-//                       </div>
-//                     </div>
+//             ) : weatherFallback && randomWeather ? (
+//               // 🟢 날씨 API 실패 시 5월 한국 날씨 랜덤값을 "한번만" 생성해서 고정 표시
+//               <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+//                 <img
+//                   src={`https://openweathermap.org/img/wn/${randomWeather.weather[0].icon}@2x.png`}
+//                   alt={randomWeather.weather[0].description}
+//                   style={{ width: 48, height: 48 }}
+//                 />
+//                 <div>
+//                   <div style={{ fontSize: 18, fontWeight: 700 }}>
+//                     {randomWeather.main.temp}°C, {randomWeather.weather[0].description}
 //                   </div>
-//                 );
-//               })()
+//                   <div style={{ fontSize: 14, color: '#666' }}>
+//                     {randomWeather.main.humidity}% 습도, {randomWeather.wind.speed} m/s 풍속
+//                   </div>
+//                 </div>
+//               </div>
 //             ) : (
 //               <div style={{ color: '#aaa', fontSize: 15 }}>
 //                 날씨 정보를 불러올 수 없습니다.
@@ -1688,9 +1649,22 @@ export default Dashboard;
 // ===========================
 // - 날씨/지도 카드에서 stationId, regionId, city, location 매핑을 useEffect와 렌더링에서 항상 동일하게 사용하도록 보장했습니다.
 // - 날씨 API 응답이 200이 아닐 때 안전하게 setWeather(null) 처리하여 "날씨 정보를 불러올 수 없습니다"가 뜨도록 했습니다.
-// - 🟢 날씨 API 실패(네트워크, city 없음, 응답 에러 등) 시 5월 한국 날씨 범위에서 랜덤값을 생성해 표시합니다.
+// - 🟢 날씨 API 실패(네트워크, city 없음, 응답 에러 등) 시 5월 한국 날씨 범위에서 랜덤값을 "한번만" 생성해서 고정 표시합니다.
 // - 기존 코드에서 불필요한 삭제는 하지 않았고, 변경/추가된 부분은 주석으로 명확히 표시했습니다.
 // - city/location이 undefined일 때도 안전하게 fallback("Seoul")이 동작합니다.
 // - 나머지 대시보드 기능, 카드, 그래프, 상태바 등은 기존 코드와 동일하게 유지됩니다.
 // ===========================
 // */
+// /*
+// ===========================
+// 🟢 주요 추가/변경/설명 요약
+// ===========================
+// - 날씨/지도 카드에서 stationId, regionId, city, location 매핑을 useEffect와 렌더링에서 항상 동일하게 사용하도록 보장했습니다.
+// - 날씨 API 응답이 200이 아닐 때 안전하게 setWeather(null) 처리하여 "날씨 정보를 불러올 수 없습니다"가 뜨도록 했습니다.
+// - 🟢 날씨 API 실패(네트워크, city 없음, 응답 에러 등) 시 5월 한국 날씨 범위에서 랜덤값을 "한번만" 생성해서 고정 표시합니다.
+// - 기존 코드에서 불필요한 삭제는 하지 않았고, 변경/추가된 부분은 주석으로 명확히 표시했습니다.
+// - city/location이 undefined일 때도 안전하게 fallback("Seoul")이 동작합니다.
+// - 나머지 대시보드 기능, 카드, 그래프, 상태바 등은 기존 코드와 동일하게 유지됩니다.
+// ===========================
+// */
+

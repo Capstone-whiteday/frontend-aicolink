@@ -72,6 +72,18 @@ const StationCard = ({ station, onRemove, onEdit }) => {
     // eslint-disable-next-line
   }, [editMode]);
 
+    // 🟢🟢🟢🟢🟢🟢🟢🟢🟢🟢🟢 [수정] station prop이 바뀌면 editData도 동기화
+  useEffect(() => {
+    setEditData({
+      name: station.name,
+      location: station.location,
+      description: station.description,
+      regionId: station.regionId || '',
+      regionName: station.regionName || '',
+      status: station.status,
+    });
+  }, [station]); // ⭐️ 이 부분이 핵심입니다!
+
   const handleChange = (e) => {
     setEditData({ ...editData, [e.target.name]: e.target.value });
   };
@@ -97,8 +109,8 @@ const StationCard = ({ station, onRemove, onEdit }) => {
           </div>
           {/* 🟢 [변경] 지역: 드롭다운으로 선택 */}
           <div className="info-item">
-            <span className="label">지역</span>
-            <select
+            {/* <span className="label">지역</span> */}
+            {/* <select
               className="value"
               name="regionId"
               value={editData.regionId}
@@ -111,7 +123,7 @@ const StationCard = ({ station, onRemove, onEdit }) => {
                   {region.regionName}
                 </option>
               ))}
-            </select>
+            </select> */}
           </div>
           <div className="info-item">
             <span className="label">위치</span>
@@ -138,14 +150,14 @@ const StationCard = ({ station, onRemove, onEdit }) => {
           <div>
             <h2 className="station-title">{station.name}</h2>
             {/* 🟢 [추가] 지역 정보도 카드에 표시 */}
-            <div className="info-item">
+            {/* <div className="info-item">
               <span className="label">지역</span>
               <div className="value">{station.regionName || (() => {
                 // regionId만 있을 때 regionName으로 변환
                 const found = regionOptions.find(r => String(r.regionId) === String(station.regionId));
                 return found ? found.regionName : '';
               })()}</div>
-            </div>
+            </div> */}
             <div className="info-item">
               <span className="label">위치</span>
               <div className="value">{station.location}</div>
