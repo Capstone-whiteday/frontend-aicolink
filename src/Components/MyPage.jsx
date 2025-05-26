@@ -95,6 +95,7 @@ const StationCard = ({ station, onRemove, onEdit }) => {
       ...editData,
       regionName: regionObj ? regionObj.regionName : '',
       regionId: editData.regionId,
+      description: editData.description || '', // 빈 문자열 처리
     });
     setEditMode(false);
   };
