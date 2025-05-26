@@ -1,4 +1,4 @@
-import './Chartitle.css';
+import './CharTitle.css';
 const ChartTitle =()=>{
     const charger_name="tmpName"
     const date="undefined"
