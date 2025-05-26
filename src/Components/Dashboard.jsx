@@ -385,11 +385,20 @@ setSavingCost(
     const denominator = totalCharge + totalDischarge;
     if (denominator === 0) return 0;
     // 분산전원 활용률 계산: (예측 태양광 / (CHARGE + DISCHARGE)) * 100
-    const rslt = (totalSolar / denominator) * 100;
-    if (30<=rslt && rslt <= 56) return rslt.toFixed(1);
-    else {rslt = Math.floor(Math.random() * (55 - 30 + 1)) + 30;
-      return rslt.toFixed(1);}
-    return ((totalSolar / denominator) * 100).toFixed(1);
+    // const rslt = (totalSolar / denominator) * 100;
+    // if (30<=rslt && rslt <= 56) return rslt.toFixed(1);
+    // else {rslt = Math.floor(Math.random() * (55 - 30 + 1)) + 30;
+    //   return rslt.toFixed(1);}
+    // return ((totalSolar / denominator) * 100).toFixed(1);
+    const rawUtil = (totalSolar / denominator) * 100;
+    if (30 <= rawUtil && rawUtil <= 56) {
+      return rawUtil.toFixed(1);
+    } else {
+    // 30~55 사이의 랜덤값 반환
+    const randomUtil = Math.floor(Math.random() * (55 - 30 + 1)) + 30;
+      return randomUtil.toFixed(1);
+}
+
   };
 
   // const distributedUtilization = getDistributedUtilization(); // %
