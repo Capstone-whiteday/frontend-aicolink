@@ -181,8 +181,8 @@ const Dashboard = ({ selectedStationId, selectedDate, setSelectedDate, stations 
     const fetchAll = async () => {
       try {
         const scheduleRes = await fetch(
-          // `http://15.165.199.44/scheduling/hourly?stationId=${selectedStationId}&date=${formattedDate}`,
-           `http://localhost:8080/scheduling/dashboard/${selectedStationId}/${formattedDate}`,
+           `http://15.165.199.44/scheduling/hourly?stationId=${selectedStationId}&date=${formattedDate}`,
+           //`http://localhost:8080/scheduling/dashboard/${selectedStationId}/${formattedDate}`,
           //`http://15.165.199.44/scheduling/dashboard/${selectedStationId}/${formattedDate}`,
           {
             method: 'GET',
