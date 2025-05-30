@@ -21,7 +21,7 @@ function App() {
       setMockUsers(prev => [...prev, { name, email, password }]);
   try {
     // const res = await fetch('http://localhost:8080/auth/signup', {
-    const res = await fetch('http://15.165.199.44/auth/signup', {
+    const res = await fetch('http://15.165.199.44/signup', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name, email, password, createdAt }),
