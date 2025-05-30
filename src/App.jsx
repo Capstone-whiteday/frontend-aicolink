@@ -22,7 +22,7 @@ function App() {
       setMockUsers(prev => [...prev, { name, email, password }]);
   try {
      //const res = await fetch('http://localhost:8080/auth/signup', {
-    const res = await fetch('${API_BASE_URL}/auth/signup', {
+    const res = await fetch(`${API_BASE_URL}/auth/signup`, {
 
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -70,7 +70,7 @@ useEffect(() => {
 
     // 충전소 목록 요청
     //     //fetch("http://localhost:8080/station/list", {
-    fetch('${API_BASE_URL}/station/list', {
+    fetch(`${API_BASE_URL}/station/list`, {
 
       headers: { Authorization: `Bearer ${token}` },
     })

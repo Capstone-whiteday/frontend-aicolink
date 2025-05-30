@@ -8,12 +8,13 @@ const Login = ({ setIsLoggedIn, setCurrentUser,mockUsers }) => {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
+  const API_BASE_URL = 'http://15.165.199.44/api';
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
         //const response = await fetch('http://localhost:8080/auth/login', {
-        const response = await fetch('${API_BASE_URL}/auth/login', {
+        const response = await fetch(`${API_BASE_URL}/auth/login`, {
 
         method: 'POST',
         headers: {  
