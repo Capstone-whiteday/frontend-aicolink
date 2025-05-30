@@ -12,8 +12,9 @@ const Login = ({ setIsLoggedIn, setCurrentUser,mockUsers }) => {
     e.preventDefault();
 
     try {
-      // const response = await fetch('http://localhost:8080/auth/login', {
-        const response = await fetch('${API_BASE_URL}/auth/login', {
+        const response = await fetch('http://localhost:8080/auth/login', {
+        //const response = await fetch('http://15.165.199.44/auth/login', {
+
         method: 'POST',
         headers: {  
           // 'Authorization': `Bearer ${token}`,

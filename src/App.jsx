@@ -21,8 +21,9 @@ function App() {
  const handleSignUp = async ({ name, email, password, createdAt }) => {
       setMockUsers(prev => [...prev, { name, email, password }]);
   try {
-    // const res = await fetch('http://localhost:8080/auth/signup', {
-    const res = await fetch(`${API_BASE_URL}/auth/signup`, {
+
+     const res = await fetch('http://localhost:8080/auth/signup', {
+    //const res = await fetch('http://15.165.199.44/signup', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name, email, password, createdAt }),
@@ -49,8 +50,10 @@ useEffect(() => {
 
   if (token) {
     // 사용자 프로필 요청
-    fetch("${API_BASE_URL}/profile", {
-    // fetch("http://localhost:8080/profile", {
+
+    //fetch("http://15.165.199.44/profile", {
+     fetch("http://localhost:8080/profile", {
+
       headers: { Authorization: `Bearer ${token}` },
     })
       .then(res => {
@@ -67,8 +70,10 @@ useEffect(() => {
       });
 
     // 충전소 목록 요청
-    // fetch("http://localhost:8080/station/list", {
-    fetch('${API_BASE_URL}/station/list', {
+
+    fetch("http://localhost:8080/station/list", {
+    //fetch('http://15.165.199.44/station/list', {
+
       headers: { Authorization: `Bearer ${token}` },
     })
       .then(res => {

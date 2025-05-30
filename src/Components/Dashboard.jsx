@@ -182,8 +182,10 @@ const Dashboard = ({ selectedStationId, selectedDate, setSelectedDate, stations 
       try {
         const scheduleRes = await fetch(
           // `http://15.165.199.44/scheduling/hourly?stationId=${selectedStationId}&date=${formattedDate}`,
-          // `http://localhost:8080/scheduling/dashboard/${selectedStationId}/${formattedDate}`,
-          `${API_BASE_URL}/scheduling/dashboard/${selectedStationId}/${formattedDate}`,
+
+           `http://localhost:8080/scheduling/dashboard/${selectedStationId}/${formattedDate}`,
+          //`http://15.165.199.44/scheduling/dashboard/${selectedStationId}/${formattedDate}`,
+
           {
             method: 'GET',
             headers: {
@@ -371,36 +373,27 @@ setSavingCost(
 
   // 🟢 [추가] 분산전원 활용률 계산 함수
   const getDistributedUtilization = () => {
-    // totalSolar: 예측 태양광 총합
-    // totalCharge: CHARGE 구간의 powerKw 합
-    // totalDischarge: DISCHARGE 구간의 powerKw 합
-    const totalSolar = Array.isArray(scheduleData)
-      ? scheduleData.reduce((sum, s) => sum + (s.predictSolar || 0), 0)
-      : 0;
-    const totalCharge = Array.isArray(scheduleData)
-      ? scheduleData.filter(s => s.status === 'CHARGE').reduce((sum, s) => sum + (s.powerKw || 0), 0)
-      : 0;
-    const totalDischarge = Array.isArray(scheduleData)
-      ? scheduleData.filter(s => s.status === 'DISCHARGE').reduce((sum, s) => sum + (s.powerKw || 0), 0)
-      : 0;
-    const denominator = totalCharge + totalDischarge;
-    if (denominator === 0) return 0;
-    // 분산전원 활용률 계산: (예측 태양광 / (CHARGE + DISCHARGE)) * 100
-    // const rslt = (totalSolar / denominator) * 100;
-    // if (30<=rslt && rslt <= 56) return rslt.toFixed(1);
-    // else {rslt = Math.floor(Math.random() * (55 - 30 + 1)) + 30;
-    //   return rslt.toFixed(1);}
-    // return ((totalSolar / denominator) * 100).toFixed(1);
-    const rawUtil = (totalSolar / denominator) * 100;
-    if (30 <= rawUtil && rawUtil <= 56) {
-      return rawUtil.toFixed(1);
-    } else {
-    // 30~55 사이의 랜덤값 반환
-    const randomUtil = Math.floor(Math.random() * (55 - 30 + 1)) + 30;
-      return randomUtil.toFixed(1);
-}
+  const totalSolar = Array.isArray(scheduleData)
+    ? scheduleData.reduce((sum, s) => sum + (s.predictSolar || 0), 0)
+    : 0;
+  const totalCharge = Array.isArray(scheduleData)
+    ? scheduleData.filter(s => s.status === 'CHARGE').reduce((sum, s) => sum + (s.powerKw || 0), 0)
+    : 0;
+  const totalDischarge = Array.isArray(scheduleData)
+    ? scheduleData.filter(s => s.status === 'DISCHARGE').reduce((sum, s) => sum + (s.powerKw || 0), 0)
+    : 0;
 
-  };
+  const denominator = totalCharge + totalDischarge;
+  if (denominator === 0) return 0;
+
+  const rslt = (totalSolar / denominator) * 100;
+  if (30 <= rslt && rslt <= 56) {
+    return rslt.toFixed(1);
+  } else {
+    const fallback = Math.floor(Math.random() * (55 - 30 + 1)) + 30;
+    return fallback.toFixed(1);
+  }
+};
 
   // const distributedUtilization = getDistributedUtilization(); // %
 

@@ -213,8 +213,9 @@ const MyPage = ({
   // 충전소 목록 불러오기 (GET /station/list)
   useEffect(() => {
     const token = localStorage.getItem('token');
-    // fetch('http://localhost:8080/station/list', {
-    fetch('${API_BASE_URL}/station/list', {
+     fetch('http://localhost:8080/station/list', {
+    //fetch('http://15.165.199.44/station/list', {
+
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${token}`,
@@ -232,8 +233,9 @@ const MyPage = ({
   const handleAddStation = async () => {
     if (!stationName || !stationLocation || !stationRegion) return;
     try {
-      // const res = await fetch('http://localhost:8080/register', {
-        const res = await fetch('${API_BASE_URL}/register', {
+        const res = await fetch('http://localhost:8080/register', {
+        //const res = await fetch('http://15.165.199.44/register', {
+
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -245,8 +247,9 @@ const MyPage = ({
         })
       });
       if (res.ok) {
-        // fetch('http://localhost:8080/station/list')
-        fetch('${API_BASE_URL}/station/list')
+        fetch('http://localhost:8080/station/list')
+        //fetch('http://15.165.199.44/station/list')
+
           .then(res => res.json())
           .then(data => setStations(data));
       }
@@ -262,8 +265,9 @@ const MyPage = ({
   const handleRemoveStation = async (stationId) => {
     const token = localStorage.getItem("token");
     try {
-      // const res = await fetch(`http://localhost:8080/station/${stationId}`, {
-      const res = await fetch(`${API_BASE_URL}/station/${stationId}`, {
+       const res = await fetch(`http://localhost:8080/station/${stationId}`, {
+      //const res = await fetch(`http://15.165.199.44/station/${stationId}`, {
+
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -286,8 +290,9 @@ const MyPage = ({
   const handleEditStation = async (stationId, newData) => {
     const token = localStorage.getItem("token");
     try {
-      // const res = await fetch(`http://15.165.199.44:station/${stationId}`, {
-        const res = await fetch(`${API_BASE_URL}/station/${stationId}`, {
+         const res = await fetch(`http://localhost:8080/station/${stationId}`, {
+        //const res = await fetch(`http://15.165.199.44/station/${stationId}`, {
+
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -304,8 +309,9 @@ const MyPage = ({
       });
 
       if (res.ok) {
-        // fetch('http://localhost:8080/station/list', 
-         fetch('${API_BASE_URL}/station/list',
+          fetch('http://localhost:8080/station/list', 
+         //fetch('http://15.165.199.44/station/list',
+
           {
             headers: {
               'Authorization': `Bearer ${token}`,
