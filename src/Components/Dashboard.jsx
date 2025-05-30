@@ -25,7 +25,7 @@ function showNotification(title, options) {
     });
   }
 }
-
+const API_BASE_URL = 'http://15.165.199.44/api';
 const regionIdToCity = {
   11: "Seoul",
   21: "Busan",
@@ -182,8 +182,10 @@ const Dashboard = ({ selectedStationId, selectedDate, setSelectedDate, stations 
       try {
         const scheduleRes = await fetch(
           // `http://15.165.199.44/scheduling/hourly?stationId=${selectedStationId}&date=${formattedDate}`,
+
            `http://localhost:8080/scheduling/dashboard/${selectedStationId}/${formattedDate}`,
           //`http://15.165.199.44/scheduling/dashboard/${selectedStationId}/${formattedDate}`,
+
           {
             method: 'GET',
             headers: {
