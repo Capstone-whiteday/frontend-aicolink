@@ -291,7 +291,7 @@ const MyPage = ({
     const token = localStorage.getItem("token");
     try {
         // const res = await fetch(`http://localhost:8080/station/${stationId}`, {
-        const res = await fetch(`http://15.165.199.44/station/${stationId}`, {
+        const res = await fetch('${API_BASE_URL}/${stationId}', {
 
         method: 'PUT',
         headers: {

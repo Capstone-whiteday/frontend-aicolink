@@ -22,7 +22,7 @@ function App() {
       setMockUsers(prev => [...prev, { name, email, password }]);
   try {
      //const res = await fetch('http://localhost:8080/auth/signup', {
-    const res = await fetch('http://15.165.199.44/signup', {
+    const res = await fetch('${API_BASE_URL}/auth/signup', {
 
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -50,7 +50,7 @@ useEffect(() => {
 
   if (token) {
     // 사용자 프로필 요청
-      fetch("http://15.165.199.44/profile", {
+      fetch(`${API_BASE_URL}/profile`, {
      //fetch("http://localhost:8080/profile", {
 
       headers: { Authorization: `Bearer ${token}` },
@@ -70,7 +70,7 @@ useEffect(() => {
 
     // 충전소 목록 요청
     //     //fetch("http://localhost:8080/station/list", {
-    fetch('http://15.165.199.44/station/list', {
+    fetch('${API_BASE_URL}/station/list', {
 
       headers: { Authorization: `Bearer ${token}` },
     })
