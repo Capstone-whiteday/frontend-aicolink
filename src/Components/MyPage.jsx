@@ -5,6 +5,7 @@ import ChartTitle from './ChartTitle';
 import './MyPage.css';
 import './SttnComp.css'
 
+const API_BASE_URL = 'http://15.165.199.44/api';
 // 🟢 [추가] 지역 목록(드롭다운용) - AddStation.jsx와 동일하게 사용
 const regionOptions = [
   { regionId: 11, regionName: "서울특별시" },
@@ -53,7 +54,7 @@ const StationCard = ({ station, onRemove, onEdit }) => {
   useEffect(() => {
     const token = localStorage.getItem('token');
     // fetch(`http://localhost:8080/station/${station.stationId}`, {
-    fetch(`http://15.165.199.44/station/${station.stationId}`, {
+    fetch(`${API_BASE_URL}/station/${station.stationId}`, {
       headers: {
         'Authorization': `Bearer ${token}`,
       }
@@ -213,7 +214,7 @@ const MyPage = ({
   useEffect(() => {
     const token = localStorage.getItem('token');
     // fetch('http://localhost:8080/station/list', {
-    fetch('http://15.165.199.44/station/list', {
+    fetch('${API_BASE_URL}/station/list', {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${token}`,
@@ -232,7 +233,7 @@ const MyPage = ({
     if (!stationName || !stationLocation || !stationRegion) return;
     try {
       // const res = await fetch('http://localhost:8080/register', {
-        const res = await fetch('http://15.165.199.44/register', {
+        const res = await fetch('${API_BASE_URL}/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -245,7 +246,7 @@ const MyPage = ({
       });
       if (res.ok) {
         // fetch('http://localhost:8080/station/list')
-        fetch('http://15.165.199.44/station/list')
+        fetch('${API_BASE_URL}/station/list')
           .then(res => res.json())
           .then(data => setStations(data));
       }
@@ -262,7 +263,7 @@ const MyPage = ({
     const token = localStorage.getItem("token");
     try {
       // const res = await fetch(`http://localhost:8080/station/${stationId}`, {
-      const res = await fetch(`http://15.165.199.44/station/${stationId}`, {
+      const res = await fetch(`${API_BASE_URL}/station/${stationId}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -286,7 +287,7 @@ const MyPage = ({
     const token = localStorage.getItem("token");
     try {
       // const res = await fetch(`http://15.165.199.44:station/${stationId}`, {
-        const res = await fetch(`http://15.165.199.44/station/${stationId}`, {
+        const res = await fetch(`${API_BASE_URL}/station/${stationId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -304,7 +305,7 @@ const MyPage = ({
 
       if (res.ok) {
         // fetch('http://localhost:8080/station/list', 
-         fetch('http://15.165.199.44/station/list',
+         fetch('${API_BASE_URL}/station/list',
           {
             headers: {
               'Authorization': `Bearer ${token}`,

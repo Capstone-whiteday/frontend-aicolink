@@ -11,7 +11,8 @@ import AddStation from './Components/AddStation';
 import ServiceIntro from './Components/ServiceIntro';
 import SupportPage from './Components/SupportPage';
 function App() {
-    const [mockUsers, setMockUsers] = useState([]); // 🟡 임시 유저 배열
+  const API_BASE_URL = 'http://15.165.199.44/api';  // EC2 공인 IP
+  const [mockUsers, setMockUsers] = useState([]); // 🟡 임시 유저 배열
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
   const [stations, setStations] = useState([]);
@@ -21,7 +22,7 @@ function App() {
       setMockUsers(prev => [...prev, { name, email, password }]);
   try {
     // const res = await fetch('http://localhost:8080/auth/signup', {
-    const res = await fetch('http://15.165.199.44/signup', {
+    const res = await fetch(`${API_BASE_URL}/auth/signup`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name, email, password, createdAt }),
@@ -48,7 +49,7 @@ useEffect(() => {
 
   if (token) {
     // 사용자 프로필 요청
-    fetch("http://15.165.199.44/profile", {
+    fetch("${API_BASE_URL}/profile", {
     // fetch("http://localhost:8080/profile", {
       headers: { Authorization: `Bearer ${token}` },
     })
@@ -67,7 +68,7 @@ useEffect(() => {
 
     // 충전소 목록 요청
     // fetch("http://localhost:8080/station/list", {
-    fetch('http://15.165.199.44/station/list', {
+    fetch('${API_BASE_URL}/station/list', {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then(res => {
