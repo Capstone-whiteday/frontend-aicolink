@@ -19,7 +19,7 @@ const Sidebar = ({ isLoggedIn, setIsLoggedIn, currentUser, stations, onLogout, s
   }
 
            // 1. mockUsers에서 먼저 찾기
-    const user = mockUsers.find(u => u.email === email && u.password === password);
+    //const user = mockUsers.find(u => u.email === email && u.password === password);
   return (
     <aside className="sidebar">
       <div className="profile-section">
