@@ -25,7 +25,7 @@ function showNotification(title, options) {
     });
   }
 }
-const API_BASE_URL = 'http://15.165.199.44/api';
+const API_BASE_URL = '/api';
 const regionIdToCity = {
   11: "Seoul",
   21: "Busan",
