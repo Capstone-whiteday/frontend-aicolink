@@ -1,20 +1,13 @@
-// import { defineConfig } from 'vite'
-// import react from '@vitejs/plugin-react'
-
-// // https://vite.dev/config/
-// export default defineConfig({
-//   plugins: [react()],
-// })
-
-
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
-// https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base : './',
+  base: './',  // nginx에서 경로 잘 읽히도록 설정
   server: {
-    port: 5173, // 원하는 포트 번호
+    port: 5173,
+    proxy: {
+      '/api': 'http://localhost:8080'
+    }
   },
 })
