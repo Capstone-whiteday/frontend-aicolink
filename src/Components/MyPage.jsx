@@ -5,7 +5,7 @@ import ChartTitle from './ChartTitle';
 import './MyPage.css';
 import './SttnComp.css'
 
-const API_BASE_URL = 'http://15.165.199.44/api';
+const API_BASE_URL = '/api';
 // 🟢 [추가] 지역 목록(드롭다운용) - AddStation.jsx와 동일하게 사용
 const regionOptions = [
   { regionId: 11, regionName: "서울특별시" },
