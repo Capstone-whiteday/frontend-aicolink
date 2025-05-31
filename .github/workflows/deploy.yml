@@ -21,5 +21,6 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             cd ~/front
+            git pull origin master
             chmod +x deploy-frontend.sh
             ./deploy-frontend.sh
