@@ -11,7 +11,7 @@ import AddStation from './Components/AddStation';
 import ServiceIntro from './Components/ServiceIntro';
 import SupportPage from './Components/SupportPage';
 function App() {
-  const API_BASE_URL = 'http://15.165.199.44/api';  // EC2 공인 IP
+  const API_BASE_URL = '/api';  // EC2 공인 IP
   const [mockUsers, setMockUsers] = useState([]); // 🟡 임시 유저 배열
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
