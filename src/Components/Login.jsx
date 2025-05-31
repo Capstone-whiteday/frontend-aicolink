@@ -8,7 +8,7 @@ const Login = ({ setIsLoggedIn, setCurrentUser,mockUsers }) => {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  const API_BASE_URL = 'http://15.165.199.44/api';
+  const API_BASE_URL = '/api';
   const handleSubmit = async (e) => {
     e.preventDefault();
 
