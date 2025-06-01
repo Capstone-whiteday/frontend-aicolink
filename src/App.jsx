@@ -10,9 +10,9 @@ import MyPage from './Components/MyPage';
 import AddStation from './Components/AddStation';
 import ServiceIntro from './Components/ServiceIntro';
 import SupportPage from './Components/SupportPage';
-import API_BASE_URL from './api/config';
 
 function App() {
+  const API_BASE_URL = '/api';
   const [mockUsers, setMockUsers] = useState([]); // 🟡 임시 유저 배열
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
@@ -120,7 +120,7 @@ useEffect(() => {
       <Header />
       <Routes>
         <Route path="/login" element={ !isLoggedIn?(
-          <Login setIsLoggedIn={setIsLoggedIn} setCurrentUser={setCurrentUser} 
+          <Login setIsLoggedIn={setIsLoggedIn} setCurrentUser={setCurrentUser}
                     mockUsers={mockUsers} // 🟡 전달
         />):(<Navigate to="/" replace/>)} />
 
@@ -144,7 +144,7 @@ useEffect(() => {
                     setSelectedStationId={setSelectedStationId} // 🟡 반드시 전달!
                     mockUsers={mockUsers} // 🟡 전달
                   />
-                  <Dashboard 
+                  <Dashboard
                       selectedStationId={selectedStationId}
                       selectedDate={selectedDate}
                       setSelectedDate={setSelectedDate}
